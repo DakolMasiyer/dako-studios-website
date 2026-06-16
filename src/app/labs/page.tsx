@@ -105,12 +105,14 @@ export default function LabsPage() {
               </div>
 
               <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
-                Your website should<br />bring in business.
+                Your website should<br />
+                <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
+                  bring in business.
+                </span>
               </h1>
 
-              <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed">
-                We build websites around how your customers actually think — then hand you full control at launch.<br />
-                No developer needed. No monthly retainer. No waiting on us to update a price.
+              <p className="mx-auto mb-10 max-w-3xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance text-center">
+                We build websites around how your customers actually think — then hand you full control at launch. No developer needed. No monthly retainer. No waiting on us to update a price.
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16">

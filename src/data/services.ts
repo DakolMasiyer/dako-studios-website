@@ -14,7 +14,7 @@ export const services: Service[] = [
     id: 'labs',
     title: 'Web Design & Development',
     subtitle: 'Labs',
-    description: 'Premium websites for law firms, clinics, and professional services. Built fast, built right.',
+    description: 'Websites built to convert — live in 5–10 days, fully yours at handoff.',
     badge: 'Featured',
     badgeVariant: 'featured',
     href: '/labs',

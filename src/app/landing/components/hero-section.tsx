@@ -34,13 +34,13 @@ export function HeroSection() {
           <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
             Five disciplines.
             <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent block mt-2">
-              Zero compromises.
+              Built to grow with you.
             </span>
           </h1>
 
           {/* Subheading */}
-          <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed">
-            We build digital presences that convert — web design, brand identity, motion, film, and skills training. All under one roof.
+          <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance">
+            Websites, brand identity, motion, and film marketing — built to convert and fully yours at handoff. One relationship, every discipline, as your business grows.
           </p>
 
           {/* CTA Buttons */}
@@ -50,7 +50,7 @@ export function HeroSection() {
               className="text-base cursor-pointer font-semibold px-8 h-12 bg-primary text-primary-foreground hover:bg-primary/95 rounded-[4px]"
               onClick={() => smoothScrollTo('#services')}
             >
-              Explore Our Work
+              See Real Work
               <ArrowRight className="ml-2 h-4 w-4" strokeWidth={2} />
             </Button>
             <Button
