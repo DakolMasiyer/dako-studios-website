@@ -1,0 +1,15 @@
+# Dependencies & Build
+node_modules/
+.next/
+out/
+build/
+
+# Vercel
+.vercel
+
+# Sub-projects & Local archives
+Dako Studios Bootcamp/
+dashboard-archive/
+
+# OS files
+.DS_Store
