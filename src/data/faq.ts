@@ -20,4 +20,8 @@ export const faqItems: FAQItem[] = [
     question: 'What if I don\'t have a logo or photos?',
     answer: 'We can work with what you have. Basic typography-based logo design and premium stock photo sourcing are included in all of our packages at no extra cost.',
   },
+  {
+    question: 'Why should I trust a new studio with my website?',
+    answer: 'Fair question. Dako Studios is new, but the process behind it isn\'t — it\'s backed by founder-led UX work and real client projects, not a first attempt. Check the real work above before you decide.',
+  },
 ]

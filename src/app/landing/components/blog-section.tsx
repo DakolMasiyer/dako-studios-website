@@ -83,16 +83,22 @@ export function BlogSection() {
                   
                   <div className="pt-4 border-t border-border/20 flex items-center justify-between">
                     <Badge variant="outline" className="border-border text-muted-foreground font-normal text-xs">
-                      Concept Project
+                      Client Work
                     </Badge>
-                    <a
-                      href={item.href}
-                      className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer"
-                    >
-                      <Globe className="h-4 w-4 mr-1.5" />
-                      Live Demo
-                      <ArrowUpRight className="h-4 w-4 ml-1" />
-                    </a>
+                    {item.href !== '#' ? (
+                      <a
+                        href={item.href}
+                        className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer"
+                      >
+                        <Globe className="h-4 w-4 mr-1.5" />
+                        Live Site
+                        <ArrowUpRight className="h-4 w-4 ml-1" />
+                      </a>
+                    ) : (
+                      <span className="inline-flex items-center text-muted-foreground text-sm font-medium">
+                        Case Study
+                      </span>
+                    )}
                   </div>
                 </div>
               </CardContent>

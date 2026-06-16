@@ -24,8 +24,8 @@ import { pricingPlans, pricingTerms } from '@/data/pricing'
 import { portfolioItems } from '@/data/portfolio'
 
 export const metadata: Metadata = {
-  title: 'Dako Labs | Premium Websites for Service Businesses',
-  description: 'High-performance websites designed and built for real estate, law, healthcare, hospitality, and diaspora services. 5-7 day delivery, client-editable CMS.',
+  title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
+  description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff. See real work and book a discovery call.',
 }
 
 const nicheFocusItems = [
@@ -100,24 +100,24 @@ export default function LabsPage() {
             <div className="mx-auto max-w-4xl text-center">
               <div className="mb-8 flex justify-center">
                 <Badge variant="outline" className="px-4 py-1.5 border-primary/30 bg-primary/10 text-primary text-xs font-bold rounded-full tracking-wider uppercase">
-                  Now accepting projects for Q3 2026
+                  Now booking Labs projects — 5–10 day delivery
                 </Badge>
               </div>
-              
+
               <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
-                Your website should work<br />as hard as <span className="text-primary">you do.</span>
+                Your website should<br />book work. <span className="text-primary">Not just look good.</span>
               </h1>
 
               <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed">
-                We design and build premium websites for law firms, clinics, real estate agencies, and professional services — delivered in days, not months. Based in Abuja, serving clients worldwide.
+                We design and build sites around how your customers actually think and act — then hand you full control. No developer, no retainer, no waiting on us for a price change. Based in Abuja, serving Nigeria and the diaspora.
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16">
                 <a href="#pricing" className="inline-flex h-12 items-center justify-center rounded-[4px] bg-primary px-8 text-base font-semibold text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                  See Pricing →
+                  See My Site Concept →
                 </a>
                 <a href="#portfolio" className="inline-flex h-12 items-center justify-center rounded-[4px] border border-border/40 bg-transparent px-8 text-base font-semibold shadow-sm transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                  View Work
+                  See Real Work
                 </a>
               </div>
 
@@ -125,16 +125,16 @@ export default function LabsPage() {
               <div className="border-t border-border/20 py-6 mx-auto max-w-3xl">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                   <div className="flex flex-col items-center justify-center space-y-1">
-                    <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">5–7</span>
+                    <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">5–10</span>
                     <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Day Delivery</span>
                   </div>
                   <div className="flex flex-col items-center justify-center space-y-1 border-t md:border-t-0 md:border-l md:border-r border-border/20 pt-4 md:pt-0">
                     <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">100%</span>
-                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Mobile-First</span>
+                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Yours at Handoff</span>
                   </div>
                   <div className="flex flex-col items-center justify-center space-y-1 border-t md:border-t-0 pt-4 md:pt-0">
-                    <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">CMS</span>
-                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Client-Editable</span>
+                    <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">0</span>
+                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Developers Needed After Launch</span>
                   </div>
                 </div>
               </div>
@@ -150,10 +150,10 @@ export default function LabsPage() {
                 Services
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-6 text-foreground leading-none">
-                Everything your brand<br />needs to win online.
+                Built for the business<br />you&apos;re running, not a template.
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-                We design with your specific industry parameters in mind. No generic templates, just high-converting structures built for your niche.
+                We design around your specific customer, not a generic layout. Real estate, law, healthcare, hospitality, or a diaspora-run business — different visitors, different trust signals, same UX-first process underneath.
               </p>
             </div>
 
@@ -186,10 +186,10 @@ export default function LabsPage() {
                 Portfolio
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-6 text-foreground leading-none">
-                Recent work.
+                Real work. Different industries.<br />Same process.
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-                Take a look at how we deploy high-fidelity concept design frameworks specifically for your line of work.
+                We haven&apos;t built a real estate site yet — but we&apos;ve built for contexts where trust and credibility matter just as much: political campaigns, film productions, working creative professionals. If the process holds up there, it holds up for your listing, your practice, your business.
               </p>
             </div>
 
@@ -241,11 +241,17 @@ export default function LabsPage() {
                         <Badge variant="outline" className="border-border/40 text-muted-foreground font-normal text-xs rounded-full">
                           {item.category}
                         </Badge>
-                        <a href={item.href} className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
-                          <Globe className="h-4 w-4 mr-1.5" strokeWidth={1.5} />
-                          View concept
-                          <ArrowUpRight className="h-4 w-4 ml-1" />
-                        </a>
+                        {item.href !== '#' ? (
+                          <a href={item.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
+                            <Globe className="h-4 w-4 mr-1.5" strokeWidth={1.5} />
+                            View live site
+                            <ArrowUpRight className="h-4 w-4 ml-1" />
+                          </a>
+                        ) : (
+                          <span className="inline-flex items-center text-muted-foreground text-sm font-medium">
+                            Case study
+                          </span>
+                        )}
                       </div>
                     </div>
                   </CardContent>
