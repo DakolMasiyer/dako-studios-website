@@ -45,7 +45,7 @@ export const rootNavItems: NavItem[] = [
   { name: 'Work', href: '#portfolio' },
   { name: 'Contact', href: '#contact' },
   { name: 'Labs', href: '/labs' },
-  { name: 'Academy', href: 'https://academy.dako.studio', isExternal: true },
+  { name: 'Academy', href: 'https://learn.dako.studio', isExternal: true },
 ]
 
 export const labsNavItems: NavItem[] = [

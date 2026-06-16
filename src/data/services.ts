@@ -52,9 +52,9 @@ export const services: Service[] = [
     title: 'Digital Skills Bootcamp',
     subtitle: 'Academy',
     description: 'Hands-on web development training. From zero to deployed in 21 days.',
-    badge: 'academy.dako.studio',
+    badge: 'learn.dako.studio',
     badgeVariant: 'default',
-    href: 'https://academy.dako.studio',
+    href: 'https://learn.dako.studio',
     isClickable: true,
   },
 ]

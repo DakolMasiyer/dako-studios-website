@@ -34,7 +34,7 @@ export function LandingFooter() {
               <span className="text-muted-foreground/20">·</span>
               <a href="#services" className="text-muted-foreground hover:text-primary transition-colors font-medium">Film</a>
               <span className="text-muted-foreground/20">·</span>
-              <a href="https://academy.dako.studio" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors font-medium">Academy</a>
+              <a href="https://learn.dako.studio" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors font-medium">Academy</a>
             </div>
 
             <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-xs text-muted-foreground/60">
