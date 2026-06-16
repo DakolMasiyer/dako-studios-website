@@ -38,7 +38,7 @@ Day 0: Who we are + why now → Day 3: Education + value hook → Day 7: Proof +
 
 #### SME-COLD-01 — Day 0
 
-**Subject:** `[SME_EMAIL_SUBJECT_1]`
+**Subject:** Your business is losing leads to a worse competitor
 **Channel:** Email or DM
 **Tone:** Warm, direct, no pitch
 
@@ -47,19 +47,17 @@ Hi [NAME],
 
 [PERSONALISED_OPENER — 1 sentence. Reference something specific about their business — e.g. noticed they don't have a site, or their current site doesn't work on mobile.]
 
-My name is [FOUNDER_NAME]. I run Dako Studios — [ONE_SENTENCE_DESCRIPTION].
+My name is Dako. I run Dako Studios, a creative studio based in Abuja. We build custom, high-converting websites for professional services and SMEs in 5 to 10 days.
 
-Here's the short version of what we do:
+Here's the short version of what we do: we design property, legal, or clinic sites around how your customers actually think — then hand you 100% control at handover. You won't need a developer or a retainer to update a price, swap a photo, or add a service.
 
-[SME_VALUE_PROP — 2–3 sentences. What we build, how fast, what changes for their business.]
-
-We're currently working with a small group of [SME_PERSONA_DESCRIPTION] and have a few spots open this month.
+We're currently working with a small group of Abuja and diaspora business owners and have a few spots open this month.
 
 No commitment. Just a conversation.
 
-[LOW_FRICTION_ASK — "Would it be worth 20 minutes?" or "Happy to send a few examples if useful."]
+Would it be worth a 15-minute call this week, or should I send over a few examples of our recent work first?
 
-[FOUNDER_NAME]
+Dako
 Dako Studios · dako.studio
 ```
 
@@ -67,52 +65,53 @@ Dako Studios · dako.studio
 
 #### SME-COLD-02 — Day 3
 
-**Subject:** `[SME_EMAIL_SUBJECT_2]`
+**Subject:** What a Facebook page can't do that a website can
 **Channel:** Email
 **Tone:** Educational, value-first
 
 ```
 Hi [NAME],
 
-[FOLLOW_UP_OPENER — reference Day 0 without pressure]
-
 I wanted to share something useful whether or not we end up working together.
 
-[EDUCATION_HOOK — 1 key insight about [TOPIC] that most SME owners don't know. Be specific.]
+Most local businesses run on Facebook or Instagram pages. But when people search for your services on Google, social media pages rarely show up in local search results. You're effectively invisible to the highest-intent customers.
 
-[EXPLANATION — 2–3 short paragraphs. Plain language. One idea per paragraph.]
+Worse, you don't own that audience. An algorithm change can cut your reach overnight.
 
-This is the gap Dako Studios was built to close — for businesses that have the customers but not the digital presence to match.
+A custom website with basic SEO does three things:
+1. It answers "can I trust this business?" in the first 10 seconds.
+2. It gives Google a direct target to rank for local searches.
+3. It belongs to you completely.
+
+This is the gap Dako Studios was built to close — building independent, client-editable sites so you own your digital presence.
 
 If this resonates, booking a call takes 2 minutes: [CALENDAR_LINK]
 
-[FOUNDER_NAME]
+Dako
 ```
 
 ---
 
 #### SME-COLD-03 — Day 7
 
-**Subject:** `[SME_EMAIL_SUBJECT_3]`
+**Subject:** Last note — happy to send a few examples either way
 **Channel:** Email
 **Tone:** Proof-first, closing
 
 ```
 Hi [NAME],
 
-Last one from me on this.
+Last one from me on this — I don't want to clutter your inbox.
 
-[PROOF_POINT — most specific outcome you have. Name the result, not the effort.]
+We recently built a portfolio site for a cinematographer with Amazon Prime credits. Post-launch, the simplified booking flow and authoritative layout started booking him more projects immediately.
 
-[WHAT_IT_TOOK — brief. Shows the process works.]
-
-[IMPLICATION — for their business specifically.]
+The process holds up because it's built around visitor behavior, not just looking pretty. We can do the same for [BUSINESS_NAME].
 
 If you'd like a quick call to talk through what this could look like for you: [CALENDAR_LINK]
 
-If the timing isn't right, no problem — I'll keep you on the list for updates.
+If the timing isn't right, no problem — I'll check back in next month.
 
-[FOUNDER_NAME]
+Dako
 ```
 
 ---
@@ -126,67 +125,63 @@ If the timing isn't right, no problem — I'll keep you on the list for updates.
 
 #### SME-PROPOSAL-01 — Day 0 (Proposal Sent)
 
-**Subject:** `[PROPOSAL_SUBJECT_1]`
+**Subject:** Proposal: Custom Website Build for [BUSINESS_NAME]
 
 ```
 Hi [NAME],
 
 Great talking today.
 
-Attached is a proposal based on what we discussed: [ONE_LINE_SCOPE_SUMMARY]
+Attached is a proposal based on what we discussed: a custom, high-converting site build delivered in 5 to 10 days.
 
 It covers:
+- Custom UX design built around your customer's trust signals
+- Full copywriting and performance optimization
+- Handover training & walkthrough recording (so you can edit it yourself)
 
-[SCOPE_ITEM_1]
-[SCOPE_ITEM_2]
-[SCOPE_ITEM_3]
-
-[TIMELINE — "This takes about X days from kickoff"]
-[PRICE — or "pricing breakdown attached"]
+This takes 5 to 10 days from kickoff once the 50% deposit clears. 
 
 Any questions, reply here.
 
-[FOUNDER_NAME]
+Dako
 ```
 
 ---
 
 #### SME-PROPOSAL-02 — Day 3 (Check-in)
 
-**Subject:** `[PROPOSAL_SUBJECT_2]`
+**Subject:** Quick check-in on the [BUSINESS_NAME] proposal
 
 ```
 Hi [NAME],
 
 Quick check-in on the proposal I sent.
 
-[WHAT_MIGHT_BE_UNCLEAR — offer to clarify scope or price]
+If any part of the scope or timeline needs adjusting to better fit your immediate goals, let me know.
 
-[WHY THIS MATTERS — 1 sentence connecting the project to an outcome they care about]
+I'd love to help you get this live before the end-of-quarter push. Happy to hop on a quick call if easier.
 
-Happy to hop on a quick call if easier.
-
-[FOUNDER_NAME]
+Dako
 ```
 
 ---
 
 #### SME-PROPOSAL-03 — Day 7 (Final Follow-up)
 
-**Subject:** `[PROPOSAL_SUBJECT_3]`
+**Subject:** Last note on the proposal for [BUSINESS_NAME]
 
 ```
 Hi [NAME],
 
 Last note on this — I don't want to clutter your inbox.
 
-[ONE_REASON_TO_MOVE_NOW — e.g. limited slots, seasonal relevance]
+We are booking our final two Labs slots for this month. If we kick off this week, we can have [BUSINESS_NAME]'s site live and booking viewings/calls by next Friday.
 
-If you'd like to move forward: [BOOKING_OR_PAYMENT_LINK]
+If you'd like to lock in your slot: [BOOKING_OR_PAYMENT_LINK]
 
-If the timing isn't right, I'll check back in a month.
+If the timing isn't right, I'll check back in next month.
 
-[FOUNDER_NAME]
+Dako
 ```
 
 ---
