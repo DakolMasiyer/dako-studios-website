@@ -10,10 +10,10 @@ export interface SiteConfig {
   description: string
   tagline: string
   socials: {
-    twitter: string
-    instagram: string
-    linkedin: string
-    behance: string
+    twitter?: string
+    instagram?: string
+    linkedin?: string
+    behance?: string
   }
   contact: {
     email: string
@@ -28,14 +28,13 @@ export const siteConfig: SiteConfig = {
   description: 'Five disciplines. Zero compromises.',
   tagline: 'We build digital presences that convert — web design, brand identity, motion, film, and skills training. All under one roof.',
   socials: {
-    twitter: 'https://twitter.com/dakostudios',
-    instagram: 'https://instagram.com/dakostudios',
-    linkedin: 'https://linkedin.com/company/dako-studios',
-    behance: 'https://behance.net/dakostudios',
+    // Only confirmed, live accounts go here — placeholders stay commented out
+    // until the real handles exist, so we never link to a dead profile.
+    instagram: 'https://instagram.com/dakostudioshq',
   },
   contact: {
     email: 'hello@dako.studio',
-    whatsapp: 'https://wa.me/2348000000000',
+    whatsapp: 'https://wa.me/2347070609297',
     address: 'Abuja, Nigeria',
   },
 }

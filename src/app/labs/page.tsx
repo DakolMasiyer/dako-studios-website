@@ -32,54 +32,54 @@ const nicheFocusItems = [
   {
     title: 'Real Estate & Property',
     icon: Building,
-    desc: 'High-impact visual presentation of luxury listings, designed to capture buyer details and build trust instantly.'
+    desc: 'Listings that photograph well are only half the job. We build property sites that capture buyer details and convert browsing into booked viewings.'
   },
   {
     title: 'Law & Professional Services',
     icon: Briefcase,
-    desc: 'Authoritative, clean layout to build immediate credibility, showcase partner achievements, and book client consultations.'
+    desc: 'Clients decide whether to trust a firm before they read a single case. We build legal sites that establish credibility in the first ten seconds.'
   },
   {
     title: 'Healthcare & Clinics',
     icon: HeartPulse,
-    desc: 'Compassionate, compliant, and streamlined patient onboarding with clear booking flows and physician directories.'
+    desc: 'Patients need to feel safe before they book. We build clinic sites with clear booking flows, simple navigation, and nothing that creates friction.'
   },
   {
     title: 'Hospitality & Restaurants',
     icon: Utensils,
-    desc: 'Rich, mouthwatering imagery of menus, tables, and atmospheres, optimized for direct bookings and reservations.'
+    desc: 'A restaurant site has one job: get the booking. We build around your menu, your atmosphere, and a direct reservation flow.'
   },
   {
     title: 'Diaspora & International Services',
     icon: Landmark,
-    desc: 'Bespoke digital platforms allowing international clients to explore, invest, and manage assets remotely.'
+    desc: 'Clients outside Nigeria need to trust you before they wire money or sign anything. We build for that specific kind of credibility.'
   }
 ]
 
 const processSteps = [
   {
     num: '01',
-    title: 'Discovery Call',
+    title: 'Discovery',
     time: 'Day 0',
-    desc: 'A quick 15-minute call to align on your business goals, review design preferences, and map out the site structure.'
+    desc: 'A 20 minute call. We align on your goals, review your existing presence, and map the site structure. You know exactly what gets built before we start.'
   },
   {
     num: '02',
     title: 'Design Preview',
-    time: 'Day 1-2',
-    desc: 'We create a live interactive preview using your brand details, so you can see and approve the design before the full build.'
+    time: 'Days 1 to 2',
+    desc: 'We build a live interactive preview using your brand details. You see the design before the full build begins. Nothing moves forward without your sign off.'
   },
   {
     num: '03',
-    title: 'Refine & Build',
-    time: 'Day 3-5',
-    desc: 'We gather your feedback, build out all required pages, write high-converting copy, and optimize performance.'
+    title: 'Build',
+    time: 'Days 3 to 5',
+    desc: 'We build out every page, write the copy, and optimise performance. Your feedback from the preview is already baked in.'
   },
   {
     num: '04',
-    title: 'Launch & Handover',
-    time: 'Day 5-7',
-    desc: 'We go live on your domain and provide a custom screen recording walkthrough of your new client-editable CMS.'
+    title: 'Launch and Handover',
+    time: 'Days 5 to 10',
+    desc: 'We go live on your domain. You get a recorded walkthrough showing you exactly how to update your site yourself going forward.'
   }
 ]
 
@@ -100,24 +100,25 @@ export default function LabsPage() {
             <div className="mx-auto max-w-4xl text-center">
               <div className="mb-8 flex justify-center">
                 <Badge variant="outline" className="px-4 py-1.5 border-primary/30 bg-primary/10 text-primary text-xs font-bold rounded-full tracking-wider uppercase">
-                  Now booking Labs projects — 5–10 day delivery
+                  5 to 10 day delivery
                 </Badge>
               </div>
 
               <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
-                Your website should<br />book work. <span className="text-primary">Not just look good.</span>
+                Your website should<br />bring in business.
               </h1>
 
               <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed">
-                We design and build sites around how your customers actually think and act — then hand you full control. No developer, no retainer, no waiting on us for a price change. Based in Abuja, serving Nigeria and the diaspora.
+                We build websites around how your customers actually think — then hand you full control at launch.<br />
+                No developer needed. No monthly retainer. No waiting on us to update a price.
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16">
                 <a href="#pricing" className="inline-flex h-12 items-center justify-center rounded-[4px] bg-primary px-8 text-base font-semibold text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                  See My Site Concept →
+                  View Packages
                 </a>
                 <a href="#portfolio" className="inline-flex h-12 items-center justify-center rounded-[4px] border border-border/40 bg-transparent px-8 text-base font-semibold shadow-sm transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                  See Real Work
+                  See Our Work
                 </a>
               </div>
 
@@ -125,7 +126,7 @@ export default function LabsPage() {
               <div className="border-t border-border/20 py-6 mx-auto max-w-3xl">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                   <div className="flex flex-col items-center justify-center space-y-1">
-                    <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">5–10</span>
+                    <span className="font-display text-3xl font-extrabold text-foreground tracking-tight">5 to 10</span>
                     <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Day Delivery</span>
                   </div>
                   <div className="flex flex-col items-center justify-center space-y-1 border-t md:border-t-0 md:border-l md:border-r border-border/20 pt-4 md:pt-0">
@@ -147,13 +148,13 @@ export default function LabsPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center mb-20">
               <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
-                Services
+                BUILT FOR
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-6 text-foreground leading-none">
-                Built for the business<br />you&apos;re running, not a template.
+                Different business.<br />Same standard of work.
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-                We design around your specific customer, not a generic layout. Real estate, law, healthcare, hospitality, or a diaspora-run business — different visitors, different trust signals, same UX-first process underneath.
+                We design around your specific customer, not a generic layout. Every industry has different trust signals, different visitor behaviour, different reasons people leave without making contact. We build around those differences.
               </p>
             </div>
 
@@ -183,14 +184,19 @@ export default function LabsPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center mb-20">
               <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
-                Portfolio
+                WORK
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-6 text-foreground leading-none">
-                Real work. Different industries.<br />Same process.
+                Real projects.<br />Real outcomes.
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-                We haven&apos;t built a real estate site yet — but we&apos;ve built for contexts where trust and credibility matter just as much: political campaigns, film productions, working creative professionals. If the process holds up there, it holds up for your listing, your practice, your business.
-              </p>
+              <div className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed space-y-4">
+                <p>
+                  We have not built a property listing site yet. What we have built: campaign sites for political figures, a portfolio site for a cinematographer with Amazon Prime credits who started booking more projects after launch, and digital campaigns that took two films to number one and number two on Prime Video Nigeria in five days.
+                </p>
+                <p>
+                  The industries are different. The standard is the same.
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -266,13 +272,13 @@ export default function LabsPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center mb-20">
               <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
-                Pricing
+                PRICING
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-6 text-foreground leading-none">
-                Transparent pricing.<br />No surprises.
+                What you pay.<br />What you get.
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed mb-8">
-                50% deposit to start. Balance on delivery. All packages include hosting setup, domain connection, and a handover walkthrough.
+                50% deposit to begin. Balance on delivery. Every package includes hosting setup, domain connection, and a recorded walkthrough of your site before handoff.
               </p>
               <Badge variant="outline" className="px-4 py-1.5 text-xs font-bold rounded-full border-primary/20 text-primary">
                 {pricingTerms}
@@ -345,13 +351,13 @@ export default function LabsPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center mb-20">
               <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
-                Methodology
+                HOW IT WORKS
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-6 text-foreground leading-none">
-                Brief to live<br />in under 7 days.
+                Brief to live in under 10 days.
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-                We deliver fast, premium results through a collaborative and disciplined build methodology.
+                Four steps. Fixed timeline. Nothing vague.
               </p>
             </div>
 
@@ -390,14 +396,11 @@ export default function LabsPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center mb-16">
               <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
-                Questions
+                QUESTIONS
               </span>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-4 text-foreground leading-none">
-                Frequently Asked Questions
+                Things people usually ask before booking.
               </h2>
-              <p className="text-lg text-muted-foreground font-light max-w-xl mx-auto">
-                Everything you need to know about working with Dako Labs.
-              </p>
             </div>
 
             <div className="max-w-3xl mx-auto border-t border-border/20 pt-4">

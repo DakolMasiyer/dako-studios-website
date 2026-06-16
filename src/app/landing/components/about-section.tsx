@@ -24,10 +24,10 @@ export function AboutSection() {
             
             <div className="space-y-6 max-w-2xl mx-auto text-lg text-muted-foreground font-light leading-relaxed">
               <p>
-                Dako Studios brings together design, development, and strategy under one roof. We reject bloated agency retainers and endless project timelines to build high-end websites designed specifically to convert visitors into customers.
+                Dako Studios brings together design, development, and strategy under one roof — websites, brand identity, motion, and film marketing. We reject bloated agency retainers and endless project timelines, and we hand clients full ownership of what we build, not just a finished product.
               </p>
               <p className="font-semibold text-foreground">
-                Founded in Abuja, Nigeria. Serving clients worldwide.
+                Founded in Abuja, Nigeria. Serving businesses across Nigeria and the diaspora.
               </p>
             </div>
             

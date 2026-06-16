@@ -135,7 +135,7 @@ export function ContactSection() {
                     <div>
                       <h4 className="text-sm font-semibold text-foreground">Scope</h4>
                       <p className="text-sm text-muted-foreground">
-                        Serving clients worldwide
+                        Serving Nigeria &amp; the diaspora
                       </p>
                     </div>
                   </div>
@@ -276,7 +276,7 @@ export function ContactSection() {
         {/* Footer Note */}
         <div className="text-center mt-12">
           <p className="text-xs text-muted-foreground/60 font-medium tracking-wide">
-            Based in Abuja, Nigeria · Serving clients worldwide · 50% deposit to start
+            Based in Abuja, Nigeria · Serving Nigeria &amp; the diaspora · 50% deposit to start
           </p>
         </div>
       </div>

@@ -4,11 +4,11 @@ import { Separator } from '@/components/ui/separator'
 import { DakoLogo } from '@/components/dako-logo'
 import { siteConfig } from '@/data/site'
 
+// Only includes accounts that are confirmed live — add Twitter/LinkedIn/Behance
+// here once those handles actually exist, rather than linking to a dead profile.
 const socialLinks = [
   { name: 'Instagram', href: siteConfig.socials.instagram },
-  { name: 'Twitter', href: siteConfig.socials.twitter },
-  { name: 'LinkedIn', href: siteConfig.socials.linkedin },
-]
+].filter((social): social is { name: string; href: string } => Boolean(social.href))
 
 export function LandingFooter() {
   return (
@@ -19,7 +19,7 @@ export function LandingFooter() {
           <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-sm">
             <DakoLogo size={28} />
             <p className="text-muted-foreground text-sm font-light mt-4 leading-relaxed">
-              We design and build premium websites that convert visitors into customers. Fully responsive, lightning-fast, and search-optimized.
+              Websites, brand identity, motion, and film marketing — built to convert, fully yours at handoff. Based in Abuja, serving Nigeria and the diaspora.
             </p>
           </div>
 
@@ -58,16 +58,14 @@ export function LandingFooter() {
         {/* Bottom Footer */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60">
           <div>
-            <span>© 2026 Dakonoveu Ltd. Abuja, Nigeria.</span>
+            <span>© 2026 Dako Studios. Abuja, Nigeria.</span>
           </div>
-          <div className="flex items-center space-x-6">
-            <a href="#" className="hover:text-primary transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
-              Terms of Service
-            </a>
-            <span className="text-muted-foreground/40">Serving Clients Worldwide</span>
+          <div className="flex items-center space-x-4">
+            <a href="/privacy" className="hover:text-primary transition-colors font-medium">Privacy Policy</a>
+            <span className="text-muted-foreground/20">·</span>
+            <a href="/terms" className="hover:text-primary transition-colors font-medium">Terms of Service</a>
+            <span className="text-muted-foreground/20">·</span>
+            <span className="text-muted-foreground/40">Serving Nigeria &amp; the diaspora</span>
           </div>
         </div>
       </div>
