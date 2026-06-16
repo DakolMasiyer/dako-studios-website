@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -43,11 +44,33 @@ export function ContactSection() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof contactFormSchema>) {
-    console.log(values)
-    // Send form data logic
-    form.reset()
-    alert("Thank you! Your message has been sent. We'll get back to you shortly.")
+  const [isPending, setIsPending] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+
+  async function onSubmit(values: z.infer<typeof contactFormSchema>) {
+    setIsPending(true)
+    setSubmitStatus("idle")
+    try {
+      const response = await fetch("https://learn.dako.studio/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to send message")
+      }
+
+      setSubmitStatus("success")
+      form.reset()
+    } catch (error) {
+      console.error("Submit error:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
@@ -225,8 +248,23 @@ export function ContactSection() {
                       )}
                     />
                     
-                    <Button type="submit" className="w-full cursor-pointer h-12 bg-primary text-primary-foreground hover:bg-primary/95 text-base font-semibold rounded-[4px]">
-                      Submit Project Request
+                    {submitStatus === "success" && (
+                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm rounded-[4px]">
+                        Thank you! Your project request has been successfully submitted. We will get back to you within 2 hours.
+                      </div>
+                    )}
+                    {submitStatus === "error" && (
+                      <div className="p-3 bg-destructive/10 border border-destructive/30 text-destructive-foreground text-sm rounded-[4px]">
+                        Failed to send request. Please try emailing us directly or message us on WhatsApp instead.
+                      </div>
+                    )}
+
+                    <Button 
+                      type="submit" 
+                      disabled={isPending}
+                      className="w-full cursor-pointer h-12 bg-primary text-primary-foreground hover:bg-primary/95 text-base font-semibold rounded-[4px] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isPending ? "Submitting Request..." : "Submit Project Request"}
                     </Button>
                   </form>
                 </Form>
