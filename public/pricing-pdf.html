@@ -13,30 +13,30 @@
     --font-sans: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --background: #0A0A0A;
-    --foreground: #FFFFFF;
-    --muted-foreground: #888888;
-    --primary: #C8FF00;
-    --border: #222222;
+    --background: #161618;       /* Carbon background */
+    --foreground: #FAF8F4;       /* Warm White foreground */
+    --muted-foreground: #8E8E92; /* Gray */
+    --primary: #4A7C96;          /* Labs Steel Blue */
+    --border: #2C2C30;           /* Carbon Border */
 
-    --bg-body: #1A1A1A;
-    --logo-fill: #C9A227;
-    --not-included: #444444;
-    --box-bg: #111111;
-    --dot-divider: #333333;
+    --bg-body: #0A0908;          /* Neutral 950 */
+    --logo-fill: #C9A227;        /* Logo stays gold */
+    --not-included: #575350;     /* Neutral 600 */
+    --box-bg: #1E1E21;           /* Carbon Surface */
+    --dot-divider: #2C2C30;      /* Carbon Border */
   }
   body[data-theme="light"] {
-    --background: #FAF8F4;
-    --foreground: #161618;
-    --muted-foreground: #575350;
-    --primary: #366074; /* Labs steel blue - high contrast on warm white */
-    --border: #E2E2E6;
+    --background: #FAF8F4;       /* Warm White */
+    --foreground: #161618;       /* Carbon */
+    --muted-foreground: #636367; /* Neutral 600 */
+    --primary: #366074;          /* Labs Steel Blue dark (high contrast on warm white) */
+    --border: #E0E0E4;           /* Light Border */
 
-    --bg-body: #F4F4F5;
-    --logo-fill: #C9A227;  /* Logo stays gold */
-    --not-included: #AEAEB2;
-    --box-bg: #F0EEEC;
-    --dot-divider: #D8D8DC;
+    --bg-body: #F8F6F4;          /* Neutral 50 */
+    --logo-fill: #C9A227;        /* Logo stays gold */
+    --not-included: #AEAEB2;     /* Gray light */
+    --box-bg: #FFFFFF;           /* Card White */
+    --dot-divider: #E0E0E4;      /* Light Border */
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,8 +53,8 @@
 <body>
 
   <!-- Theme Switcher (outside x-dc so it is not replaced by React rendering) -->
-  <div class="theme-switcher no-print" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; gap: 4px; background: #252220; padding: 4px; border-radius: 8px; border: 1px solid #3A3735; font-family: 'Inter', sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: all 0.3s ease;">
-    <button id="btn-dark" onclick="setTheme('dark')" style="background: #3A3735; border: none; color: #FFFFFF; cursor: pointer; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: all 0.2s;">Dark Mode</button>
+  <div class="theme-switcher no-print" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; gap: 4px; background: #252528; padding: 4px; border-radius: 8px; border: 1px solid #2C2C30; font-family: 'Plus Jakarta Sans', sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.55); transition: all 0.3s ease;">
+    <button id="btn-dark" onclick="setTheme('dark')" style="background: #3C3C40; border: none; color: #FAF8F4; cursor: pointer; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: all 0.2s;">Dark Mode</button>
     <button id="btn-light" onclick="setTheme('light')" style="background: transparent; border: none; color: #8E8E92; cursor: pointer; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: all 0.2s;">Light Mode</button>
   </div>
   
@@ -70,19 +70,19 @@
         btnLight.style.background = '#FAF8F4';
         btnLight.style.color = '#161618';
         btnDark.style.background = 'transparent';
-        btnDark.style.color = '#575350';
-        switcher.style.background = '#E4E2E0';
-        switcher.style.borderColor = '#D8D8DC';
-        switcher.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+        btnDark.style.color = '#636367';
+        switcher.style.background = '#F0EEEC';
+        switcher.style.borderColor = '#E0E0E4';
+        switcher.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
       } else {
         body.removeAttribute('data-theme');
-        btnDark.style.background = '#3A3735';
-        btnDark.style.color = '#FFFFFF';
+        btnDark.style.background = '#3C3C40';
+        btnDark.style.color = '#FAF8F4';
         btnLight.style.background = 'transparent';
         btnLight.style.color = '#8E8E92';
-        switcher.style.background = '#252220';
-        switcher.style.borderColor = '#3A3735';
-        switcher.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5)';
+        switcher.style.background = '#252528';
+        switcher.style.borderColor = '#2C2C30';
+        switcher.style.boxShadow = '0 4px 12px rgba(0,0,0,0.55)';
       }
     }
   </script>

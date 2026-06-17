@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -8,10 +7,21 @@
   --font-sans: var(--font-jakarta);
   --font-display: var(--font-syne);
   --font-mono: var(--font-jetbrains);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-3xl: var(--radius-3xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-inner: var(--shadow-inner);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -27,6 +37,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -47,45 +58,58 @@
 
 /* ─── Light mode (default) ─── */
 :root {
-  --font-jakarta: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-syne: 'Syne', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-jetbrains: 'JetBrains Mono', Courier, monospace;
+  /* Spacing Scale & Corner Radii */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
 
-  --radius: 0.5rem; /* 8px base → sm=4px, md=6px, lg=8px, xl=12px */
+  /* Shadows (tuned for light surfaces) */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.25);
+  --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
 
-  --background: #FAF8F4;
-  --foreground: #161618;
+  /* Light mode shadcn design tokens */
+  --background: #FAF8F4;      /* Warm White */
+  --foreground: #161618;      /* Carbon */
   --card: #FFFFFF;
   --card-foreground: #161618;
   --popover: #FFFFFF;
   --popover-foreground: #161618;
-  --primary: #C9A227;
+  --primary: #C9A227;         /* Warm Gold */
   --primary-foreground: #FAF8F4;
-  --secondary: #E4E2E0;
+  --secondary: #F0EEEC;       /* Neutral 100 / Elevated */
   --secondary-foreground: #161618;
-  --muted: #E4E2E0;
-  --muted-foreground: #575350;
+  --muted: #F0EEEC;
+  --muted-foreground: #636367;
   --accent: #C9A227;
   --accent-foreground: #FAF8F4;
-  --destructive: #CC0A0A;
-  --border: #D8D8DC;
-  --input: #D8D8DC;
+  --destructive: #C1272D;     /* Crimson */
+  --destructive-foreground: #FAF8F4;
+  --border: #E0E0E4;
+  --input: #E0E0E4;
   --ring: #C9A227;
   --chart-1: #C9A227;
   --chart-2: #4A7C96;
-  --chart-3: #C9A227;
+  --chart-3: #27374D;
   --chart-4: #E84C00;
   --chart-5: #22C55E;
   --sidebar: #F8F6F4;
   --sidebar-foreground: #161618;
   --sidebar-primary: #C9A227;
   --sidebar-primary-foreground: #FAF8F4;
-  --sidebar-accent: #E4E2E0;
+  --sidebar-accent: #F0EEEC;
   --sidebar-accent-foreground: #161618;
-  --sidebar-border: #D8D8DC;
+  --sidebar-border: #E0E0E4;
   --sidebar-ring: #C9A227;
 
-  /* Arm accent — root brand defaults to Warm Gold */
+  /* Arm accent default (brand gold) */
   --arm-accent: #C9A227;
   --arm-accent-dark: #A07E1A;
   --arm-accent-subtle: rgba(201, 162, 39, 0.12);
@@ -93,58 +117,131 @@
 
 /* ─── Dark mode ─── */
 .dark {
-  --background: #080808;
-  --foreground: #FAF8F4;
-  --card: #161412;
+  /* Spacing Scale & Corner Radii */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows (tuned for dark surfaces from effects.css) */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px -1px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.55);
+  --shadow-lg: 0 10px 30px -5px rgba(0,0,0,0.65);
+  --shadow-xl: 0 20px 60px -10px rgba(0,0,0,0.75);
+  --shadow-2xl: 0 32px 80px -12px rgba(0,0,0,0.85);
+  --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.4);
+
+  /* Dark mode shadcn design tokens */
+  --background: #161618;      /* Carbon background */
+  --foreground: #FAF8F4;      /* Warm White foreground */
+  --card: #1E1E21;            /* Carbon surface */
   --card-foreground: #FAF8F4;
-  --popover: #161412;
+  --popover: #252528;         /* Carbon elevated */
   --popover-foreground: #FAF8F4;
-  --primary: #C9A227;
-  --primary-foreground: #FAF8F4;
-  --secondary: #252220;
+  --primary: #C9A227;         /* Warm Gold */
+  --primary-foreground: #161618; /* Carbon for high contrast text on gold */
+  --secondary: #252528;       /* Carbon elevated */
   --secondary-foreground: #FAF8F4;
-  --muted: #252220;
-  --muted-foreground: #8E8E92;
+  --muted: #1E1E21;           /* Carbon surface */
+  --muted-foreground: #8E8E92; /* Gray */
   --accent: #C9A227;
-  --accent-foreground: #FAF8F4;
-  --destructive: #CC0A0A;
-  --border: #2C2C30;
+  --accent-foreground: #161618;
+  --destructive: #C1272D;     /* Crimson */
+  --destructive-foreground: #FAF8F4;
+  --border: #2C2C30;          /* Carbon border */
   --input: #2C2C30;
   --ring: #C9A227;
   --chart-1: #C9A227;
   --chart-2: #4A7C96;
-  --chart-3: #C9A227;
+  --chart-3: #27374D;
   --chart-4: #E84C00;
   --chart-5: #22C55E;
   --sidebar: #0A0908;
   --sidebar-foreground: #FAF8F4;
   --sidebar-primary: #C9A227;
-  --sidebar-primary-foreground: #FAF8F4;
+  --sidebar-primary-foreground: #161618;
   --sidebar-accent: #1E1E21;
   --sidebar-accent-foreground: #FAF8F4;
   --sidebar-border: #2C2C30;
   --sidebar-ring: #C9A227;
 }
 
-/* ─── Arm accent overrides ─── */
+/* ─── Arm accents overrides ─── */
 [data-arm="labs"] {
   --arm-accent: #4A7C96;
   --arm-accent-dark: #366074;
   --arm-accent-subtle: rgba(74, 124, 150, 0.12);
   --primary: #4A7C96;
+  --primary-foreground: #FAF8F4;
   --ring: #4A7C96;
   --sidebar-primary: #4A7C96;
+  --sidebar-primary-foreground: #FAF8F4;
   --sidebar-ring: #4A7C96;
 }
 
+[data-arm="brand"] {
+  --arm-accent: #C9A227;
+  --arm-accent-dark: #A07E1A;
+  --arm-accent-subtle: rgba(201, 162, 39, 0.12);
+  --primary: #C9A227;
+  --primary-foreground: #161618;
+  --ring: #C9A227;
+  --sidebar-primary: #C9A227;
+  --sidebar-primary-foreground: #161618;
+  --sidebar-ring: #C9A227;
+}
+
+[data-arm="motion"] {
+  --arm-accent: #E84C00;
+  --arm-accent-dark: #B53A00;
+  --arm-accent-subtle: rgba(232, 76, 0, 0.12);
+  --primary: #E84C00;
+  --primary-foreground: #FAF8F4;
+  --ring: #E84C00;
+  --sidebar-primary: #E84C00;
+  --sidebar-primary-foreground: #FAF8F4;
+  --sidebar-ring: #E84C00;
+}
+
+[data-arm="film"] {
+  --arm-accent: #3D5470;
+  --arm-accent-dark: #27374D;
+  --arm-accent-subtle: rgba(39, 55, 77, 0.2);
+  --primary: #3D5470;
+  --primary-foreground: #FAF8F4;
+  --ring: #3D5470;
+  --sidebar-primary: #3D5470;
+  --sidebar-primary-foreground: #FAF8F4;
+  --sidebar-ring: #3D5470;
+}
+
 [data-arm="academy"] {
-  --arm-accent: #CC0A0A;
+  --arm-accent: #C1272D;
   --arm-accent-dark: #931E22;
   --arm-accent-subtle: rgba(193, 39, 45, 0.12);
-  --primary: #CC0A0A;
-  --ring: #CC0A0A;
-  --sidebar-primary: #CC0A0A;
-  --sidebar-ring: #CC0A0A;
+  --primary: #C1272D;
+  --primary-foreground: #FAF8F4;
+  --ring: #C1272D;
+  --sidebar-primary: #C1272D;
+  --sidebar-primary-foreground: #FAF8F4;
+  --sidebar-ring: #C1272D;
+
+  /* Academy uses light surfaces by default */
+  --background: #FAF8F4;
+  --foreground: #161618;
+  --card: #FFFFFF;
+  --card-foreground: #161618;
+  --popover: #FFFFFF;
+  --popover-foreground: #161618;
+  --secondary: #F0EEEC;
+  --secondary-foreground: #161618;
+  --muted: #F0EEEC;
+  --muted-foreground: #636367;
+  --border: #E0E0E4;
+  --input: #E0E0E4;
 }
 
 @layer base {
@@ -155,16 +252,16 @@
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;
   }
   code, kbd, pre, samp {
-    font-family: var(--font-jetbrains), ui-monospace, monospace;
+    font-family: var(--font-mono), ui-monospace, monospace;
   }
 }
 
