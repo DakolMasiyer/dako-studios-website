@@ -78,10 +78,13 @@ export default function GlobeCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const canvasEl = canvasRef.current
+    if (!canvasEl) return
+    const ctxEl = canvasEl.getContext('2d')
+    if (!ctxEl) return
+    // Assign narrowed (non-null) types so closures don't see HTMLCanvasElement | null
+    const canvas = canvasEl
+    const ctx = ctxEl
 
     let W = 0, H = 0, cx = 0, cy = 0, radius = 0
     let particles: Particle[] = []
@@ -104,7 +107,6 @@ export default function GlobeCanvas() {
     }
 
     function resize() {
-      if (!canvas) return
       W = canvas.width  = canvas.offsetWidth
       H = canvas.height = canvas.offsetHeight
       cx = W / 2; cy = H / 2
@@ -113,7 +115,6 @@ export default function GlobeCanvas() {
     }
 
     function draw() {
-      if (!ctx) return
       ctx.clearRect(0, 0, W, H)
       rotation.x = lerp(rotation.x, targetRotation.x, 0.06)
       rotation.y = lerp(rotation.y, targetRotation.y, 0.06)
@@ -142,7 +143,6 @@ export default function GlobeCanvas() {
     }
 
     function drawStatic() {
-      if (!ctx) return
       resize()
       const snapped = particles.map((p) => {
         const pt = project(p.phi, p.theta, 0.3, 0.4)
