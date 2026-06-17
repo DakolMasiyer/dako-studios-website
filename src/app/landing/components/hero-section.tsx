@@ -19,11 +19,11 @@ export function HeroSection() {
   }
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-background pt-24 pb-20 md:pt-32 md:pb-28">
+    <section id="hero" className="relative overflow-hidden bg-background min-h-screen flex items-center pt-24 pb-20">
       {/* Globe background */}
       <GlobeCanvas />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="mx-auto max-w-4xl text-center">
           {/* Main Headline */}
           <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">

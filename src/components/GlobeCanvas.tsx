@@ -42,16 +42,16 @@ function buildParticles(): Particle[] {
 
     if (roll < 0.04) {
       colorKey = 'gold'
-      size = 1.4 + Math.random() * 0.8
+      size = 1.8 + Math.random() * 1.0
     } else if (roll < 0.10) {
       colorKey = 'blue'
-      size = 0.9 + Math.random() * 0.5
+      size = 1.2 + Math.random() * 0.6
     } else {
       colorKey = 'base'
-      size = 0.5 + Math.random() * 0.6
+      size = 0.8 + Math.random() * 0.7
     }
 
-    pts.push({ phi, theta, colorKey, size, baseAlpha: 0.15 + Math.random() * 0.55 })
+    pts.push({ phi, theta, colorKey, size, baseAlpha: 0.35 + Math.random() * 0.55 })
   }
   return pts
 }
