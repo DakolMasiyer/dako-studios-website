@@ -1,9 +1,11 @@
 "use client"
 
+import dynamic from 'next/dynamic'
 import { ArrowRight, Zap, Trophy, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { DotPattern } from '@/components/dot-pattern'
+
+const GlobeCanvas = dynamic(() => import('@/components/GlobeCanvas'), { ssr: false })
 
 export function HeroSection() {
   const smoothScrollTo = (targetId: string) => {
@@ -18,10 +20,8 @@ export function HeroSection() {
 
   return (
     <section id="hero" className="relative overflow-hidden bg-background pt-24 pb-20 md:pt-32 md:pb-28">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0">
-        <DotPattern className="opacity-40" size="md" fadeStyle="ellipse" />
-      </div>
+      {/* Globe background */}
+      <GlobeCanvas />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mx-auto max-w-4xl text-center">
