@@ -1,0 +1,54 @@
+/* ============================================================
+   DAKO STUDIOS — Typography Tokens
+   Display: Syne (geometric, bold, creative-studio character)
+   Body: Plus Jakarta Sans (clean, professional, modern)
+   Mono: JetBrains Mono (code, Academy platform)
+   ============================================================ */
+
+:root {
+  /* ── Font Families ────────────────────────────────────── */
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Type Scale ───────────────────────────────────────── */
+  --text-2xs:    0.625rem;   /*  10px */
+  --text-xs:     0.75rem;    /*  12px */
+  --text-sm:     0.875rem;   /*  14px */
+  --text-base:   1rem;       /*  16px */
+  --text-lg:     1.125rem;   /*  18px */
+  --text-xl:     1.25rem;    /*  20px */
+  --text-2xl:    1.5rem;     /*  24px */
+  --text-3xl:    1.875rem;   /*  30px */
+  --text-4xl:    2.25rem;    /*  36px */
+  --text-5xl:    3rem;       /*  48px */
+  --text-6xl:    3.75rem;    /*  60px */
+  --text-7xl:    4.5rem;     /*  72px */
+  --text-8xl:    6rem;       /*  96px */
+  --text-9xl:    8rem;       /* 128px */
+
+  /* ── Font Weights ─────────────────────────────────────── */
+  --weight-light:     300;
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-extrabold: 800;
+
+  /* ── Line Heights ─────────────────────────────────────── */
+  --leading-none:     1;
+  --leading-tight:    1.1;
+  --leading-snug:     1.25;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.65;
+  --leading-loose:    2;
+
+  /* ── Letter Spacing ───────────────────────────────────── */
+  --tracking-tighter: -0.04em;
+  --tracking-tight:   -0.02em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.04em;
+  --tracking-wider:    0.08em;
+  --tracking-widest:   0.18em;
+  --tracking-ultra:    0.3em;
+}

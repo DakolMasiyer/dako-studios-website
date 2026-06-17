@@ -3,7 +3,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
-import { spaceGrotesk, plusJakartaSans, jetbrainsMono } from "@/lib/fonts";
+import { syne, plusJakartaSans, jetbrainsMono } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Dako Studios",
@@ -19,7 +19,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <head>
         {/* Blocking script prevents flash of wrong theme on load */}

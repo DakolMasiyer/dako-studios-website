@@ -1,7 +1,7 @@
 // Offline-safe font definition fallback
-export const spaceGrotesk = {
-  variable: 'font-grotesk-var',
-  className: 'font-grotesk-class',
+export const syne = {
+  variable: 'font-syne-var',
+  className: 'font-syne-class',
 }
 
 export const plusJakartaSans = {

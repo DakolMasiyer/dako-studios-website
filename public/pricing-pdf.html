@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Syne', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --background: #0A0A0A;
+    --foreground: #FFFFFF;
+    --muted-foreground: #888888;
+    --primary: #C8FF00;
+    --border: #222222;
+
+    --bg-body: #1A1A1A;
+    --logo-fill: #C9A227;
+    --not-included: #444444;
+    --box-bg: #111111;
+    --dot-divider: #333333;
+  }
+  body[data-theme="light"] {
+    --background: #FAF8F4;
+    --foreground: #161618;
+    --muted-foreground: #575350;
+    --primary: #366074; /* Labs steel blue - high contrast on warm white */
+    --border: #E2E2E6;
+
+    --bg-body: #F4F4F5;
+    --logo-fill: #C9A227;  /* Logo stays gold */
+    --not-included: #AEAEB2;
+    --box-bg: #F0EEEC;
+    --dot-divider: #D8D8DC;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg-body); transition: background-color 0.3s ease; }
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: var(--background) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .ds-wrap { padding: 0 !important; background: var(--background) !important; }
+    .ds-page { margin: 0 !important; border: none !important; box-shadow: none !important; }
+    .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Theme Switcher (outside x-dc so it is not replaced by React rendering) -->
+  <div class="theme-switcher no-print" style="position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; gap: 4px; background: #252220; padding: 4px; border-radius: 8px; border: 1px solid #3A3735; font-family: 'Inter', sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: all 0.3s ease;">
+    <button id="btn-dark" onclick="setTheme('dark')" style="background: #3A3735; border: none; color: #FFFFFF; cursor: pointer; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: all 0.2s;">Dark Mode</button>
+    <button id="btn-light" onclick="setTheme('light')" style="background: transparent; border: none; color: #8E8E92; cursor: pointer; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: all 0.2s;">Light Mode</button>
+  </div>
+  
+  <script>
+    function setTheme(mode) {
+      const body = document.body;
+      const btnDark = document.getElementById('btn-dark');
+      const btnLight = document.getElementById('btn-light');
+      const switcher = document.querySelector('.theme-switcher');
+      
+      if (mode === 'light') {
+        body.setAttribute('data-theme', 'light');
+        btnLight.style.background = '#FAF8F4';
+        btnLight.style.color = '#161618';
+        btnDark.style.background = 'transparent';
+        btnDark.style.color = '#575350';
+        switcher.style.background = '#E4E2E0';
+        switcher.style.borderColor = '#D8D8DC';
+        switcher.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+      } else {
+        body.removeAttribute('data-theme');
+        btnDark.style.background = '#3A3735';
+        btnDark.style.color = '#FFFFFF';
+        btnLight.style.background = 'transparent';
+        btnLight.style.color = '#8E8E92';
+        switcher.style.background = '#252220';
+        switcher.style.borderColor = '#3A3735';
+        switcher.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5)';
+      }
+    }
+  </script>
+
+<x-dc>
+<helmet>
+  <!-- Keep helmet here as support.js expects it, but we already have our main styles in head -->
+</helmet>
+
+<div class="ds-wrap" style="padding: 40px 0; min-height: 100vh;">
+
+  <!-- ═══ PAGE 1: COVER ═══ -->
+  <section class="ds-page" style="background: var(--background); width: 210mm; min-height: 297mm; margin: 0 auto 28px; padding: 64px; display: flex; flex-direction: column; position: relative; page-break-after: always; break-after: page; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid var(--border); transition: all 0.3s ease;">
+
+    <!-- Logo -->
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <svg width="36" height="35" viewBox="0 0 205 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="var(--logo-fill)"></path>
+      </svg>
+      <div>
+        <div style="font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: 0.15em; color: var(--foreground); line-height: 1;">DAKO STUDIOS</div>
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--muted-foreground); line-height: 1; margin-top: 4px;">LABS</div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 80px 0 48px;">
+      <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 32px;">WEB DESIGN PACKAGES · 2026</div>
+      <h1 style="font-family: var(--font-display); font-weight: 800; font-size: 64px; color: var(--foreground); line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 32px;">Websites built<br>to convert.</h1>
+      <p style="font-family: var(--font-sans); font-size: 18px; color: var(--muted-foreground); line-height: 1.65; max-width: 480px;">Three packages. Fixed sprint timelines.<br>Full ownership at handoff — no retainer, no developer, no waiting.</p>
+    </div>
+
+    <!-- Divider -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin-bottom: 40px;"></div>
+
+    <!-- Footer contact block -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-family: var(--font-mono); font-size: 13px; color: var(--foreground); letter-spacing: 0.04em;">hello@dako.studio</span>
+        <span style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); letter-spacing: 0.04em;">dako.studio</span>
+      </div>
+      <div style="text-align: right; max-width: 270px;">
+        <p style="font-family: var(--font-sans); font-size: 12px; color: var(--muted-foreground); line-height: 1.75;">All prices shown in USD.<br>Nigerian clients: NGN equivalent provided on request.<br>Current rate: $1 = ₦1,500</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══ PAGE 2: STARTER ═══ -->
+  <section class="ds-page" style="background: var(--background); width: 210mm; min-height: 297mm; margin: 0 auto 28px; padding: 64px; display: flex; flex-direction: column; position: relative; page-break-after: always; break-after: page; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid var(--border); transition: all 0.3s ease;">
+
+    <!-- Page header -->
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 52px;">
+      <svg width="26" height="25" viewBox="0 0 205 200" fill="none">
+        <path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="var(--logo-fill)"></path>
+      </svg>
+      <span style="font-family: var(--font-display); font-weight: 800; font-size: 13px; letter-spacing: 0.15em; color: var(--foreground);">DAKO STUDIOS</span>
+      <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--muted-foreground);">/ LABS</span>
+    </div>
+
+    <!-- Tier tag -->
+    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 14px;">ESTABLISH YOUR PRESENCE</div>
+
+    <!-- Tier name -->
+    <h1 style="font-family: var(--font-display); font-weight: 800; font-size: 40px; color: var(--foreground); letter-spacing: -0.02em; margin-bottom: 28px;">STARTER</h1>
+
+    <!-- Price -->
+    <div style="font-family: var(--font-mono); font-size: 48px; color: var(--primary); line-height: 1; margin-bottom: 12px;">$1,500 USD</div>
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 28px;">
+      <span style="font-family: var(--font-mono); font-size: 15px; color: var(--muted-foreground);">₦2,250,000</span>
+      <div style="width: 1px; height: 14px; background: var(--dot-divider);"></div>
+      <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; color: var(--primary); border: 1px solid var(--primary); padding: 3px 10px; border-radius: 4px;">5-DAY SPRINT</span>
+    </div>
+
+    <!-- Description -->
+    <p style="font-family: var(--font-sans); font-size: 15px; color: var(--muted-foreground); line-height: 1.72; max-width: 530px; margin-bottom: 40px;">For businesses that need a credible, high-impact online presence — fast. A focused, conversion-optimised single-direction site built to earn trust before a visitor scrolls.</p>
+
+    <!-- Divider -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin-bottom: 36px;"></div>
+
+    <!-- Deliverables + Not Included -->
+    <div style="display: flex; gap: 48px; flex: 1;">
+
+      <div style="flex: 1;">
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 20px;">Deliverables</div>
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">5-page responsive website</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Mobile-first layout design</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Contact form integration</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Basic SEO optimisation</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">1 round of revisions</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Full ownership at handoff</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex: 1;">
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--not-included); text-transform: uppercase; margin-bottom: 20px;">Not Included</div>
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--not-included); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✗</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--not-included); line-height: 1.55;">Client-editable CMS</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--not-included); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✗</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--not-included); line-height: 1.55;">Booking integration</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--not-included); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✗</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--not-included); line-height: 1.55;">Brand video</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin: 36px 0 24px;"></div>
+    <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.65; font-style: italic; margin-bottom: 18px;">Ideal for: Real estate agents, law firms, consultants, restaurants, and service businesses launching their first professional web presence.</p>
+    <div style="font-family: var(--font-mono); font-size: 13px; color: var(--primary); letter-spacing: 0.04em;">→ Book a discovery call: dako.studio/labs</div>
+
+  </section>
+
+  <!-- ═══ PAGE 3: BUSINESS — MOST POPULAR ═══ -->
+  <section class="ds-page" style="background: var(--background); width: 210mm; min-height: 297mm; margin: 0 auto 28px; padding: 64px; display: flex; flex-direction: column; position: relative; page-break-after: always; break-after: page; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid var(--border); transition: all 0.3s ease;">
+
+    <!-- Left accent bar -->
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); transition: background-color 0.3s ease;"></div>
+
+    <!-- Page header -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 52px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <svg width="26" height="25" viewBox="0 0 205 200" fill="none">
+          <path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="var(--logo-fill)"></path>
+        </svg>
+        <span style="font-family: var(--font-display); font-weight: 800; font-size: 13px; letter-spacing: 0.15em; color: var(--foreground);">DAKO STUDIOS</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--muted-foreground);">/ LABS</span>
+      </div>
+      <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; color: var(--primary); border: 1px solid var(--primary); padding: 4px 12px; border-radius: 4px;">MOST POPULAR</span>
+    </div>
+
+    <!-- Tier tag -->
+    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--primary); text-transform: uppercase; margin-bottom: 14px;">MOST POPULAR</div>
+
+    <!-- Tier name -->
+    <h1 style="font-family: var(--font-display); font-weight: 800; font-size: 40px; color: var(--foreground); letter-spacing: -0.02em; margin-bottom: 28px;">BUSINESS</h1>
+
+    <!-- Price -->
+    <div style="font-family: var(--font-mono); font-size: 48px; color: var(--primary); line-height: 1; margin-bottom: 12px;">$2,500 USD</div>
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 28px;">
+      <span style="font-family: var(--font-mono); font-size: 15px; color: var(--muted-foreground);">₦3,750,000</span>
+      <div style="width: 1px; height: 14px; background: var(--dot-divider);"></div>
+      <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; color: var(--primary); border: 1px solid var(--primary); padding: 3px 10px; border-radius: 4px;">7-DAY SPRINT</span>
+    </div>
+
+    <!-- Description -->
+    <p style="font-family: var(--font-sans); font-size: 15px; color: var(--muted-foreground); line-height: 1.72; max-width: 530px; margin-bottom: 40px;">Our most requested package. Built for growing businesses that need a site their team can update, integrated with their booking and analytics tools, and optimised to generate consistent inbound enquiries.</p>
+
+    <!-- Divider -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin-bottom: 36px;"></div>
+
+    <!-- Deliverables + Not Included -->
+    <div style="display: flex; gap: 48px; flex: 1;">
+
+      <div style="flex: 1;">
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 20px;">Deliverables</div>
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Up to 10 custom pages</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Client-editable CMS (update content without a developer)</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Booking &amp; calendar integration</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">SEO + Google Analytics setup</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Social media integration</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">2 rounds of revisions</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Full ownership at handoff</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex: 1;">
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--not-included); text-transform: uppercase; margin-bottom: 20px;">Not Included</div>
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--not-included); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✗</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--not-included); line-height: 1.55;">Brand video</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--not-included); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✗</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--not-included); line-height: 1.55;">Advanced animations</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--not-included); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✗</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--not-included); line-height: 1.55;">Post-launch support retainer</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin: 36px 0 24px;"></div>
+    <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.65; font-style: italic; margin-bottom: 18px;">Ideal for: Diaspora businesses, property agencies, medical practices, e-commerce brands, and any business ready to convert website visitors into paying clients.</p>
+    <div style="font-family: var(--font-mono); font-size: 13px; color: var(--primary); letter-spacing: 0.04em;">→ Book a discovery call: dako.studio/labs</div>
+
+  </section>
+
+  <!-- ═══ PAGE 4: PREMIUM ═══ -->
+  <section class="ds-page" style="background: var(--background); width: 210mm; min-height: 297mm; margin: 0 auto 28px; padding: 64px; display: flex; flex-direction: column; position: relative; page-break-after: always; break-after: page; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid var(--border); transition: all 0.3s ease;">
+
+    <!-- Page header -->
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 52px;">
+      <svg width="26" height="25" viewBox="0 0 205 200" fill="none">
+        <path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="var(--logo-fill)"></path>
+      </svg>
+      <span style="font-family: var(--font-display); font-weight: 800; font-size: 13px; letter-spacing: 0.15em; color: var(--foreground);">DAKO STUDIOS</span>
+      <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--muted-foreground);">/ LABS</span>
+    </div>
+
+    <!-- Tier tag -->
+    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 14px;">THE COMPLETE PACKAGE</div>
+
+    <!-- Tier name -->
+    <h1 style="font-family: var(--font-display); font-weight: 800; font-size: 40px; color: var(--foreground); letter-spacing: -0.02em; margin-bottom: 28px;">PREMIUM</h1>
+
+    <!-- Price -->
+    <div style="font-family: var(--font-mono); font-size: 48px; color: var(--primary); line-height: 1; margin-bottom: 12px;">$3,500 USD</div>
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 28px;">
+      <span style="font-family: var(--font-mono); font-size: 15px; color: var(--muted-foreground);">₦5,250,000</span>
+      <div style="width: 1px; height: 14px; background: var(--dot-divider);"></div>
+      <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; color: var(--primary); border: 1px solid var(--primary); padding: 3px 10px; border-radius: 4px;">10-DAY SPRINT</span>
+    </div>
+
+    <!-- Description -->
+    <p style="font-family: var(--font-sans); font-size: 15px; color: var(--muted-foreground); line-height: 1.72; max-width: 530px; margin-bottom: 40px;">Everything in Business — plus a 30-second custom brand video, advanced animations, and 30 days of post-launch support. For businesses that want a complete digital presence delivered in a single sprint.</p>
+
+    <!-- Divider -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin-bottom: 36px;"></div>
+
+    <!-- Deliverables + summary note -->
+    <div style="display: flex; gap: 48px; flex: 1;">
+
+      <div style="flex: 1;">
+        <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 20px;">Deliverables</div>
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Everything in the Business package</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">30-second custom brand video</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Advanced custom animations</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Speed &amp; performance optimisation</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">3 rounds of revisions</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">30 days post-launch support</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="font-family: var(--font-mono); color: var(--primary); font-size: 13px; flex-shrink: 0; line-height: 1.55;">✓</span>
+            <span style="font-family: var(--font-sans); font-size: 14px; color: var(--foreground); line-height: 1.55;">Full ownership at handoff</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+        <div style="border: 1px solid var(--border); padding: 28px; border-radius: 4px;">
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 14px;">Complete coverage</div>
+          <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.7;">Everything from design and development to brand video and post-launch support — delivered in a single fixed sprint. Nothing left to add.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="width: 100%; height: 1px; background: var(--border); margin: 36px 0 24px;"></div>
+    <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.65; font-style: italic; margin-bottom: 18px;">Ideal for: Established businesses launching a rebrand, film studios, premium service providers, and any client that wants a site that competes with the best in their category.</p>
+    <div style="font-family: var(--font-mono); font-size: 13px; color: var(--primary); letter-spacing: 0.04em;">→ Book a discovery call: dako.studio/labs</div>
+
+  </section>
+
+  <!-- ═══ PAGE 5: HOW IT WORKS + CTA ═══ -->
+  <section class="ds-page" style="background: var(--background); width: 210mm; min-height: 297mm; margin: 0 auto; padding: 64px; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border: 1px solid var(--border); transition: all 0.3s ease;">
+
+    <!-- Page header -->
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 52px;">
+      <svg width="26" height="25" viewBox="0 0 205 200" fill="none">
+        <path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="var(--logo-fill)"></path>
+      </svg>
+      <span style="font-family: var(--font-display); font-weight: 800; font-size: 13px; letter-spacing: 0.15em; color: var(--foreground);">DAKO STUDIOS</span>
+      <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--muted-foreground);">/ LABS</span>
+    </div>
+
+    <!-- Section eyebrow + headline -->
+    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 14px;">THE SPRINT PROCESS</div>
+    <h2 style="font-family: var(--font-display); font-weight: 800; font-size: 36px; color: var(--foreground); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 40px;">How it works.</h2>
+
+    <!-- 4-step 2×2 grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 36px;">
+
+      <div style="border: 1px solid var(--border); padding: 28px; border-radius: 4px; display: flex; flex-direction: column; gap: 14px; background: var(--background);">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--primary);">01</span>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--muted-foreground);"> — DISCOVERY</span>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--not-included); margin-top: 5px;">Day 0</div>
+        </div>
+        <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.72;">We review your brief, agree the scope, and you approve the project plan. Deposit confirmed. Sprint begins.</p>
+      </div>
+
+      <div style="border: 1px solid var(--border); padding: 28px; border-radius: 4px; display: flex; flex-direction: column; gap: 14px; background: var(--background);">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--primary);">02</span>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--muted-foreground);"> — BUILD</span>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--not-included); margin-top: 5px;">Days 1–[X]</div>
+        </div>
+        <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.72;">Design, development, and CMS setup happen in parallel. You get a staging link to review before anything goes live.</p>
+      </div>
+
+      <div style="border: 1px solid var(--border); padding: 28px; border-radius: 4px; display: flex; flex-direction: column; gap: 14px; background: var(--background);">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--primary);">03</span>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--muted-foreground);"> — REVISE</span>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--not-included); margin-top: 5px;">Day [X]+</div>
+        </div>
+        <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.72;">Your revision rounds are used to refine — not restart. Feedback submitted as a consolidated list.</p>
+      </div>
+
+      <div style="border: 1px solid var(--border); padding: 28px; border-radius: 4px; display: flex; flex-direction: column; gap: 14px; background: var(--background);">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--primary);">04</span>
+          <span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--muted-foreground);"> — HANDOFF</span>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; color: var(--not-included); margin-top: 5px;">Final day</div>
+        </div>
+        <p style="font-family: var(--font-sans); font-size: 13px; color: var(--muted-foreground); line-height: 1.72;">Domain live. CMS trained. Files yours. No retainer. No dependency. No waiting.</p>
+      </div>
+
+    </div>
+
+    <!-- CTA block -->
+    <div style="flex: 1; background: var(--box-bg); border: 1px solid var(--border); border-radius: 4px; padding: 48px; display: flex; flex-direction: column; justify-content: space-between;">
+
+      <div>
+        <h2 style="font-family: var(--font-display); font-weight: 800; font-size: 32px; color: var(--foreground); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px;">Ready to build?</h2>
+        <p style="font-family: var(--font-sans); font-size: 16px; color: var(--muted-foreground); line-height: 1.7; margin-bottom: 32px;">Discovery calls are free and take 20 minutes.<br>We'll tell you exactly which package fits your business before you commit to anything.</p>
+        <div style="font-family: var(--font-mono); font-size: 16px; color: var(--primary); letter-spacing: 0.04em; margin-bottom: 12px;">→ dako.studio/labs</div>
+        <div style="font-family: var(--font-mono); font-size: 13px; color: var(--muted-foreground); letter-spacing: 0.04em;">hello@dako.studio</div>
+      </div>
+
+      <p style="font-family: var(--font-mono); font-size: 10px; color: var(--not-included); line-height: 1.8; letter-spacing: 0.04em;">All packages subject to content being supplied by client by agreed date. 50% deposit required to begin. Balance due on delivery.<br>NGN pricing calculated at $1 = ₦1,500 — confirm rate at time of invoice. © 2026 Dako Studios. All rights reserved.</p>
+
+    </div>
+
+  </section>
+
+</div>
+</x-dc>
+</body>
+</html>

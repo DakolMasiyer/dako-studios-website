@@ -1,0 +1,21 @@
+/* ============================================================
+   DAKO STUDIOS — Design System Entry Point
+   Link this single file to pull in the full token set.
+   ============================================================ */
+
+/* ── Google Fonts ─────────────────────────────────────────
+   Syne       — Display / Headings
+   Plus Jakarta Sans — Body
+   JetBrains Mono    — Code / Mono
+   NOTE: If performance is critical, self-host via tokens/fonts.css
+   ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+/* ── Token Files ──────────────────────────────────────────
+   Order matters: base variables → type → space → effects → reset
+   ────────────────────────────────────────────────────────── */
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/effects.css';
+@import './tokens/base.css';

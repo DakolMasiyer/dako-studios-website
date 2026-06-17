@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,7 +6,7 @@
 
 @theme inline {
   --font-sans: var(--font-jakarta);
-  --font-display: var(--font-grotesk);
+  --font-display: var(--font-syne);
   --font-mono: var(--font-jetbrains);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -48,7 +48,7 @@
 /* ─── Light mode (default) ─── */
 :root {
   --font-jakarta: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-grotesk: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-syne: 'Syne', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-jetbrains: 'JetBrains Mono', Courier, monospace;
 
   --radius: 0.5rem; /* 8px base → sm=4px, md=6px, lg=8px, xl=12px */
@@ -59,36 +59,36 @@
   --card-foreground: #161618;
   --popover: #FFFFFF;
   --popover-foreground: #161618;
-  --primary: #CC0A0A;
+  --primary: #C9A227;
   --primary-foreground: #FAF8F4;
   --secondary: #E4E2E0;
   --secondary-foreground: #161618;
   --muted: #E4E2E0;
   --muted-foreground: #575350;
-  --accent: #CC0A0A;
+  --accent: #C9A227;
   --accent-foreground: #FAF8F4;
   --destructive: #CC0A0A;
   --border: #D8D8DC;
   --input: #D8D8DC;
-  --ring: #CC0A0A;
-  --chart-1: #CC0A0A;
+  --ring: #C9A227;
+  --chart-1: #C9A227;
   --chart-2: #4A7C96;
   --chart-3: #C9A227;
   --chart-4: #E84C00;
   --chart-5: #22C55E;
   --sidebar: #F8F6F4;
   --sidebar-foreground: #161618;
-  --sidebar-primary: #CC0A0A;
+  --sidebar-primary: #C9A227;
   --sidebar-primary-foreground: #FAF8F4;
   --sidebar-accent: #E4E2E0;
   --sidebar-accent-foreground: #161618;
   --sidebar-border: #D8D8DC;
-  --sidebar-ring: #CC0A0A;
+  --sidebar-ring: #C9A227;
 
-  /* Arm accent — root brand defaults to crimson */
-  --arm-accent: #CC0A0A;
-  --arm-accent-dark: #931E22;
-  --arm-accent-subtle: rgba(193, 39, 45, 0.12);
+  /* Arm accent — root brand defaults to Warm Gold */
+  --arm-accent: #C9A227;
+  --arm-accent-dark: #A07E1A;
+  --arm-accent-subtle: rgba(201, 162, 39, 0.12);
 }
 
 /* ─── Dark mode ─── */
@@ -99,31 +99,31 @@
   --card-foreground: #FAF8F4;
   --popover: #161412;
   --popover-foreground: #FAF8F4;
-  --primary: #CC0A0A;
+  --primary: #C9A227;
   --primary-foreground: #FAF8F4;
   --secondary: #252220;
   --secondary-foreground: #FAF8F4;
   --muted: #252220;
   --muted-foreground: #8E8E92;
-  --accent: #CC0A0A;
+  --accent: #C9A227;
   --accent-foreground: #FAF8F4;
   --destructive: #CC0A0A;
   --border: #2C2C30;
   --input: #2C2C30;
-  --ring: #CC0A0A;
-  --chart-1: #CC0A0A;
+  --ring: #C9A227;
+  --chart-1: #C9A227;
   --chart-2: #4A7C96;
   --chart-3: #C9A227;
   --chart-4: #E84C00;
   --chart-5: #22C55E;
   --sidebar: #0A0908;
   --sidebar-foreground: #FAF8F4;
-  --sidebar-primary: #CC0A0A;
+  --sidebar-primary: #C9A227;
   --sidebar-primary-foreground: #FAF8F4;
   --sidebar-accent: #1E1E21;
   --sidebar-accent-foreground: #FAF8F4;
   --sidebar-border: #2C2C30;
-  --sidebar-ring: #CC0A0A;
+  --sidebar-ring: #C9A227;
 }
 
 /* ─── Arm accent overrides ─── */
@@ -158,7 +158,7 @@
     font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;

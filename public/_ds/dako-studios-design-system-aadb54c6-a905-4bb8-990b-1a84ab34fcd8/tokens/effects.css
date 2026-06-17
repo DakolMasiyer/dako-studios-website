@@ -1,0 +1,45 @@
+/* ============================================================
+   DAKO STUDIOS — Effects Tokens
+   Shadows, transitions, easing curves, blur
+   ============================================================ */
+
+:root {
+  /* ── Shadows (tuned for dark surfaces) ───────────────── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.5), 0 1px 2px -1px rgba(0,0,0,0.4);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.55);
+  --shadow-lg:   0 10px 30px -5px rgba(0,0,0,0.65);
+  --shadow-xl:   0 20px 60px -10px rgba(0,0,0,0.75);
+  --shadow-2xl:  0 32px 80px -12px rgba(0,0,0,0.85);
+  --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.4);
+
+  /* Glow variants (arm-aware) */
+  --shadow-accent-sm:  0 0 12px rgba(204, 10, 10, 0.4);
+  --shadow-accent-md:  0 0 30px rgba(204, 10, 10, 0.35);
+
+  /* ── Easing Curves ────────────────────────────────────── */
+  --ease-out:     cubic-bezier(0.0, 0.0, 0.2, 1);    /* @kind other */
+  --ease-in:      cubic-bezier(0.4, 0.0, 1, 1);       /* @kind other */
+  --ease-inout:   cubic-bezier(0.4, 0.0, 0.2, 1);    /* @kind other */
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+  --ease-circ:    cubic-bezier(0.0, 0.55, 0.45, 1);  /* @kind other */
+
+  /* ── Durations ────────────────────────────────────────── */
+  --duration-instant: 50ms;  /* @kind other */
+  --duration-fast:    100ms; /* @kind other */
+  --duration-base:    200ms; /* @kind other */
+  --duration-slow:    350ms; /* @kind other */
+  --duration-xslow:   600ms; /* @kind other */
+
+  /* ── Shorthand Transitions ────────────────────────────── */
+  --transition-fast:   var(--duration-fast)  var(--ease-out);   /* @kind other */
+  --transition-base:   var(--duration-base)  var(--ease-out);   /* @kind other */
+  --transition-slow:   var(--duration-slow)  var(--ease-out);   /* @kind other */
+  --transition-spring: var(--duration-slow) var(--ease-spring); /* @kind other */
+
+  /* ── Blur ─────────────────────────────────────────────── */
+  --blur-sm:  4px;  /* @kind other */
+  --blur-md:  12px; /* @kind other */
+  --blur-lg:  24px; /* @kind other */
+  --blur-xl:  40px; /* @kind other */
+  --blur-2xl: 64px; /* @kind other */
+}
