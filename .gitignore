@@ -10,6 +10,7 @@ build/
 # Sub-projects & Local archives
 Dako Studios Bootcamp/
 dashboard-archive/
+Templates/
 
 # OS files
 .DS_Store
