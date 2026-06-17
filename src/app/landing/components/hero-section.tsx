@@ -40,7 +40,7 @@ export function HeroSection() {
 
           {/* Subheading */}
           <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance">
-            Websites, brand identity, motion, and film marketing — built to convert and fully yours at handoff. One relationship, every discipline, as your business grows.
+            Websites and brand assets built to actually convert — and fully yours at launch. No retainer, no waiting on us to update your prices.
           </p>
 
           {/* CTA Buttons */}
@@ -76,8 +76,8 @@ export function HeroSection() {
               <div className="flex items-center justify-center space-x-2.5 text-foreground/80 border-t md:border-t-0 md:border-l md:border-r border-border/20 pt-4 md:pt-0">
                 <Zap className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
                 <div className="text-left">
-                  <div className="font-display font-extrabold text-lg leading-none">5</div>
-                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Studio Disciplines</div>
+                  <div className="font-display font-extrabold text-lg leading-none">6 × #1</div>
+                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Films Topped Prime Video Nigeria</div>
                 </div>
               </div>
               <div className="flex items-center justify-center space-x-2.5 text-foreground/80 border-t md:border-t-0 pt-4 md:pt-0">

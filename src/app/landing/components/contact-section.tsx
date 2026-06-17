@@ -82,7 +82,7 @@ export function ContactSection() {
             Start a Project
           </span>
           <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight mb-4 text-foreground leading-none">
-            Ready to build something remarkable?
+            Ready to build something that grows with you?
           </h2>
           <p className="text-lg text-muted-foreground font-light max-w-xl mx-auto leading-relaxed">
             Send a brief description of your business and what you need. We respond within 2 hours during business hours.
