@@ -5,8 +5,9 @@
 
 @theme inline {
   --font-sans: var(--font-jakarta);
-  --font-display: var(--font-syne);
+  --font-display: var(--font-grotesk);
   --font-mono: var(--font-jetbrains);
+  --font-syne: var(--font-syne);
   
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -75,44 +76,44 @@
   --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.25);
   --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
 
-  /* Light mode shadcn design tokens */
+  /* Light mode shadcn design tokens (Default: Crimson brand accent) */
   --background: #FAF8F4;      /* Warm White */
   --foreground: #161618;      /* Carbon */
   --card: #FFFFFF;
   --card-foreground: #161618;
   --popover: #FFFFFF;
   --popover-foreground: #161618;
-  --primary: #C9A227;         /* Warm Gold */
+  --primary: #C1272D;         /* Crimson primary brand accent */
   --primary-foreground: #FAF8F4;
   --secondary: #F0EEEC;       /* Neutral 100 / Elevated */
   --secondary-foreground: #161618;
   --muted: #F0EEEC;
   --muted-foreground: #636367;
-  --accent: #C9A227;
+  --accent: #C1272D;
   --accent-foreground: #FAF8F4;
-  --destructive: #C1272D;     /* Crimson */
+  --destructive: #C1272D;
   --destructive-foreground: #FAF8F4;
   --border: #E0E0E4;
   --input: #E0E0E4;
-  --ring: #C9A227;
-  --chart-1: #C9A227;
-  --chart-2: #4A7C96;
-  --chart-3: #27374D;
-  --chart-4: #E84C00;
+  --ring: #C1272D;
+  --chart-1: #C1272D;         /* Crimson */
+  --chart-2: #4A7C96;         /* Steel Blue (Labs) */
+  --chart-3: #C9A227;         /* Gold (Brand) */
+  --chart-4: #E84C00;         /* Orange (Motion) */
   --chart-5: #22C55E;
   --sidebar: #F8F6F4;
   --sidebar-foreground: #161618;
-  --sidebar-primary: #C9A227;
+  --sidebar-primary: #C1272D;
   --sidebar-primary-foreground: #FAF8F4;
   --sidebar-accent: #F0EEEC;
   --sidebar-accent-foreground: #161618;
   --sidebar-border: #E0E0E4;
-  --sidebar-ring: #C9A227;
+  --sidebar-ring: #C1272D;
 
-  /* Arm accent default (brand gold) */
-  --arm-accent: #C9A227;
-  --arm-accent-dark: #A07E1A;
-  --arm-accent-subtle: rgba(201, 162, 39, 0.12);
+  /* Arm accent default (Crimson root brand) */
+  --arm-accent: #C1272D;
+  --arm-accent-dark: #931E22;
+  --arm-accent-subtle: rgba(193, 39, 45, 0.12);
 }
 
 /* ─── Dark mode ─── */
@@ -134,39 +135,39 @@
   --shadow-2xl: 0 32px 80px -12px rgba(0,0,0,0.85);
   --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.4);
 
-  /* Dark mode shadcn design tokens */
+  /* Dark mode shadcn design tokens (Default: Crimson brand accent) */
   --background: #161618;      /* Carbon background */
   --foreground: #FAF8F4;      /* Warm White foreground */
   --card: #1E1E21;            /* Carbon surface */
   --card-foreground: #FAF8F4;
   --popover: #252528;         /* Carbon elevated */
   --popover-foreground: #FAF8F4;
-  --primary: #C9A227;         /* Warm Gold */
-  --primary-foreground: #161618; /* Carbon for high contrast text on gold */
+  --primary: #C1272D;         /* Crimson primary brand accent */
+  --primary-foreground: #FAF8F4;
   --secondary: #252528;       /* Carbon elevated */
   --secondary-foreground: #FAF8F4;
   --muted: #1E1E21;           /* Carbon surface */
   --muted-foreground: #8E8E92; /* Gray */
-  --accent: #C9A227;
-  --accent-foreground: #161618;
-  --destructive: #C1272D;     /* Crimson */
+  --accent: #C1272D;
+  --accent-foreground: #FAF8F4;
+  --destructive: #C1272D;
   --destructive-foreground: #FAF8F4;
   --border: #2C2C30;          /* Carbon border */
   --input: #2C2C30;
-  --ring: #C9A227;
-  --chart-1: #C9A227;
+  --ring: #C1272D;
+  --chart-1: #C1272D;
   --chart-2: #4A7C96;
-  --chart-3: #27374D;
+  --chart-3: #C9A227;
   --chart-4: #E84C00;
   --chart-5: #22C55E;
   --sidebar: #0A0908;
   --sidebar-foreground: #FAF8F4;
-  --sidebar-primary: #C9A227;
-  --sidebar-primary-foreground: #161618;
+  --sidebar-primary: #C1272D;
+  --sidebar-primary-foreground: #FAF8F4;
   --sidebar-accent: #1E1E21;
   --sidebar-accent-foreground: #FAF8F4;
   --sidebar-border: #2C2C30;
-  --sidebar-ring: #C9A227;
+  --sidebar-ring: #C1272D;
 }
 
 /* ─── Arm accents overrides ─── */

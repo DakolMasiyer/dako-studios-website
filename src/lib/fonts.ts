@@ -1,4 +1,11 @@
-import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Syne, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+
+export const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-grotesk",
+  display: "swap",
+  weight: ["700"],
+});
 
 export const syne = Syne({
   subsets: ["latin"],
@@ -20,4 +27,3 @@ export const jetbrainsMono = JetBrains_Mono({
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
-
