@@ -3,18 +3,18 @@ import { LandingPageContent } from './landing-page-content'
 
 // Metadata for the landing page
 export const metadata: Metadata = {
-  title: 'Dako Studios | Web Design, Brand, Motion & Film — Built to Convert',
-  description: 'Dako Studios builds websites and brand assets that actually convert — and hands you full ownership at launch. No retainer. Web design, brand identity, motion, and film marketing.',
-  keywords: ['web design', 'web development', 'brand identity', 'dako.studio', 'Nigeria web design', 'creative studio'],
+  title: 'Dako Studios | One Creative Studio. Every Edge.',
+  description: 'Built for the businesses building Africa\'s next chapter. Websites, brand identity, motion, and film marketing — fully yours at launch. Based in Abuja, serving Nigeria and the diaspora.',
+  keywords: ['web design', 'web development', 'brand identity', 'Abuja', 'dako.studio', 'Nigeria web design', 'diaspora business websites'],
   openGraph: {
-    title: 'Dako Studios | Web Design, Brand, Motion & Film — Built to Convert',
-    description: 'Five disciplines, one studio: web design, brand identity, motion, film marketing, and digital skills training.',
+    title: 'Dako Studios | One Creative Studio. Every Edge.',
+    description: 'Built for the businesses building Africa\'s next chapter. Websites, brand identity, motion, and film marketing — fully yours at launch.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dako Studios | Web Design, Brand, Motion & Film — Built to Convert',
-    description: 'Five disciplines, one studio: web design, brand identity, motion, film marketing, and digital skills training.',
+    title: 'Dako Studios | One Creative Studio. Every Edge.',
+    description: 'Built for the businesses building Africa\'s next chapter. Websites, brand identity, motion, and film marketing — fully yours at launch.',
   },
 }
 

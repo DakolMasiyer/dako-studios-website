@@ -25,22 +25,17 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Announcement Overline */}
-          <span className="font-mono text-[11px] font-bold tracking-[0.15em] text-muted-foreground/60 uppercase block mb-8">
-            DAKO STUDIOS · ABUJA, NIGERIA · EST. 2024
-          </span>
-
           {/* Main Headline */}
           <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
-            Five disciplines.
+            One Creative Studio.
             <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent block mt-2">
-              Built to grow with you.
+              Every Edge.
             </span>
           </h1>
 
           {/* Subheading */}
           <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance">
-            Websites and brand assets built to actually convert — and fully yours at launch. No retainer, no waiting on us to update your prices.
+            Built for the businesses building Africa's next chapter.
           </p>
 
           {/* CTA Buttons */}
@@ -83,8 +78,8 @@ export function HeroSection() {
               <div className="flex items-center justify-center space-x-2.5 text-foreground/80 border-t md:border-t-0 pt-4 md:pt-0">
                 <Globe className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
                 <div className="text-left">
-                  <div className="font-display font-extrabold text-lg leading-none">3 Days</div>
-                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Fastest Film to Hit #1</div>
+                  <div className="font-display font-extrabold text-lg leading-none">NG+</div>
+                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Nigeria &amp; Diaspora</div>
                 </div>
               </div>
             </div>

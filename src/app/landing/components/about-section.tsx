@@ -26,6 +26,9 @@ export function AboutSection() {
               <p>
                 Dako Studios brings together design, development, and strategy under one roof — websites, brand identity, motion, and film marketing. We reject bloated agency retainers and endless project timelines, and we hand clients full ownership of what we build, not just a finished product.
               </p>
+              <p className="font-semibold text-foreground">
+                Founded in Abuja, Nigeria. Serving businesses across Nigeria and the diaspora.
+              </p>
             </div>
             
             {/* Signature or Founder Mark */}
@@ -33,7 +36,7 @@ export function AboutSection() {
               <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center text-primary font-bold font-display text-lg mb-3">
                 D
               </div>
-              <span className="text-sm font-semibold tracking-wide text-foreground">Dakolmas Iyer</span>
+              <span className="text-sm font-semibold tracking-wide text-foreground">Dakol Masiyer</span>
               <span className="text-xs text-muted-foreground mt-0.5">Founder & Lead Engineer, Dako Studios</span>
             </div>
           </div>

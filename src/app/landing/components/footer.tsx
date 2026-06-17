@@ -19,7 +19,7 @@ export function LandingFooter() {
           <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-sm">
             <DakoLogo size={28} />
             <p className="text-muted-foreground text-sm font-light mt-4 leading-relaxed">
-              Websites, brand identity, motion, and film marketing — built to convert, fully yours at handoff.
+              One Creative Studio. Every Edge. Built for the businesses building Africa's next chapter.
             </p>
           </div>
 
@@ -58,13 +58,14 @@ export function LandingFooter() {
         {/* Bottom Footer */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60">
           <div>
-            <span>© 2026 Dako Studios.</span>
+            <span>© 2026 Dako Studios. Abuja, Nigeria.</span>
           </div>
           <div className="flex items-center space-x-4">
             <a href="/privacy" className="hover:text-primary transition-colors font-medium">Privacy Policy</a>
             <span className="text-muted-foreground/20">·</span>
             <a href="/terms" className="hover:text-primary transition-colors font-medium">Terms of Service</a>
             <span className="text-muted-foreground/20">·</span>
+            <span className="text-muted-foreground/40">Serving Nigeria &amp; the diaspora</span>
           </div>
         </div>
       </div>

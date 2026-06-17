@@ -25,7 +25,7 @@ import { portfolioItems } from '@/data/portfolio'
 
 export const metadata: Metadata = {
   title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
-  description: 'UX-led websites for real estate, law, healthcare, and hospitality. Built fast, fully yours at handoff. See real work and book a discovery call.',
+  description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff. See real work and book a discovery call.',
 }
 
 const nicheFocusItems = [

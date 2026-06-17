@@ -4,7 +4,7 @@ import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Mail, MessageSquare } from 'lucide-react'
+import { Mail, MessageSquare, MapPin, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -101,6 +101,32 @@ export function ContactSection() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                  {/* Location Info */}
+                  <div className="flex items-start space-x-4">
+                    <div className="p-3 bg-primary/10 rounded-[4px] text-primary">
+                      <MapPin className="h-5 w-5" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground">Location</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {siteConfig.contact.address}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Global Scope */}
+                  <div className="flex items-start space-x-4">
+                    <div className="p-3 bg-primary/10 rounded-[4px] text-primary">
+                      <Globe className="h-5 w-5" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground">Scope</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Serving Nigeria &amp; the diaspora
+                      </p>
+                    </div>
+                  </div>
+
                   {/* Email */}
                   <div className="flex items-start space-x-4">
                     <div className="p-3 bg-primary/10 rounded-[4px] text-primary">
@@ -251,7 +277,7 @@ export function ContactSection() {
         {/* Footer Note */}
         <div className="text-center mt-12">
           <p className="text-xs text-muted-foreground/60 font-medium tracking-wide">
-            50% deposit to start
+            Based in Abuja, Nigeria · Serving Nigeria &amp; the diaspora · 50% deposit to start
           </p>
         </div>
       </div>
