@@ -45,7 +45,7 @@ export function HeroSection() {
               className="text-base cursor-pointer font-semibold px-8 h-12 bg-primary text-primary-foreground hover:bg-primary/95 rounded-[4px]"
               onClick={() => smoothScrollTo('#services')}
             >
-              See Real Work
+              See Our Work
               <ArrowRight className="ml-2 h-4 w-4" strokeWidth={2} />
             </Button>
             <Button

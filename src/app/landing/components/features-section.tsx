@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Terminal, Sparkles, Video, Clapperboard, GraduationCap, ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -14,6 +15,23 @@ const iconMap = {
 }
 
 export function FeaturesSection() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % 5)
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [])
+
+  const arms = [
+    { text: "Dako Labs", color: "text-[#4A7C96]" },
+    { text: "Dako Brand", color: "text-[#C9A227]" },
+    { text: "Dako Motion", color: "text-[#E84C00]" },
+    { text: "Dako Film", color: "text-[#3D5470]" },
+    { text: "Dako Academy", color: "text-[#C1272D]" },
+  ]
+
   return (
     <section id="services" className="py-24 sm:py-32 bg-background border-t border-border/40 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,8 +40,23 @@ export function FeaturesSection() {
           <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
             What We Do
           </span>
-          <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight text-foreground mb-6">
-            Five arms. One studio.
+          <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight text-foreground mb-6 flex flex-col items-center justify-center gap-y-3">
+            <span>One studio, Five arms.</span>
+            <div className="relative inline-flex overflow-hidden h-[1.2em] w-full justify-center">
+              <span
+                className="flex flex-col transition-transform duration-700 ease-in-out absolute left-0 top-0 w-full text-center"
+                style={{ transform: `translateY(-${index * 1.2}em)` }}
+              >
+                {arms.map((arm, i) => (
+                  <span
+                    key={i}
+                    className={`h-[1.2em] flex items-center justify-center ${arm.color}`}
+                  >
+                    {arm.text}
+                  </span>
+                ))}
+              </span>
+            </div>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
             We build digital presences that convert — web design, brand identity, motion, film, and skills training. All under one roof.
