@@ -83,8 +83,8 @@ export function HeroSection() {
               <div className="flex items-center justify-center space-x-2.5 text-foreground/80 border-t md:border-t-0 pt-4 md:pt-0">
                 <Globe className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
                 <div className="text-left">
-                  <div className="font-display font-extrabold text-lg leading-none">NG+</div>
-                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Nigeria &amp; Diaspora</div>
+                  <div className="font-display font-extrabold text-lg leading-none">3 Days</div>
+                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Fastest Film to Hit #1</div>
                 </div>
               </div>
             </div>

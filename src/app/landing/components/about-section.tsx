@@ -26,9 +26,6 @@ export function AboutSection() {
               <p>
                 Dako Studios brings together design, development, and strategy under one roof — websites, brand identity, motion, and film marketing. We reject bloated agency retainers and endless project timelines, and we hand clients full ownership of what we build, not just a finished product.
               </p>
-              <p className="font-semibold text-foreground">
-                Founded in Abuja, Nigeria. Serving businesses across Nigeria and the diaspora.
-              </p>
             </div>
             
             {/* Signature or Founder Mark */}
