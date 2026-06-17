@@ -109,8 +109,11 @@ export default function GlobeCanvas() {
     function resize() {
       W = canvas.width  = canvas.offsetWidth
       H = canvas.height = canvas.offsetHeight
-      cx = W / 2; cy = H / 2
-      radius = Math.min(W, H) * 0.38
+      cx = W / 2
+      // Always centre vertically on the visible viewport, not the full section height
+      cy = window.innerHeight / 2
+      // Scale globe to the smaller of viewport width or viewport height
+      radius = Math.min(W, window.innerHeight) * 0.38
       particles = buildParticles()
     }
 

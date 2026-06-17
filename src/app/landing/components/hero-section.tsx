@@ -19,7 +19,7 @@ export function HeroSection() {
   }
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-background min-h-screen flex items-center pt-24 pb-20">
+    <section id="hero" className="relative overflow-hidden bg-background min-h-dvh flex items-center pt-24 pb-20">
       {/* Globe background */}
       <GlobeCanvas />
 
