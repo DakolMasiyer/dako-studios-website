@@ -16,7 +16,7 @@ Dako Studios is a multi-vertical digital agency operating under Dakonoveu Ltd. F
 | **Brand** | brand.dako.studio | Amber Gold `#C97D10` | Versatile, polished, identity-first |
 | **Motion** | motion.dako.studio | Vivid Orange `#E84C00` | High-energy, bold, kinetic |
 | **Film** | film.dako.studio | Deep Navy `#0E4D7A` | Cinematic, moody, atmospheric |
-| **Academy** | academy.dako.studio | Jade Green `#0A9165` | Approachable, beginner-friendly, encouraging |
+| **Academy** | learn.dako.studio | Jade Green `#0A9165` | Approachable, beginner-friendly, encouraging |
 
 **Primary audience:** Nigerian SME clients (Lagos/Abuja) + diaspora / international clients with higher budgets. Must read as credible to both.
 
