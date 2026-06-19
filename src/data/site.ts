@@ -42,6 +42,7 @@ export const siteConfig: SiteConfig = {
 export const rootNavItems: NavItem[] = [
   { name: 'Services', href: '#services' },
   { name: 'Work', href: '#portfolio' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '#contact' },
   { name: 'Labs', href: '/labs' },
   { name: 'Academy', href: 'https://learn.dako.studio', isExternal: true },

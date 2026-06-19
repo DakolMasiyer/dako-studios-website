@@ -28,6 +28,8 @@ export function LandingFooter() {
             <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-sm">
               <a href="/labs" className="text-muted-foreground hover:text-primary transition-colors font-medium">Labs</a>
               <span className="text-muted-foreground/20">·</span>
+              <a href="/blog" className="text-muted-foreground hover:text-primary transition-colors font-medium">Blog</a>
+              <span className="text-muted-foreground/20">·</span>
               <a href="#services" className="text-muted-foreground hover:text-primary transition-colors font-medium">Brand</a>
               <span className="text-muted-foreground/20">·</span>
               <a href="#services" className="text-muted-foreground hover:text-primary transition-colors font-medium">Motion</a>

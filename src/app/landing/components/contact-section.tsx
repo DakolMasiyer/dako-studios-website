@@ -51,7 +51,7 @@ export function ContactSection() {
     setIsPending(true)
     setSubmitStatus("idle")
     try {
-      const response = await fetch("https://learn.dako.studio/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

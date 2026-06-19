@@ -3,7 +3,7 @@
 **Version:** 1.0
 **Date:** 2026-06-16
 **Status:** Active
-**Period:** June 20 – July 19, 2026
+**Period:** June 19 – July 18, 2026
 **Feeds from:** `03_STRATEGY_TEMPLATE.md` + `04_CONTENT_PILLARS_TEMPLATE.md`
 
 ---
@@ -46,11 +46,11 @@ Da'anong site screenshot (desktop + mobile) — this is your first proof visual 
 
 | Week | Dates | Theme | Pillar weight |
 |---|---|---|---|
-| Week 1 | Jun 20–26 | Studio introduction + first proof drop | Education heavy, Proof anchor |
-| Week 2 | Jun 27–Jul 3 | Educate Femi — the website problem | Education + BTS |
-| Week 3 | Jul 4–10 | Build credibility — film proof + Adaeze story | Proof + Culture |
-| Week 4 | Jul 11–17 | Deepen trust — process + Academy | BTS + Education |
-| Buffer | Jul 18–19 | Catch-up / repurpose best performers | — |
+| Week 1 | Jun 19–25 | Studio introduction + first proof drop | Education heavy, Proof anchor |
+| Week 2 | Jun 26–Jul 2 | Educate Femi — the website problem | Education + BTS |
+| Week 3 | Jul 3–9 | Build credibility — film proof + Adaeze story | Proof + Culture |
+| Week 4 | Jul 10–16 | Deepen trust — process + Academy | BTS + Education |
+| Buffer | Jul 17–18 | Catch-up / repurpose best performers | — |
 
 ---
 
@@ -60,7 +60,7 @@ Da'anong site screenshot (desktop + mobile) — this is your first proof visual 
 
 ---
 
-### Friday June 20 — LAUNCH DAY (3 posts)
+### Friday June 19 — LAUNCH DAY (3 posts)
 
 ---
 
@@ -152,7 +152,7 @@ Close (last 3s): "This is Dako Studios. We just launched. Follow along."
 
 ---
 
-### Saturday June 21 (1 post — light day)
+### Saturday June 20 (1 post — light day)
 
 ---
 
@@ -206,11 +206,11 @@ That's what Dako Studios Labs builds.
 
 ---
 
-### Sunday June 22 (rest — no post)
+### Sunday June 21 (rest — no post)
 
 ---
 
-### Monday June 23 (1 post — warm-up week)
+### Monday June 22 (1 post — warm-up week)
 
 ---
 
@@ -283,7 +283,7 @@ Save this. Run it against your current site.
 
 ---
 
-### Tuesday June 24 (2 posts — peak day)
+### Tuesday June 23 (2 posts — peak day)
 
 ---
 
@@ -343,7 +343,7 @@ Not impressions. Viewers.
 
 ---
 
-### Wednesday June 25 (2 posts — peak day)
+### Wednesday June 24 (2 posts — peak day)
 
 ---
 
@@ -413,7 +413,7 @@ We build sites that work.
 
 ---
 
-### Thursday June 26 (2 posts)
+### Thursday June 25 (2 posts)
 
 ---
 
@@ -462,7 +462,7 @@ That's what Dako Studios is for.
 
 ---
 
-### Friday June 27 (1 post — Week 1 close)
+### Friday June 26 (1 post — Week 1 close)
 
 ---
 
@@ -533,64 +533,636 @@ Discovery call link → dako.studio
 **Theme:** Educate Femi — The Website Problem in Depth
 **Goal:** Establish Dako Studios as the trusted educator before the vendor
 
-| Day | Platform | Pillar | Format | Topic |
-|---|---|---|---|---|
-| Sat Jun 28 | Twitter/X | Education | Thread | "What a website handoff should actually look like" |
-| Mon Jun 30 | Instagram | Education | Carousel | "Facebook page vs website — 4 structural differences" |
-| Mon Jun 30 | TikTok | BTS | Screen record | Framer CMS setup — showing client-editable structure |
-| Tue Jul 1 | Twitter/X | Proof | Tweet | Da'anong outcome — one line, no fluff |
-| Tue Jul 1 | Instagram | BTS | Reel/video | "Day in the life — running 5 arms as a solo founder" |
-| Wed Jul 2 | TikTok | Education | Talking head | "Why Wix sites don't convert — and it's not your fault" |
-| Wed Jul 2 | Twitter/X | Culture | Tweet | One-liner — Nigerian creative scene |
-| Thu Jul 3 | Instagram | Education | Carousel | "What UX thinking looks like before design begins" |
-| Thu Jul 3 | TikTok | Proof | Talking head | First Features film campaign breakdown |
-| Fri Jul 4 | Blog | Education | Article | "What a client-editable website actually means — and why it matters" |
 
-**Total: 10 posts**
+### Saturday June 27 (1 post)
 
 ---
+
+**POST 13 — Twitter/X · 9am WAT**
+**Pillar:** Education
+**Format:** Thread, 5 tweets
+
+```
+Tweet 1:
+Most website "handoffs" are a link and a password.
+That's not a handoff — that's an exit. 🧵
+
+Tweet 2:
+A real handoff means you own the domain.
+Not your developer. You.
+If you stop paying them, your business doesn't disappear.
+
+Tweet 3:
+It means you can edit a price, swap a photo, update your hours — without calling anyone.
+You shouldn't need an invoice to fix a typo.
+
+Tweet 4:
+It means there's documentation.
+You should know how your digital storefront is built.
+
+Tweet 5:
+It means independence within a professionally designed structure.
+That's the model we build on. Framer + client-editable CMS.
+→ dako.studio
+```
+
+---
+
+### Monday June 29 (2 posts)
+
+---
+
+**POST 14 — Instagram · 8pm WAT**
+**Pillar:** Education
+**Format:** Carousel, 5 slides
+**Asset:** Create in Canva — clean brand colours
+
+```
+Slide 1:
+Facebook page vs website — 4 structural differences
+
+Slide 2:
+01. Ownership
+Facebook can change its algorithm tomorrow and kill your reach.
+Your website is your own digital real estate.
+
+Slide 3:
+02. Searchability
+Google doesn't rank Facebook pages for local searches.
+If someone searches "lawyer in Abuja", your website ranks, your page doesn't.
+
+Slide 4:
+03. Trust
+A custom domain (.com or .ng) signals you are established before a word is read.
+
+Slide 5:
+04. Analytics
+A website tells you exactly where your leads drop off.
+Facebook gives you vanity metrics.
+→ dako.studio
+```
+
+---
+
+**POST 15 — TikTok · 3pm WAT**
+**Pillar:** BTS
+**Format:** Screen record, 45s
+
+```
+Hook: "This is what a client-editable site actually looks like."
+Body: (Screen record showing a Framer CMS interface)
+"We're setting this up so the client can change their service prices without ever needing to call us again.
+Most agencies build dependency into their relationship. We build independence."
+Close: "Dako Studios. We build sites you own."
+```
+
+---
+
+### Tuesday June 30 (2 posts)
+
+---
+
+**POST 16 — Twitter/X · 9pm WAT**
+**Pillar:** Proof
+**Format:** Single tweet
+
+```
+Da'anong Gyang is a DP with Amazon Prime credits.
+We built him a portfolio site that makes sure the right people can verify that fast.
+Result: More bookings. That's what a website is for.
+```
+
+---
+
+**POST 17 — Instagram · 8pm WAT**
+**Pillar:** BTS
+**Format:** Reel
+
+```
+Hook: "Running a 5-arm studio as a solo founder."
+Body: (Quick cuts: Figma wireframe -> Canva brand deck -> Academy capstone review)
+"Today: 2 discovery calls for Labs, 1 brand deck revision, and reviewing Academy Day 20 capstones. No team yet. Just a system that holds."
+Close: "Building in public. Follow along."
+```
+
+---
+
+### Wednesday July 1 (2 posts)
+
+---
+
+**POST 18 — TikTok · 2pm WAT**
+**Pillar:** Education
+**Format:** Talking head, 45s
+
+```
+Hook: "Why your Wix site isn't converting — and it's not your fault."
+Body: "Your Wix site looks fine. But it's missing UX thinking.
+A template gives you colours. It doesn't tell a visitor where to look first, or where the CTA should live.
+A site that looks good and a site that works are two different builds."
+Close: "Fix the structure. → dako.studio"
+```
+
+---
+
+**POST 19 — Twitter/X · 9am WAT**
+**Pillar:** Culture
+**Format:** Single tweet
+
+```
+Professional creative work was never only for big budgets.
+The gap isn't skill. It's access to a studio that works at your scale.
+```
+
+---
+
+### Thursday July 2 (2 posts)
+
+---
+
+**POST 20 — Instagram · 8pm WAT**
+**Pillar:** Education
+**Format:** Carousel, 4 slides
+**Asset:** Canva, wireframe sketches
+
+```
+Slide 1:
+What UX thinking looks like before design begins.
+
+Slide 2:
+Most agencies go straight to fonts and colours.
+We start here: (Show low-fidelity wireframe)
+
+Slide 3:
+We map where the visitor's eye goes, what they need to see to trust you, and where the CTA lives.
+
+Slide 4:
+Design without this step is decoration, not strategy.
+→ dako.studio
+```
+
+---
+
+**POST 21 — TikTok · 4pm WAT**
+**Pillar:** Proof
+**Format:** Talking head, 45s
+
+```
+Hook: "We got two films to #1 and #2 on Prime Video Nigeria in 5 days."
+Body: "Here is the campaign structure.
+One unified theme across both films.
+Coordinated PR, SEO, and paid strategies pointed at the same audience signal.
+Film marketing isn't about impressions. It's about reaching the audience that converts."
+Close: "Dako Studios Film. dako.studio"
+```
+
+---
+
+### Friday July 3 (1 post)
+
+---
+
+**POST 22 — Blog · dako.studio/blog**
+**Pillar:** Education
+**Format:** Article, 800 words
+
+```
+Title: What a client-editable website actually means — and why it matters
+
+Most web agencies build dependency into their projects. You need them to make a simple text change.
+At Dako Studios, we hand over a Framer CMS that lets you:
+- Update pricing
+- Swap portfolio images
+- Change business hours
+All without writing a line of code or paying a retainer.
+Independence is built into the deliverable.
+```
+
+---
+
 
 ## WEEK 3 — Jul 4–10
 **Theme:** Build Credibility — Film Proof + Adaeze Story
 **Goal:** Drop the big proof moments + introduce Academy via Adaeze
 
-| Day | Platform | Pillar | Format | Topic |
-|---|---|---|---|---|
-| Sat Jul 5 | Twitter/X | Proof | Thread | Double Bill campaign — how we got #1 + #2 in 5 days |
-| Mon Jul 7 | Instagram | Proof | Carousel | First Features numbers — stat breakdown |
-| Mon Jul 7 | TikTok | BTS | Screen record | Figma wireframe session — live |
-| Tue Jul 8 | Twitter/X | Education | Thread | "5 things to check before you put your website URL anywhere" |
-| Tue Jul 8 | Instagram | Proof | Carousel | Double Bill case study — two films, one window |
-| Wed Jul 9 | TikTok | Culture | Talking head | "What it means to build a creative studio in Abuja in 2026" |
-| Wed Jul 9 | Twitter/X | Proof | Tweet | Adaeze — Day 20 capstone quote |
-| Thu Jul 10 | Instagram | Culture | Quote card | "Professional creative work was never only for big budgets" |
-| Thu Jul 10 | TikTok | BTS | Reel | Adaeze Academy highlight — Day 20 capstone walkthrough |
-| Fri Jul 11 | Blog | Proof | Case study | "How we ran the digital campaign for two simultaneous Prime Video releases" |
 
-**Total: 10 posts**
+### Saturday July 4 (1 post)
 
 ---
+
+**POST 23 — Twitter/X · 9am WAT**
+**Pillar:** Proof
+**Format:** Thread, 6 tweets
+
+```
+Tweet 1:
+Two films. One launch window. Five days to #1 and #2 on Prime Video Nigeria. 🧵
+
+Tweet 2:
+The challenge — two separate PR agencies, two films, one shared release window.
+
+Tweet 3:
+The approach — one unified campaign theme across both, instead of two competing pushes.
+
+Tweet 4:
+Coordinated content, SEO, email, and paid — all pointed at the same audience signal.
+
+Tweet 5:
+The result — Kill Boro and A Father's Love hit #1 and #2 within 5 days of release.
+
+Tweet 6:
+This is what a coordinated film campaign looks like when reach and conversion are treated as the same problem.
+— Dako Studios Film
+```
+
+---
+
+### Monday July 6 (2 posts)
+
+---
+
+**POST 24 — Instagram · 8pm WAT**
+**Pillar:** Proof
+**Format:** Carousel, 4 slides
+**Asset:** Canva, stat breakdown
+
+```
+Slide 1:
+Numbers from First Features (Amazon Prime Nigeria)
+
+Slide 2:
+1M+ Meta reach
+43% email open rate
+
+Slide 3:
+300% engagement growth
+All films -> #1 Nigeria Top Movies chart
+
+Slide 4:
+Film marketing is about reaching the audience that converts to viewers. Not just impressions.
+— Dako Studios Film
+```
+
+---
+
+**POST 25 — TikTok · 3pm WAT**
+**Pillar:** BTS
+**Format:** Screen record, 45s
+
+```
+Hook: "Watch us map out a website before we ever open a design file."
+Body: (Show Figma wireframe session live)
+"We're blocking out the user journey.
+Hero section -> Trust signals -> Services -> Clear CTA.
+If this structure fails, the design fails.
+We engineer the structure first."
+Close: "That's how Dako Studios builds."
+```
+
+---
+
+### Tuesday July 7 (2 posts)
+
+---
+
+**POST 26 — Twitter/X · 9pm WAT**
+**Pillar:** Education
+**Format:** Thread, 5 tweets
+
+```
+Tweet 1:
+Before you put your website URL in your email signature, run this check. 🧵
+
+Tweet 2:
+1. Does it load in under 3 seconds?
+If it doesn't, you've already lost half your visitors.
+
+Tweet 3:
+2. Does it work flawlessly on mobile?
+70% of your traffic is on a phone.
+
+Tweet 4:
+3. Is there ONE clear CTA above the fold?
+Don't make them scroll to know how to hire you.
+
+Tweet 5:
+4. Do you own the domain?
+If you're on a free .wixsite link, you're signaling you aren't established yet.
+Need a fix? → dako.studio
+```
+
+---
+
+**POST 27 — Instagram · 8pm WAT**
+**Pillar:** Proof
+**Format:** Carousel, 4 slides
+**Asset:** Canva, Double Bill case study
+
+```
+Slide 1:
+Two films. One launch window.
+
+Slide 2:
+The Challenge: How do you market two major Prime Video releases simultaneously without them cannibalizing each other?
+
+Slide 3:
+The Approach: A unified digital campaign arc. Coordinated PR and paid strategies.
+
+Slide 4:
+The Result: #1 and #2 on Prime Video Nigeria within 5 days.
+Reach the audience that converts.
+— Dako Studios Film
+```
+
+---
+
+### Wednesday July 8 (2 posts)
+
+---
+
+**POST 28 — TikTok · 4pm WAT**
+**Pillar:** Culture
+**Format:** Talking head, 45s
+
+```
+Hook: "What it means to build a creative studio in Abuja in 2026."
+Body: "The talent is here. The clients are here. The infrastructure gap is closing fast.
+We're building Dako Studios because Nigerian SMEs deserve world-class design that scales with them, without paying enterprise agency fees."
+Close: "We build for this market because we're part of it."
+```
+
+---
+
+**POST 29 — Twitter/X · 9am WAT**
+**Pillar:** Proof
+**Format:** Single tweet
+
+```
+Academy highlight: "I'd never touched Figma before. By Day 20, I built a full landing page from scratch." — Adaeze, Dako Studios Academy.
+Real skills. Real projects.
+```
+
+---
+
+### Thursday July 9 (2 posts)
+
+---
+
+**POST 30 — Instagram · 8pm WAT**
+**Pillar:** Culture
+**Format:** Single graphic
+**Asset:** Canva quote card
+
+```
+"Professional creative work was never only for big budgets.
+The gap isn't skill or ambition. It's access to a studio that works at your scale."
+— Dako Studios
+```
+
+---
+
+**POST 31 — TikTok · 2pm WAT**
+**Pillar:** BTS
+**Format:** Reel / Screen record, 60s
+
+```
+Hook: "What a student built in 20 days."
+Body: (Walkthrough of Adaeze's Day 20 capstone project)
+"This is Adaeze's final project. She started with zero design experience.
+By Day 20, she submitted a fully responsive landing page prototype."
+Close: "The bootcamp is live at learn.dako.studio."
+```
+
+---
+
+### Friday July 10 (1 post)
+
+---
+
+**POST 32 — Blog · dako.studio/blog**
+**Pillar:** Proof
+**Format:** Case study, 1000 words
+
+```
+Title: How we ran the digital campaign for two simultaneous Prime Video releases
+
+A deep dive into the Double Bill campaign for Natives Filmworks.
+We cover the challenge of marketing Kill Boro and A Father's Love at the same time.
+We break down the unified theme, the email strategy (43% open rate), and the paid approach that drove both films to the top 2 spots on the charts in under a week.
+```
+
+---
+
 
 ## WEEK 4 — Jul 11–17
 **Theme:** Deepen Trust — Process + Academy
 **Goal:** Show the studio's thinking layer; warm the Academy funnel
 
-| Day | Platform | Pillar | Format | Topic |
-|---|---|---|---|---|
-| Sat Jul 12 | Twitter/X | Education | Thread | "The real reason Nigerian SME websites don't generate leads" |
-| Mon Jul 14 | Instagram | BTS | Carousel | "A Labs build — from brief to handoff" (Da'anong project) |
-| Mon Jul 14 | TikTok | Education | Talking head | "What happens in a discovery call with a web design client" |
-| Tue Jul 15 | Twitter/X | Culture | Tweet | "One relationship. Multiple capabilities. That's the studio model." |
-| Tue Jul 15 | Instagram | Education | Carousel | "What Dako Studios Labs actually delivers — and what's yours at handoff" |
-| Wed Jul 16 | TikTok | BTS | Screen record | Framer build progress — real project |
-| Wed Jul 16 | Twitter/X | Proof | Tweet | Month 1 milestone — [PENDING: first client closed under Dako brand] |
-| Thu Jul 17 | Instagram | Culture | Carousel | "The creative ecosystem Dako Studios is part of" |
-| Thu Jul 17 | TikTok | Education | Talking head | "3 questions to ask before hiring a web designer" |
-| Fri Jul 18 | Blog | Education | Article | "What to expect from a 21-day website sprint — a plain-English guide" |
 
-**Total: 10 posts**
+### Saturday July 11 (1 post)
 
 ---
+
+**POST 33 — Twitter/X · 9am WAT**
+**Pillar:** Education
+**Format:** Thread, 5 tweets
+
+```
+Tweet 1:
+The real reason Nigerian SME websites don't generate leads. 🧵
+
+Tweet 2:
+It's not the budget. It's the build process.
+Most are built without a UX brief.
+
+Tweet 3:
+They have no conversion architecture.
+A pretty homepage doesn't tell the visitor what to do next.
+
+Tweet 4:
+And there's no post-launch ownership.
+If you can't edit it, it rots.
+
+Tweet 5:
+Start with the user journey. Build it on a platform you can control.
+That's the Dako Studios model.
+```
+
+---
+
+### Monday July 13 (2 posts)
+
+---
+
+**POST 34 — Instagram · 8pm WAT**
+**Pillar:** BTS
+**Format:** Carousel, 4 slides
+**Asset:** Canva, project lifecycle
+
+```
+Slide 1:
+A Labs build — from brief to handoff.
+
+Slide 2:
+Step 1: The Brief & UX Map
+We don't touch colors until we know exactly who we are talking to.
+
+Slide 3:
+Step 2: The Framer Build
+Engineering the site to be blazing fast and responsive.
+
+Slide 4:
+Step 3: The Handoff
+We hand over the keys. You get an editable CMS and full domain ownership.
+→ dako.studio
+```
+
+---
+
+**POST 35 — TikTok · 3pm WAT**
+**Pillar:** Education
+**Format:** Talking head, 45s
+
+```
+Hook: "What actually happens in a discovery call with a web designer."
+Body: "If they immediately ask you what colors you like, hang up.
+A real discovery call is about your business.
+Who is your best customer? What is the biggest objection they have?
+We figure out the business problem before we design the digital solution."
+Close: "Book a real discovery call. → dako.studio"
+```
+
+---
+
+### Tuesday June 305 (2 posts)
+
+---
+
+**POST 36 — Twitter/X · 9pm WAT**
+**Pillar:** Culture
+**Format:** Single tweet
+
+```
+One relationship. Multiple capabilities.
+Web, Brand, Motion, Film, Academy.
+That's the Dako Studios model.
+```
+
+---
+
+**POST 37 — Instagram · 8pm WAT**
+**Pillar:** Education
+**Format:** Carousel, 4 slides
+**Asset:** Canva
+
+```
+Slide 1:
+What Dako Studios Labs actually delivers.
+
+Slide 2:
+We deliver a website that loads under 3 seconds.
+
+Slide 3:
+We deliver an architecture engineered for your specific customer.
+
+Slide 4:
+We deliver full ownership. No retainers. No hostage domains.
+→ dako.studio
+```
+
+---
+
+### Wednesday July 15 (2 posts)
+
+---
+
+**POST 38 — TikTok · 4pm WAT**
+**Pillar:** BTS
+**Format:** Screen record, 45s
+
+```
+Hook: "Live look at a Framer build in progress."
+Body: (Screen recording of Framer interface)
+"We are adding subtle scroll animations to keep the user engaged without sacrificing performance.
+This is where the magic happens—balancing aesthetics with speed."
+Close: "Follow for more behind the scenes."
+```
+
+---
+
+**POST 39 — Twitter/X · 9am WAT**
+**Pillar:** Proof
+**Format:** Single tweet
+
+```
+First Dako Studios Labs client site just went live.
+Built in 21 days. Fully editable by the client.
+Zero developer retainer needed.
+```
+
+---
+
+### Thursday July 16 (2 posts)
+
+---
+
+**POST 40 — Instagram · 8pm WAT**
+**Pillar:** Culture
+**Format:** Carousel, 4 slides
+**Asset:** Canva, ecosystem map
+
+```
+Slide 1:
+The creative ecosystem we are proud to be part of.
+
+Slide 2:
+Nigerian Film — Elevating Nollywood marketing with data and design.
+
+Slide 3:
+African Tech — Building platforms for FoodTech and SaaS innovators.
+
+Slide 4:
+We build for this market because we're part of it.
+— Dako Studios
+```
+
+---
+
+**POST 41 — TikTok · 2pm WAT**
+**Pillar:** Education
+**Format:** Talking head, 45s
+
+```
+Hook: "3 questions to ask before hiring a web designer."
+Body: "1. Do I own the domain and hosting?
+2. Can I edit text and images myself after launch?
+3. What is your UX process before design starts?
+If they can't answer these, walk away."
+Close: "Hire a studio that gives you ownership. → dako.studio"
+```
+
+---
+
+### Friday July 17 (1 post)
+
+---
+
+**POST 42 — Blog · dako.studio/blog**
+**Pillar:** Education
+**Format:** Article, 800 words
+
+```
+Title: What to expect from a 21-day website sprint
+
+A plain-English guide to our Labs process.
+Week 1: Strategy and UX Wireframes.
+Week 2: Design and Framer Build.
+Week 3: Revisions, CMS Setup, and Handoff.
+No endless scope creep. Just an engineered solution delivered in 3 weeks.
+```
+
+---
+
 
 ## MONTH 1 TOTALS
 
@@ -659,7 +1231,7 @@ One relationship. Multiple capabilities. That's the studio model.
 
 ---
 
-## Week 1 Pre-Launch Checklist (Before Friday June 20)
+## Week 1 Pre-Launch Checklist (Before Friday June 19)
 
 - [ ] Screenshot Da'anong site — desktop hero + mobile view
 - [ ] Write and design Post 2 (Da'anong case study card) in Canva
