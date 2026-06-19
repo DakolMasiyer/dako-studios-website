@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { LandingPageContent } from './landing/landing-page-content'
+import { getCaseStudies } from '@/utils/case-studies'
 
 export const metadata: Metadata = {
   title: 'Dako Studios | One Creative Studio. Every Edge.',
@@ -8,5 +9,6 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
-  return <LandingPageContent />
+  const caseStudies = getCaseStudies()
+  return <LandingPageContent caseStudies={caseStudies} />
 }

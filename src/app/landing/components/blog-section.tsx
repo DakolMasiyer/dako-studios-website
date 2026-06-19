@@ -1,11 +1,34 @@
 "use client"
 
+import Link from 'next/link'
 import { ArrowUpRight, Globe } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { portfolioItems } from '@/data/portfolio'
+import { portfolioItems, PortfolioItem } from '@/data/portfolio'
+import { CaseStudy } from '@/utils/case-studies'
+import { services } from '@/data/services'
+import { PortfolioCardVisual } from '@/components/portfolio-card-visual'
 
-export function BlogSection() {
+interface BlogSectionProps {
+  caseStudies: CaseStudy[]
+}
+
+export function BlogSection({ caseStudies }: BlogSectionProps) {
+  const caseStudyCards: PortfolioItem[] = caseStudies.map((cs) => ({
+    id: cs.slug,
+    title: cs.title,
+    niche: services.find((s) => s.id === cs.arm)?.subtitle || cs.arm,
+    description: cs.summary,
+    image: cs.heroImage,
+    href: '#',
+    category: cs.tags[0] || 'Case Study',
+    arm: cs.arm,
+    slug: cs.slug,
+  }))
+
+  const featuredItems = portfolioItems.filter((item) => item.featured)
+  const items: PortfolioItem[] = [...featuredItems, ...caseStudyCards]
+
   return (
     <section id="portfolio" className="py-24 sm:py-32 bg-background border-y border-border/20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +47,7 @@ export function BlogSection() {
 
         {/* Portfolio Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {portfolioItems.map((item, index) => (
+          {items.map((item, index) => (
             <Card 
               key={item.id} 
               className={`overflow-hidden border border-border/20 bg-card hover:border-border/60 hover:-translate-y-0.5 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 flex flex-col justify-between group rounded-[8px] ${
@@ -32,40 +55,7 @@ export function BlogSection() {
               }`}
             >
               <CardContent className="p-0 flex-1 flex flex-col justify-between">
-                {/* Visual Browser Mockup (Premium CSS-only card preview) */}
-                <div className="aspect-video bg-gradient-to-br from-primary/5 via-[#1E1E21] to-[#252528] relative flex items-center justify-center overflow-hidden border-b border-border/20 p-4">
-                  {/* Floating Browser Top Bar */}
-                  <div className="absolute top-2 left-3 flex space-x-1.5 z-10">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#E0E0E4]/20"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#E0E0E4]/20"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#E0E0E4]/20"></div>
-                  </div>
-                  
-                  {/* Floating abstract UI mockup representing the niche */}
-                  <div className="w-4/5 h-[80%] mt-6 rounded-lg bg-card/40 border border-border/20 shadow-lg p-3 flex flex-col justify-between transition-transform duration-500 group-hover:scale-[1.03]">
-                    {/* Header mockup */}
-                    <div className="flex justify-between items-center border-b border-border/10 pb-2">
-                      <div className="w-12 h-3 rounded bg-primary/20"></div>
-                      <div className="flex space-x-2">
-                        <div className="w-6 h-2 rounded bg-[#8E8E92]/20"></div>
-                        <div className="w-6 h-2 rounded bg-[#8E8E92]/20"></div>
-                      </div>
-                    </div>
-                    {/* Content mockup */}
-                    <div className="space-y-2 py-2 flex-1">
-                      <div className="w-3/4 h-4 rounded bg-foreground/10"></div>
-                      <div className="w-full h-3 rounded bg-muted-foreground/10"></div>
-                      <div className="w-5/6 h-3 rounded bg-muted-foreground/10"></div>
-                    </div>
-                    {/* CTA mockup */}
-                    <div className="flex justify-start">
-                      <div className="w-16 h-5 rounded bg-primary/80"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Backdrop Glow */}
-                  <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-primary/10 rounded-full blur-2xl transition-all duration-500 group-hover:w-36 group-hover:h-36 group-hover:bg-primary/20"></div>
-                </div>
+                <PortfolioCardVisual item={item} />
 
                 {/* Details Content */}
                 <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
@@ -94,6 +84,14 @@ export function BlogSection() {
                         Live Site
                         <ArrowUpRight className="h-4 w-4 ml-1" />
                       </a>
+                    ) : item.slug ? (
+                      <Link
+                        href={`/case-studies/${item.slug}`}
+                        className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer"
+                      >
+                        Case Study
+                        <ArrowUpRight className="h-4 w-4 ml-1" />
+                      </Link>
                     ) : (
                       <span className="inline-flex items-center text-muted-foreground text-sm font-medium">
                         Case Study

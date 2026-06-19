@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { CaseStudy } from '@/utils/case-studies'
 import { LandingNavbar } from './components/navbar'
 import { HeroSection } from './components/hero-section'
 import { FeaturesSection } from './components/features-section'
@@ -15,7 +16,11 @@ import { AboutSection } from './components/about-section'
 import { HowItWorksSection } from './components/how-it-works-section'
 import { LandingFooter } from './components/footer'
 
-export function LandingPageContent() {
+interface LandingPageContentProps {
+  caseStudies: CaseStudy[]
+}
+
+export function LandingPageContent({ caseStudies }: LandingPageContentProps) {
   return (
     <div className="min-h-screen bg-background">
       <LandingNavbar />
@@ -25,7 +30,7 @@ export function LandingPageContent() {
         <LogoCarousel />
         <FeaturesSection />
         <HowItWorksSection />
-        <BlogSection />
+        <BlogSection caseStudies={caseStudies} />
         <StatsSection />
         <TestimonialsSection />
         <PricingSection />

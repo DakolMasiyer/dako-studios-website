@@ -15,6 +15,7 @@ export interface BlogPost {
 const postsDirectory = path.join(process.cwd(), 'content/blog')
 
 // Simple pure-JS frontmatter parser to avoid external dependencies
+// Shared with src/utils/case-studies.ts
 export function parseFrontMatter(fileContent: string) {
   const frontMatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/
   const match = fileContent.match(frontMatterRegex)

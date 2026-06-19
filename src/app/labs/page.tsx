@@ -18,14 +18,36 @@ import {
   ArrowUpRight, 
   Globe 
 } from 'lucide-react'
+import Link from 'next/link'
 import { faqItems } from '@/data/faq'
 import { pricingPlans, pricingTerms } from '@/data/pricing'
-import { portfolioItems } from '@/data/portfolio'
+import { portfolioItems, PortfolioItem } from '@/data/portfolio'
+import { getCaseStudies } from '@/utils/case-studies'
+import { PortfolioCardVisual } from '@/components/portfolio-card-visual'
 
 export const metadata: Metadata = {
   title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
   description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff. See real work and book a discovery call.',
 }
+
+const labsCaseStudyCards: PortfolioItem[] = getCaseStudies()
+  .filter((cs) => cs.arm === 'labs')
+  .map((cs) => ({
+    id: cs.slug,
+    title: cs.title,
+    niche: cs.tags[0] || 'Case Study',
+    description: cs.summary,
+    image: cs.heroImage,
+    href: '#',
+    category: cs.tags[0] || 'Case Study',
+    arm: cs.arm,
+    slug: cs.slug,
+  }))
+
+const labsPortfolioItems: PortfolioItem[] = [
+  ...portfolioItems.filter((item) => item.arm === 'labs'),
+  ...labsCaseStudyCards,
+]
 
 const nicheFocusItems = [
   {
@@ -201,34 +223,10 @@ export default function LabsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {portfolioItems.map((item) => (
+              {labsPortfolioItems.map((item) => (
                 <Card key={item.id} className="overflow-hidden border border-border/20 bg-card hover:border-border/60 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group rounded-[8px]">
                   <CardContent className="p-0 flex-1 flex flex-col justify-between">
-                    {/* Visual Browser Mockup */}
-                    <div className="aspect-video bg-gradient-to-br from-primary/5 via-[#1E1E21] to-[#252528] relative flex items-center justify-center overflow-hidden border-b border-border/40 p-4">
-                      <div className="absolute top-2 left-3 flex space-x-1.5 z-10">
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#E0E0E4]/20"></div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#E0E0E4]/20"></div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#E0E0E4]/20"></div>
-                      </div>
-                      
-                      <div className="w-4/5 h-[80%] mt-6 rounded-[4px] bg-card/40 border border-border/40 shadow-lg p-3 flex flex-col justify-between transition-transform duration-500 group-hover:scale-[1.03]">
-                        <div className="flex justify-between items-center border-b border-border/20 pb-2">
-                          <div className="w-12 h-3 rounded bg-primary/20"></div>
-                          <div className="flex space-x-2">
-                            <div className="w-6 h-2 rounded bg-[#8E8E92]/20"></div>
-                            <div className="w-6 h-2 rounded bg-[#8E8E92]/20"></div>
-                          </div>
-                        </div>
-                        <div className="space-y-2 py-2 flex-1">
-                          <div className="w-3/4 h-4 rounded bg-foreground/10"></div>
-                          <div className="w-full h-3 rounded bg-muted-foreground/10"></div>
-                        </div>
-                        <div className="flex justify-start">
-                          <div className="w-16 h-5 rounded bg-primary/80"></div>
-                        </div>
-                      </div>
-                    </div>
+                    <PortfolioCardVisual item={item} />
 
                     {/* Details Content */}
                     <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
@@ -254,6 +252,11 @@ export default function LabsPage() {
                             View live site
                             <ArrowUpRight className="h-4 w-4 ml-1" />
                           </a>
+                        ) : item.slug ? (
+                          <Link href={`/case-studies/${item.slug}`} className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
+                            Case study
+                            <ArrowUpRight className="h-4 w-4 ml-1" />
+                          </Link>
                         ) : (
                           <span className="inline-flex items-center text-muted-foreground text-sm font-medium">
                             Case study

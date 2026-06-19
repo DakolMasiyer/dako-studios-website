@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { LandingPageContent } from './landing-page-content'
+import { getCaseStudies } from '@/utils/case-studies'
 
 // Metadata for the landing page
 export const metadata: Metadata = {
@@ -19,5 +20,6 @@ export const metadata: Metadata = {
 }
 
 export default function LandingPage() {
-  return <LandingPageContent />
+  const caseStudies = getCaseStudies()
+  return <LandingPageContent caseStudies={caseStudies} />
 }

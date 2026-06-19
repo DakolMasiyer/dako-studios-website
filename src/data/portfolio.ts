@@ -6,6 +6,11 @@ export interface PortfolioItem {
   image: string // local path or placeholder
   href: string
   category: string
+  arm?: string // labs | brand | motion | film | academy
+  slug?: string // case-studies/[slug] route segment, when a detail page exists
+  featured?: boolean
+  coverImage?: string // wide background source for the card visual
+  coverImageMobile?: string // phone-frame source for the card visual
 }
 
 export const portfolioItems: PortfolioItem[] = [
@@ -17,6 +22,10 @@ export const portfolioItems: PortfolioItem[] = [
     image: '/images/portfolio/daanong-gyang.jpg',
     href: 'https://dwain-gyang-dp.netlify.app/',
     category: 'Film/Creative',
+    arm: 'labs',
+    featured: true,
+    coverImage: '/images/portfolio/daanong-gyang-cover.jpg',
+    coverImageMobile: '/images/portfolio/daanong-gyang-cover-mobile.jpg',
   },
   {
     id: 'avm-paul-masiyer',
@@ -26,6 +35,7 @@ export const portfolioItems: PortfolioItem[] = [
     image: '/images/portfolio/avm-paul-masiyer.jpg',
     href: '#',
     category: 'Campaign',
+    arm: 'labs',
   },
   {
     id: 'chief-mike-ejiogu',
@@ -35,5 +45,6 @@ export const portfolioItems: PortfolioItem[] = [
     image: '/images/portfolio/chief-mike-ejiogu.jpg',
     href: '#',
     category: 'Campaign',
+    arm: 'labs',
   },
 ]
