@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Terminal, Sparkles, Video, Clapperboard, GraduationCap, ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { services } from '@/data/services'
+import { services, armServices } from '@/data/services'
 
 const iconMap = {
   labs: Terminal,
@@ -101,6 +101,18 @@ export function FeaturesSection() {
                   <p className="font-sans text-sm text-muted-foreground leading-relaxed font-light">
                     {service.description}
                   </p>
+
+                  {/* Sub-services */}
+                  {armServices[service.id] && (
+                    <ul className="mt-4 space-y-1.5">
+                      {armServices[service.id].map((s, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground/70">
+                          <span className="mt-1.5 w-1 h-1 rounded-full bg-primary/40 shrink-0" />
+                          <span className="font-medium text-muted-foreground">{s.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {/* Arrow indicator for interactive cards */}
