@@ -1,6 +1,7 @@
 "use client"
 
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { ArrowRight, Zap, Trophy, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -52,9 +53,9 @@ export function HeroSection() {
               variant="outline"
               size="lg"
               className="text-base cursor-pointer font-semibold px-8 h-12 border-border/40 hover:bg-secondary hover:text-foreground rounded-[4px]"
-              onClick={() => smoothScrollTo('#contact')}
+              asChild
             >
-              Book a Discovery Call
+              <Link href="/contact">Book a Discovery Call</Link>
             </Button>
           </div>
 

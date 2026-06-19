@@ -114,7 +114,7 @@ export function PricingSection() {
                 variant={plan.highlighted ? 'default' : 'outline'}
                 className="w-full cursor-pointer rounded-[4px]"
               >
-                <a href="#contact">
+                <a href="/contact">
                   {plan.cta}
                   <ArrowRight className="ml-2 size-4" />
                 </a>
@@ -124,7 +124,7 @@ export function PricingSection() {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-10">
-          Not sure which tier fits? <a href="#contact" className="text-foreground font-medium underline underline-offset-4 hover:text-primary transition-colors">Book a free discovery call</a> — we&apos;ll scope it together.
+          Not sure which tier fits? <a href="/contact" className="text-foreground font-medium underline underline-offset-4 hover:text-primary transition-colors">Book a free discovery call</a> — we&apos;ll scope it together.
         </p>
       </div>
     </section>

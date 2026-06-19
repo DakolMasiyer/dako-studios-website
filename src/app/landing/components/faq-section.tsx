@@ -85,7 +85,7 @@ const FaqSection = () => {
               Something not covered here?
             </p>
             <Button className="cursor-pointer rounded-[4px]" asChild>
-              <a href="#contact">Ask us directly</a>
+              <a href="/contact">Ask us directly</a>
             </Button>
           </div>
         </div>

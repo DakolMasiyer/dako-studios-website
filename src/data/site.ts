@@ -42,13 +42,13 @@ export const siteConfig: SiteConfig = {
 export const rootNavItems: NavItem[] = [
   { name: 'Work', href: '#portfolio' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 export const labsNavItems: NavItem[] = [
   { name: 'Services', href: '#services' },
   { name: 'Work', href: '#portfolio' },
   { name: 'Pricing', href: '#pricing' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contact', href: '/contact' },
   { name: 'Studio Hub', href: '/' },
 ]

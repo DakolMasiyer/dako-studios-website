@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { LandingNavbar } from '../landing/components/navbar'
 import { LandingFooter } from '../landing/components/footer'
-import { ContactSection } from '../landing/components/contact-section'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -337,7 +336,7 @@ export default function LabsPage() {
                     </div>
                     
                     <div className="pt-8 mt-auto">
-                      <a href="#contact" className={`w-full inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${btnStyle}`}>
+                      <a href="/contact" className={`w-full inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${btnStyle}`}>
                         {plan.isPopular ? 'Most Popular' : 'Get Started'}
                       </a>
                     </div>
@@ -422,8 +421,6 @@ export default function LabsPage() {
           </div>
         </section>
 
-        {/* Contact Section */}
-        <ContactSection />
       </main>
 
       {/* Footer */}

@@ -256,10 +256,7 @@ export function LandingNavbar() {
           {/* Desktop CTA & Theme Toggle */}
           <div className="hidden lg:flex items-center gap-4">
             <ModeToggle variant="ghost" />
-            <CollaborateButton
-              href="#contact"
-              onClick={(e) => handleLinkClick(e, '#contact')}
-            />
+            <CollaborateButton href="/contact" />
           </div>
 
           {/* Mobile Menu */}
@@ -367,16 +364,13 @@ export function LandingNavbar() {
                 <DropdownMenuSeparator />
                 <div className="px-1 pt-1">
                   <DropdownMenuItem asChild>
-                    <a
-                      href="#contact"
+                    <Link
+                      href="/contact"
                       className="w-full cursor-pointer text-sm font-semibold text-primary px-2 py-1.5 block text-center"
-                      onClick={(e) => {
-                        setIsOpen(false)
-                        handleLinkClick(e, '#contact')
-                      }}
+                      onClick={() => setIsOpen(false)}
                     >
                       Start a Project
-                    </a>
+                    </Link>
                   </DropdownMenuItem>
                 </div>
               </DropdownMenuContent>
