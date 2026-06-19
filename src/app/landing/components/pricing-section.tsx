@@ -1,192 +1,131 @@
 "use client"
 
-import { Check } from 'lucide-react'
+import { Check, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { useState } from 'react'
 
 const plans = [
   {
-    name: 'Free',
-    description: 'Perfect for getting started with essential components',
-    monthlyPrice: 0,
-    yearlyPrice: 0,
+    name: 'Essential',
+    range: '$1,000 – $1,500',
+    description: 'A clean, conversion-focused site for businesses ready to show up online.',
     features: [
-      'Access to 50+ free components',
-      'Basic dashboard templates',
-      'Community support',
-      'GitHub repository access',
-      'Documentation and guides'
+      'Up to 5 pages',
+      'Mobile-responsive design',
+      'Contact form integration',
+      '7-day delivery',
+      '1 revision round',
+      'Full ownership at handoff',
+      'Basic SEO setup',
     ],
-    cta: 'Get Started',
-    popular: false
+    cta: 'Get a Quote',
+    highlighted: false,
   },
   {
-    name: 'Pro',
-    description: 'For developers who need premium templates and components',
-    monthlyPrice: 19,
-    yearlyPrice: 15,
+    name: 'Growth',
+    range: '$2,000 – $2,500',
+    description: 'For businesses that need more pages, more polish, and a site that works harder.',
     features: [
-      'Premium template collection',
-      'Advanced dashboard layouts',
-      'Priority support',
-      'Commercial use license',
-      'Early access to new releases',
-      'Figma design files',
-      'Custom component requests',
-      'Direct developer access',
-      'Exclusive design resources'
+      'Up to 10 pages',
+      'Custom animations & interactions',
+      'CMS integration',
+      '10-day delivery',
+      '2 revision rounds',
+      'Full ownership at handoff',
+      'SEO-optimised structure',
+      'Launch-day support',
     ],
-    cta: 'Get Started',
-    popular: true,
-    includesPrevious: 'All Free features, plus'
+    cta: 'Get a Quote',
+    highlighted: true,
+    badge: 'Most Chosen',
   },
   {
-    name: 'Lifetime',
-    description: 'One-time payment for lifetime access to everything',
-    monthlyPrice: 299,
-    yearlyPrice: 299,
+    name: 'Premium',
+    range: 'From $3,500',
+    description: 'Complex builds — e-commerce, booking systems, portals, and custom architecture.',
     features: [
-      'Lifetime updates and support',
-      'Private Discord channel',
-      'No recurring fees ever',
-      'Future template access',
-      'VIP support priority',
-      'Exclusive beta features'
+      'Unlimited pages',
+      'Advanced functionality',
+      'Custom design system',
+      'Up to 14-day delivery',
+      '3 revision rounds',
+      'Full ownership at handoff',
+      'Post-launch support window',
+      'Priority client access',
     ],
-    cta: 'Get Started',
-    popular: false,
-    includesPrevious: 'All Pro features, plus'
-  }
+    cta: 'Let\'s Talk Scope',
+    highlighted: false,
+  },
 ]
 
 export function PricingSection() {
-  const [isYearly, setIsYearly] = useState(false)
-
   return (
-    <section id="pricing" className="py-24 sm:py-32 bg-muted/40">
+    <section id="pricing" className="py-24 sm:py-32 bg-background border-t border-border/40">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center mb-12">
-          <Badge variant="outline" className="mb-4">Pricing Plans</Badge>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Choose your plan
+        <div className="mx-auto max-w-3xl text-center mb-16">
+          <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
+            Labs Pricing
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight text-foreground leading-none mb-6">
+            Transparent from the start.
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Start building with our free components or upgrade to Pro for access to premium templates and advanced features.
-          </p>
-
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center mb-2">
-            <ToggleGroup
-              type="single"
-              value={isYearly ? "yearly" : "monthly"}
-              onValueChange={(value: string) => setIsYearly(value === "yearly")}
-              className="bg-secondary text-secondary-foreground border-none rounded-full p-1 cursor-pointer shadow-none"
-            >
-              <ToggleGroupItem
-                value="monthly"
-                className="data-[state=on]:bg-background data-[state=on]:border-border border-transparent border px-6 !rounded-full data-[state=on]:text-foreground hover:bg-transparent cursor-pointer transition-colors"
-              >
-                Monthly
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="yearly"
-                className="data-[state=on]:bg-background data-[state=on]:border-border border-transparent border px-6 !rounded-full data-[state=on]:text-foreground hover:bg-transparent cursor-pointer transition-colors"
-              >
-                Annually
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-
-          <p className="text-sm text-muted-foreground">
-            <span className="text-primary font-semibold">Save 20%</span> On Annual Billing
+          <p className="text-lg text-muted-foreground font-light leading-relaxed max-w-xl mx-auto">
+            Project-based pricing — no retainers, no hidden fees. You own everything we build.
           </p>
         </div>
 
         {/* Pricing Cards */}
-        <div className="mx-auto max-w-6xl">
-          <div className="rounded-xl border">
-            <div className="grid lg:grid-cols-3">
-              {plans.map((plan, index) => (
-                <div
-                  key={index}
-                  className={`p-8 grid grid-rows-subgrid row-span-4 gap-6 ${
-                    plan.popular
-                      ? 'my-2 mx-4 rounded-xl bg-card border-transparent shadow-xl ring-1 ring-foreground/10 backdrop-blur'
-                      : ''
-                  }`}
-                >
-                  {/* Plan Header */}
-                  <div>
-                    <div className="text-lg font-medium tracking-tight mb-2">{plan.name}</div>
-                    <div className="text-muted-foreground text-balance text-sm">{plan.description}</div>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {plans.map((plan, index) => (
+            <div
+              key={index}
+              className={`relative rounded-[8px] border p-8 flex flex-col gap-6 ${
+                plan.highlighted
+                  ? 'border-primary/30 bg-primary/5 shadow-xl shadow-primary/5'
+                  : 'border-border/20 bg-card'
+              }`}
+            >
+              {plan.badge && (
+                <span className="absolute -top-3 left-8 text-xs font-bold tracking-[0.15em] uppercase bg-primary text-primary-foreground px-3 py-1 rounded-full">
+                  {plan.badge}
+                </span>
+              )}
 
-                  {/* Pricing */}
-                  <div>
-                    <div className="text-4xl font-bold mb-1">
-                      {plan.name === 'Lifetime' ? (
-                        `$${plan.monthlyPrice}`
-                      ) : plan.name === 'Free' ? (
-                        '$0'
-                      ) : (
-                        `$${isYearly ? plan.yearlyPrice : plan.monthlyPrice}`
-                      )}
-                    </div>
-                    <div className="text-muted-foreground text-sm">
-                      {plan.name === 'Lifetime' ? 'One-time payment' : 'Per month'}
-                    </div>
-                  </div>
+              {/* Plan header */}
+              <div>
+                <p className="font-semibold text-foreground mb-1">{plan.name}</p>
+                <p className="text-3xl font-display font-extrabold text-foreground tracking-tight">{plan.range}</p>
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{plan.description}</p>
+              </div>
 
-                  {/* CTA Button */}
-                  <div>
-                    <Button
-                      className={`w-full cursor-pointer my-2 ${
-                        plan.popular
-                          ? 'shadow-md border-[0.5px] border-white/25 shadow-black/20 bg-primary ring-1 ring-primary/15 text-primary-foreground hover:bg-primary/90'
-                          : 'shadow-sm shadow-black/15 border border-transparent bg-background ring-1 ring-foreground/10 hover:bg-muted/50'
-                      }`}
-                      variant={plan.popular ? 'default' : 'secondary'}
-                    >
-                      {plan.cta}
-                    </Button>
-                  </div>
+              {/* Features */}
+              <ul className="space-y-2 flex-1">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                    <Check className="size-4 text-primary shrink-0 mt-0.5" strokeWidth={2.5} />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
 
-                  {/* Features */}
-                  <div>
-                    <ul role="list" className="space-y-3 text-sm">
-                      {plan.includesPrevious && (
-                        <li className="flex items-center gap-3 font-medium">
-                          {plan.includesPrevious}:
-                        </li>
-                      )}
-                      {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center gap-3">
-                          <Check className="text-muted-foreground size-4 flex-shrink-0" strokeWidth={2.5} />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
+              {/* CTA */}
+              <Button
+                asChild
+                variant={plan.highlighted ? 'default' : 'outline'}
+                className="w-full cursor-pointer rounded-[4px]"
+              >
+                <a href="#contact">
+                  {plan.cta}
+                  <ArrowRight className="ml-2 size-4" />
+                </a>
+              </Button>
             </div>
-          </div>
+          ))}
         </div>
 
-        {/* Enterprise Note */}
-        <div className="mt-16 text-center">
-          <p className="text-muted-foreground">
-            Need custom components or have questions? {' '}
-            <Button variant="link" className="p-0 h-auto cursor-pointer" asChild>
-              <a href="#contact">
-                Contact our team
-              </a>
-            </Button>
-          </p>
-        </div>
+        <p className="text-center text-sm text-muted-foreground mt-10">
+          Not sure which tier fits? <a href="#contact" className="text-foreground font-medium underline underline-offset-4 hover:text-primary transition-colors">Book a free discovery call</a> — we&apos;ll scope it together.
+        </p>
       </div>
     </section>
   )
