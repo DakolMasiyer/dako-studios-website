@@ -12,6 +12,7 @@ import { PricingSection } from './components/pricing-section'
 import { FaqSection } from './components/faq-section'
 import { CTASection } from './components/cta-section'
 import { AboutSection } from './components/about-section'
+import { HowItWorksSection } from './components/how-it-works-section'
 import { LandingFooter } from './components/footer'
 
 export function LandingPageContent() {
@@ -21,9 +22,10 @@ export function LandingPageContent() {
 
       <main>
         <HeroSection />
-        <FeaturesSection />
-        <BlogSection />
         <LogoCarousel />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <BlogSection />
         <StatsSection />
         <TestimonialsSection />
         <PricingSection />

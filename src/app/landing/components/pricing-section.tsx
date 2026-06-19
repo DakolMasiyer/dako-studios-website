@@ -64,7 +64,7 @@ export function PricingSection() {
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <span className="font-sans text-xs font-bold tracking-[0.18em] text-primary uppercase block mb-4">
-            Labs Pricing
+            Pricing
           </span>
           <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight text-foreground leading-none mb-6">
             Transparent from the start.

@@ -19,24 +19,42 @@ const faqItems: FaqItem[] = [
   },
   {
     value: 'item-2',
+    question: 'What actually happens after I reach out?',
+    answer:
+      'We start with a free 30-minute discovery call — no pitch, just a conversation about what you need and whether we are the right fit. If we move forward, we send a brief to capture your requirements, then scope the project with a fixed price and timeline. From there it is design, build, one or two rounds of feedback, and handoff. Most web projects move from brief to live in under two weeks.',
+  },
+  {
+    value: 'item-3',
+    question: 'Why work with a studio instead of a freelancer or in-house designer?',
+    answer:
+      'A freelancer gives you one set of hands — when it comes to a site that also needs copy, motion, or brand thinking, you end up coordinating multiple people yourself. We bring design, development, and strategy under one roof with a defined process. You deal with one point of contact, not five. For fast-moving businesses that need to ship and move on, that matters.',
+  },
+  {
+    value: 'item-4',
     question: 'Does the project include any free marketing or promotions?',
     answer:
       'Our build packages are scoped to design and development. That said, we do not just hand over code and disappear — every web project includes launch support and guidance on getting early traction. If you need broader ongoing marketing, our Brand arm handles that as a separate engagement.',
   },
   {
-    value: 'item-3',
+    value: 'item-5',
     question: 'If I commission a film, will people actually see it?',
     answer:
       "Production without distribution is a waste of budget, and we're aware of that. Our Film arm includes strategy conversations around getting eyeballs — platforms, press angles, and campaign framing. We help you think through visibility from the start, not as an afterthought.",
   },
   {
-    value: 'item-4',
+    value: 'item-6',
     question: 'How fast can you actually turn around a website?',
     answer:
       'Standard builds ship in 7–10 days. Complex projects with custom functionality or larger page counts can run up to 14 days. We scope honestly at discovery so there are no surprises on either side.',
   },
   {
-    value: 'item-5',
+    value: 'item-7',
+    question: 'Do you work with businesses outside Nigeria?',
+    answer:
+      'Yes. We are based in Abuja and most of our clients are Nigerian businesses, but we work regularly with diaspora founders and international companies that want a studio that understands the African market. All projects are handled remotely — discovery calls, briefs, feedback, and handoff all happen async or over video.',
+  },
+  {
+    value: 'item-8',
     question: 'Do I own everything you build?',
     answer:
       'Completely. No licensing fees, no platform lock-in, no ongoing payments to us to keep your site live. When we hand off, you own the design, the code, and the content outright. That is non-negotiable for us.',
