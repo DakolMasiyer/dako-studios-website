@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/navigation-menu'
 import { DakoLogo } from '@/components/dako-logo'
 import { ModeToggle } from '@/components/mode-toggle'
-import { rootNavItems, labsNavItems } from '@/data/site'
+import { rootNavItems, labsNavItems, motionNavItems } from '@/data/site'
 import { services } from '@/data/services'
 import { cn } from '@/lib/utils'
 
@@ -73,8 +73,10 @@ export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const isLabs = pathname === '/labs' || pathname?.startsWith('/labs')
+  const isMotion = pathname === '/motion' || pathname?.startsWith('/motion')
+  const isArmPage = isLabs || isMotion
 
-  const navigationItems = isLabs ? labsNavItems : rootNavItems
+  const navigationItems = isLabs ? labsNavItems : isMotion ? motionNavItems : rootNavItems
 
   const handleScroll = useCallback(() => {
     setSticky(window.scrollY >= 50)
@@ -121,12 +123,12 @@ export function LandingNavbar() {
           )}
         >
           {/* Logo */}
-          <Link href={isLabs ? "/labs" : "/"} className="flex items-center space-x-2 cursor-pointer">
+          <Link href={isLabs ? "/labs" : isMotion ? "/motion" : "/"} className="flex items-center space-x-2 cursor-pointer">
             <DakoLogo size={28} />
           </Link>
 
           {/* Desktop Navigation */}
-          {!isLabs && (
+          {!isArmPage && (
             <NavigationMenu viewport={false} className="max-lg:hidden bg-muted p-0.5 rounded-full">
               <NavigationMenuList className="flex gap-0">
                 {/* Services flyout */}
@@ -228,11 +230,11 @@ export function LandingNavbar() {
             </NavigationMenu>
           )}
 
-          {/* Labs nav (no Services dropdown) */}
-          {isLabs && (
+          {/* Arm nav (no Services dropdown) */}
+          {isArmPage && (
             <NavigationMenu className="max-lg:hidden bg-muted p-0.5 rounded-full">
               <NavigationMenuList className="flex gap-0">
-                {labsNavItems.map((item) => (
+                {navigationItems.map((item) => (
                   <NavigationMenuItem key={item.name}>
                     {item.href.startsWith('/') ? (
                       <Link href={item.href} passHref legacyBehavior>
@@ -270,7 +272,7 @@ export function LandingNavbar() {
 
               <DropdownMenuContent align="end" className="w-64 mt-2">
                 {/* Services header */}
-                {!isLabs && (
+                {!isArmPage && (
                   <>
                     <div className="px-2 py-1.5">
                       <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-muted-foreground">Services</p>

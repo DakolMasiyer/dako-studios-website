@@ -8,12 +8,8 @@ import { FeaturesSection } from './components/features-section'
 import { BlogSection } from './components/blog-section'
 import { LogoCarousel } from './components/logo-carousel'
 import { StatsSection } from './components/stats-section'
-import { TestimonialsSection } from './components/testimonials-section'
-import { PricingSection } from './components/pricing-section'
-import { FaqSection } from './components/faq-section'
+import { TestimonialsSection } from '@/components/testimonials-section'
 import { CTASection } from './components/cta-section'
-import { AboutSection } from './components/about-section'
-import { HowItWorksSection } from './components/how-it-works-section'
 import { LandingFooter } from './components/footer'
 
 interface LandingPageContentProps {
@@ -28,15 +24,11 @@ export function LandingPageContent({ caseStudies }: LandingPageContentProps) {
       <main>
         <HeroSection />
         <LogoCarousel />
-        <FeaturesSection />
-        <HowItWorksSection />
         <BlogSection caseStudies={caseStudies} />
+        <FeaturesSection />
         <StatsSection />
         <TestimonialsSection />
-        <PricingSection />
-        <FaqSection />
         <CTASection />
-        <AboutSection />
       </main>
 
       <LandingFooter />

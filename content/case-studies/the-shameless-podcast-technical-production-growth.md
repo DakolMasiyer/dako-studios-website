@@ -1,7 +1,7 @@
 ---
 title: "Turning a Manual Podcast Into a Scalable System"
 client: "The Shameless Podcast"
-arm: "motion"
+arm: "brand"
 date: "2025-04-01"
 summary: "A US-based personal development podcast needed a faster, more consistent production pipeline. We rebuilt the workflow around AI-assisted tools without losing the show's voice."
 tags: ["Podcast Production", "Workflow Automation", "Content Repurposing", "Audience Growth"]

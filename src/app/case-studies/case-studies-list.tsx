@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
-import { ArrowRight } from 'lucide-react'
 
 interface CaseStudiesListProps {
   initialCaseStudies: CaseStudy[]
@@ -43,7 +42,7 @@ export function CaseStudiesList({ initialCaseStudies }: CaseStudiesListProps) {
         </div>
 
         {/* Arm filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12 border-b border-border/20 pb-8">
+        <div className="flex flex-wrap justify-center gap-2 mb-16 border-b border-border/20 pb-8">
           {arms.map((armId) => (
             <button
               key={armId}
@@ -59,56 +58,51 @@ export function CaseStudiesList({ initialCaseStudies }: CaseStudiesListProps) {
           ))}
         </div>
 
-        {/* Grid */}
+        {/* 2-column grid */}
         {filteredCaseStudies.length > 0 ? (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12 sm:gap-y-16">
             {filteredCaseStudies.map((cs) => (
-              <article
+              <Link
                 key={cs.slug}
-                className="group relative flex flex-col overflow-hidden rounded-[8px] border border-border/40 bg-card/40 backdrop-blur-md hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"
+                href={`/case-studies/${cs.slug}`}
+                className="group block"
               >
-                <Link href={`/case-studies/${cs.slug}`} className="cursor-pointer">
-                  {cs.heroImage && (
-                    <div className="relative aspect-video w-full overflow-hidden border-b border-border/20">
+                <article>
+                  {/* Image */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20">
+                    {cs.heroImage ? (
                       <Image
                         src={cs.heroImage}
-                        alt={cs.title}
+                        alt={cs.client}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        sizes="(max-width: 640px) 100vw, 50vw"
                       />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-muted to-muted" />
+                    )}
+                  </div>
+
+                  {/* Client name */}
+                  <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300 tracking-tight">
+                    {cs.client}
+                  </h2>
+
+                  {/* Tags */}
+                  {cs.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {cs.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   )}
-                </Link>
-
-                <div className="p-6 flex flex-col flex-1 justify-between">
-                  <div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
-                      {armLabel(cs.arm)}
-                    </span>
-
-                    <h2 className="text-xl font-display font-bold text-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-300">
-                      <Link href={`/case-studies/${cs.slug}`} className="cursor-pointer">
-                        {cs.title}
-                      </Link>
-                    </h2>
-
-                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6">
-                      {cs.summary}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between border-t border-border/20 pt-4 mt-auto">
-                    <span className="text-xs text-muted-foreground/60">{cs.client}</span>
-                    <Link
-                      href={`/case-studies/${cs.slug}`}
-                      className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors cursor-pointer"
-                    >
-                      Read Case Study
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
+                </article>
+              </Link>
             ))}
           </div>
         ) : (

@@ -8,6 +8,7 @@
   --font-display: var(--font-grotesk);
   --font-mono: var(--font-jetbrains);
   --font-syne: var(--font-syne);
+  --font-serif: var(--font-fraunces);
   
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -301,4 +302,25 @@ html {
 
 .animate-logo-scroll:hover {
   animation-play-state: paused;
+}
+
+@keyframes loaderBar {
+  from { width: 0% }
+  to   { width: 100% }
+}
+
+@keyframes loaderPulse {
+  0%   { opacity: 0; transform: scale(0.85) }
+  40%  { opacity: 1; transform: scale(1) }
+  100% { opacity: 1; transform: scale(1) }
+}
+
+@keyframes blurIn {
+  from { opacity: 0; filter: blur(10px); }
+  to   { opacity: 1; filter: blur(0px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

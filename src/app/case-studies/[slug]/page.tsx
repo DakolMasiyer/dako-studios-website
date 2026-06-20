@@ -7,6 +7,7 @@ import { getCaseStudyBySlug, getCaseStudies } from '@/utils/case-studies'
 import { services } from '@/data/services'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { VideoHero } from '@/components/video-hero'
 import { LandingNavbar } from '../../landing/components/navbar'
 import { LandingFooter } from '../../landing/components/footer'
 
@@ -98,16 +99,23 @@ export default async function CaseStudyPage({ params }: PageProps) {
             )}
           </header>
 
-          {/* Hero image */}
-          {caseStudy.heroImage && (
+          {/* Hero video or image */}
+          {(caseStudy.video || caseStudy.heroImage) && (
             <div className="relative aspect-video w-full overflow-hidden rounded-[8px] border border-border/20 mb-12">
-              <Image
-                src={caseStudy.heroImage}
-                alt={caseStudy.title}
-                fill
-                className="object-cover"
-                priority
-              />
+              {caseStudy.video ? (
+                <VideoHero
+                  src={caseStudy.video}
+                  poster={caseStudy.heroImage || undefined}
+                />
+              ) : (
+                <Image
+                  src={caseStudy.heroImage}
+                  alt={caseStudy.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              )}
             </div>
           )}
 

@@ -39,9 +39,10 @@ export const services: Service[] = [
     title: 'Motion & Video Production',
     subtitle: 'Motion',
     description: 'Product videos and social-first brand content that moves.',
-    badge: 'Coming Soon',
-    badgeVariant: 'secondary',
-    isClickable: false,
+    badge: 'Active',
+    badgeVariant: 'featured',
+    href: '/motion',
+    isClickable: true,
   },
   {
     id: 'film',

@@ -16,6 +16,7 @@ export interface CaseStudy {
   summary: string
   tags: string[]
   heroImage: string
+  video?: string
   gallery: string[]
   results: CaseStudyResult[]
   content: string
@@ -33,6 +34,7 @@ function toCaseStudy(slug: string, data: Record<string, any>, content: string): 
     summary: data.summary || '',
     tags: Array.isArray(data.tags) ? data.tags : [],
     heroImage: data.heroImage || '',
+    video: data.video || undefined,
     gallery: Array.isArray(data.gallery) ? data.gallery : [],
     results: Array.isArray(data.results) ? data.results : [],
     content,

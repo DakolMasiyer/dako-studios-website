@@ -11,6 +11,7 @@ export interface PortfolioItem {
   featured?: boolean
   coverImage?: string // wide background source for the card visual
   coverImageMobile?: string // phone-frame source for the card visual
+  video?: string // autoplay motion reel for video cards
 }
 
 export const portfolioItems: PortfolioItem[] = [
@@ -46,5 +47,29 @@ export const portfolioItems: PortfolioItem[] = [
     href: '#',
     category: 'Campaign',
     arm: 'labs',
+  },
+  {
+    id: 'getly-motion',
+    title: 'Getly',
+    niche: 'Brand Motion Identity',
+    description: 'Logo animation and brand video for Getly — a fintech super-app connecting travellers to eSIM, payments, and local discovery across 200+ countries.',
+    image: '/images/portfolio/getly-poster.jpg',
+    video: '/videos/getly-motion.mp4',
+    href: '#',
+    category: 'Motion Design',
+    arm: 'motion',
+    slug: 'getly-motion-brand-video',
+  },
+  {
+    id: 'faceserum-motion',
+    title: 'Acwell Face Serum',
+    niche: 'Product Motion Video',
+    description: 'Cinematic product video for ACWELL Licorice pH Balancing Cleansing Toner — eight motion frames from macro freeze to logo lock.',
+    image: '/images/portfolio/faceserum-poster.jpg',
+    video: '/videos/faceserum-motion.mp4',
+    href: '#',
+    category: 'Motion Design',
+    arm: 'motion',
+    slug: 'acwell-faceserum-product-motion',
   },
 ]

@@ -3,13 +3,11 @@ import { LandingNavbar } from '../landing/components/navbar'
 import { LandingFooter } from '../landing/components/footer'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DotPattern } from '@/components/dot-pattern'
 import { 
   ArrowRight, 
   Check, 
-  Zap, 
   Building, 
   Briefcase, 
   HeartPulse, 
@@ -126,17 +124,31 @@ export default function LabsPage() {
               </div>
 
               <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
-                Your website should<br />
-                <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
+                <span
+                  className="block"
+                  style={{ animation: 'blurIn 0.65s ease-out 1.4s both' }}
+                >
+                  Your website should
+                </span>
+                <span
+                  className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent block"
+                  style={{ animation: 'blurIn 0.65s ease-out 1.55s both' }}
+                >
                   bring in business.
                 </span>
               </h1>
 
-              <p className="mx-auto mb-10 max-w-3xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance text-center">
+              <p
+                className="mx-auto mb-10 max-w-3xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance text-center"
+                style={{ animation: 'fadeUp 0.6s ease-out 1.7s both' }}
+              >
                 We build websites around how your customers actually think — then hand you full control at launch. No developer needed. No monthly retainer. No waiting on us to update a price.
               </p>
 
-              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16">
+              <div
+                className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16"
+                style={{ animation: 'fadeUp 0.6s ease-out 1.85s both' }}
+              >
                 <a href="#pricing" className="inline-flex h-12 items-center justify-center rounded-[4px] bg-primary px-8 text-base font-semibold text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
                   View Packages
                 </a>

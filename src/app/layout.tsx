@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { PageLoader } from "@/components/page-loader";
 
-import { spaceGrotesk, syne, plusJakartaSans, jetbrainsMono } from "@/lib/fonts";
+import { spaceGrotesk, syne, plusJakartaSans, jetbrainsMono, fraunces } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Dako Studios",
@@ -19,7 +20,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${spaceGrotesk.variable} ${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} ${fraunces.variable} antialiased`}
     >
       <head>
         {/* Blocking script prevents flash of wrong theme on load */}
@@ -40,6 +41,7 @@ export default function RootLayout({
       </head>
       <body className={plusJakartaSans.className}>
         <ThemeProvider defaultTheme="dark" storageKey="dako-ui-theme">
+          <PageLoader />
           {children}
         </ThemeProvider>
       </body>

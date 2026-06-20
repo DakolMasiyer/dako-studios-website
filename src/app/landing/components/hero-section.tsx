@@ -1,90 +1,149 @@
 "use client"
 
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { ArrowRight, Zap, Trophy, Globe } from 'lucide-react'
+import { ArrowUpRight, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 
-const GlobeCanvas = dynamic(() => import('@/components/GlobeCanvas'), { ssr: false })
+const testimonialAvatars = [
+  { initials: 'SG', label: 'Steve Gukas' },
+  { initials: 'NB', label: 'Nono Bukiti' },
+  { initials: 'DA', label: 'David, Amnik' },
+]
+
+const LINE_1 = 'One Creative Studio.'
+const LINE_2 = 'Every Edge.'
+
+// PageLoader fades at 1.4s — start hero animations in sync with that fade
+const LOADER_OFFSET = 1.4
+
+function WordReveal({
+  text,
+  startDelay = 0,
+  className,
+}: {
+  text: string
+  startDelay?: number
+  className?: string
+}) {
+  const words = text.split(' ')
+  return (
+    <span className={className}>
+      {words.map((word, i) => (
+        <span
+          key={i}
+          style={{
+            display: 'inline-block',
+            opacity: 0,
+            animation: `blurIn 0.65s ease-out ${(LOADER_OFFSET + startDelay + i * 0.08).toFixed(2)}s both`,
+          }}
+        >
+          {word}
+          {i < words.length - 1 ? ' ' : ''}
+        </span>
+      ))}
+    </span>
+  )
+}
 
 export function HeroSection() {
-  const smoothScrollTo = (targetId: string) => {
-    const element = document.querySelector(targetId)
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    }
-  }
+  const line1Words = LINE_1.split(' ').length
+  const line2Words = LINE_2.split(' ').length
+  // WordReveal adds LOADER_OFFSET internally, so startDelay is relative
+  const line2Start = line1Words * 0.08 + 0.06
+  // Subtitle and CTA are absolute delays (not through WordReveal)
+  const subtitleDelay = LOADER_OFFSET + line2Start + line2Words * 0.08 + 0.18
+  const ctaDelay = subtitleDelay + 0.2
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-background min-h-dvh flex items-center pt-24 pb-20">
-      {/* Globe background */}
-      <GlobeCanvas />
+    <section
+      id="hero"
+      className="relative overflow-hidden min-h-dvh flex items-center justify-center pt-24 pb-20 bg-background"
+    >
+      {/* Radial glow */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% 40%, hsl(var(--primary) / 0.10) 0%, transparent 70%)',
+        }}
+      />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="mx-auto max-w-4xl text-center">
-          {/* Main Headline */}
-          <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
-            One Creative Studio.
-            <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent block mt-2">
-              Every Edge.
-            </span>
+
+<div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl text-center">
+
+          {/* Headline — word-by-word blur-focus reveal */}
+          <h1 className="mb-6 leading-[0.9] tracking-tight">
+            <WordReveal
+              text={LINE_1}
+              startDelay={0}
+              className="block font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl text-foreground"
+            />
+            <WordReveal
+              text={LINE_2}
+              startDelay={line2Start}
+              className="block font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl text-primary mt-2"
+            />
           </h1>
 
-          {/* Subheading */}
-          <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance">
-            Built for the businesses building Africa's next chapter.
+          {/* Subtitle */}
+          <p
+            style={{
+              opacity: 0,
+              animation: `fadeUp 0.6s ease-out ${subtitleDelay.toFixed(2)}s both`,
+            }}
+            className="mx-auto mb-10 max-w-xl text-lg sm:text-xl text-muted-foreground font-light leading-relaxed text-balance"
+          >
+            Built for the businesses building Africa&apos;s next chapter.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16">
+          {/* CTA row */}
+          <div
+            style={{
+              opacity: 0,
+              animation: `fadeUp 0.6s ease-out ${ctaDelay.toFixed(2)}s both`,
+            }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          >
+            {/* Primary CTA — animated pill */}
             <Button
-              size="lg"
-              className="text-base cursor-pointer font-semibold px-8 h-12 bg-primary text-primary-foreground hover:bg-primary/95 rounded-[4px]"
-              onClick={() => smoothScrollTo('#services')}
-            >
-              See Our Work
-              <ArrowRight className="ml-2 h-4 w-4" strokeWidth={2} />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="text-base cursor-pointer font-semibold px-8 h-12 border-border/40 hover:bg-secondary hover:text-foreground rounded-[4px]"
               asChild
+              className="relative text-base font-semibold rounded-full h-12 p-1 ps-6 pr-14 group transition-all duration-500 hover:ps-12 hover:pr-4 overflow-hidden bg-primary text-primary-foreground hover:bg-primary/80 cursor-pointer shadow-sm"
             >
-              <Link href="/contact">Book a Discovery Call</Link>
+              <Link href="/contact">
+                <span className="relative z-10 transition-all duration-500">Start a Project</span>
+                <div className="absolute right-1 w-10 h-10 bg-background text-foreground rounded-full flex items-center justify-center transition-all duration-500 group-hover:right-[calc(100%-44px)] group-hover:rotate-45">
+                  <ArrowUpRight size={18} />
+                </div>
+              </Link>
             </Button>
-          </div>
 
-          {/* Trust Bar (Using the specific stats values from the design system) */}
-          <div className="border-t border-b border-border/20 py-6 mx-auto max-w-3xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div className="flex items-center justify-center space-x-2.5 text-foreground/80">
-                <Trophy className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
-                <div className="text-left">
-                  <div className="font-display font-extrabold text-lg leading-none">20+</div>
-                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Projects Delivered</div>
-                </div>
+            {/* Social proof */}
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2.5">
+                {testimonialAvatars.map((a) => (
+                  <div
+                    key={a.initials}
+                    aria-label={a.label}
+                    className="w-9 h-9 rounded-full bg-muted border-2 border-background flex items-center justify-center text-[10px] font-bold text-muted-foreground shrink-0"
+                  >
+                    {a.initials}
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center justify-center space-x-2.5 text-foreground/80 border-t md:border-t-0 md:border-l md:border-r border-border/20 pt-4 md:pt-0">
-                <Zap className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
-                <div className="text-left">
-                  <div className="font-display font-extrabold text-lg leading-none">6 × #1</div>
-                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Films Topped Prime Video Nigeria</div>
+              <div className="text-left">
+                <div className="flex items-center gap-0.5 mb-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-primary text-primary" />
+                  ))}
                 </div>
-              </div>
-              <div className="flex items-center justify-center space-x-2.5 text-foreground/80 border-t md:border-t-0 pt-4 md:pt-0">
-                <Globe className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
-                <div className="text-left">
-                  <div className="font-display font-extrabold text-lg leading-none">NG+</div>
-                  <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">Nigeria &amp; Diaspora</div>
-                </div>
+                <p className="text-xs text-muted-foreground leading-none">
+                  20+ projects delivered
+                </p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>

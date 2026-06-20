@@ -6,6 +6,22 @@ interface PortfolioCardVisualProps {
 }
 
 export function PortfolioCardVisual({ item }: PortfolioCardVisualProps) {
+  if (item.video) {
+    return (
+      <div className="aspect-video relative overflow-hidden border-b border-border/20 bg-[#0A0908]">
+        <video
+          src={item.video}
+          poster={item.image || undefined}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+      </div>
+    )
+  }
+
   if (item.coverImage && item.coverImageMobile) {
     return (
       <div className="aspect-video relative flex items-center justify-center overflow-hidden border-b border-border/20 bg-[#1E1E21]">
