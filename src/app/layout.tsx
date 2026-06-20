@@ -8,10 +8,10 @@ import { spaceGrotesk, syne, plusJakartaSans, jetbrainsMono, fraunces } from "@/
 
 export const metadata: Metadata = {
   title: "Dako Studios | One Creative Studio. Every Edge.",
-  description: "Built for the businesses building Africa's next chapter. Websites, brand identity, motion, and film marketing — fully yours at launch. Based in Abuja, serving Nigeria and the diaspora.",
+  description: "Premium digital experiences, brand identity, and film marketing for businesses building Africa's next chapter. Built fast and fully yours at launch.",
   openGraph: {
     title: "Dako Studios | One Creative Studio. Every Edge.",
-    description: "Built for the businesses building Africa's next chapter. Websites, brand identity, motion, and film marketing — fully yours at launch.",
+    description: "Premium digital experiences, brand identity, and film marketing for businesses building Africa's next chapter. Built fast and fully yours at launch.",
     url: "https://www.dako.studio",
     siteName: "Dako Studios",
     images: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Dako Studios | One Creative Studio. Every Edge.",
-    description: "Built for the businesses building Africa's next chapter.",
+    description: "Premium digital experiences, brand identity, and film marketing for businesses building Africa's next chapter. Built fast and fully yours at launch.",
     images: ["/og-image.png"],
   },
 };

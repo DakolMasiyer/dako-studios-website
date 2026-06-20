@@ -23,10 +23,10 @@ import { PortfolioCardVisual } from '@/components/portfolio-card-visual'
 
 export const metadata: Metadata = {
   title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
-  description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff. See real work and book a discovery call.',
+  description: 'UX-led websites for real estate, law, healthcare, and diaspora businesses. Delivered in 5-10 days, fully yours at handoff. Book a discovery call today.',
   openGraph: {
     title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
-    description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff.',
+    description: 'UX-led websites for real estate, law, healthcare, and diaspora businesses. Delivered in 5-10 days, fully yours at handoff. Book a discovery call today.',
     url: 'https://labs.dako.studio',
     siteName: 'Dako Labs',
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Dako Labs | Websites Built to Convert',
-    description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses.',
+    description: 'UX-led websites for real estate, law, healthcare, and diaspora businesses. Delivered in 5-10 days, fully yours at handoff. Book a discovery call today.',
     images: ['/og-image.png'],
   },
 }
