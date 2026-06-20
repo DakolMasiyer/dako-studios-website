@@ -21,7 +21,7 @@ export function ScrollExpand({
   className,
   fromScale = 0.88,
   fromRadius = 24,
-  toRadius = 8,
+  toRadius = 0, // usually full bleed hits 0 radius at the edges
 }: ScrollExpandProps) {
   const ref = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
@@ -36,7 +36,15 @@ export function ScrollExpand({
 
   if (reduceMotion) {
     return (
-      <div ref={ref} className={className} style={{ borderRadius: toRadius }}>
+      <div 
+        ref={ref} 
+        className={className} 
+        style={{ 
+          borderRadius: toRadius,
+          width: '100vw',
+          marginLeft: 'calc(-50vw + 50%)'
+        }}
+      >
         {children}
       </div>
     )
@@ -46,7 +54,13 @@ export function ScrollExpand({
     <motion.div
       ref={ref}
       className={className}
-      style={{ scale, borderRadius, transformOrigin: 'center center' }}
+      style={{ 
+        scale, 
+        borderRadius, 
+        transformOrigin: 'center center',
+        width: '100vw',
+        marginLeft: 'calc(-50vw + 50%)'
+      }}
     >
       {children}
     </motion.div>
