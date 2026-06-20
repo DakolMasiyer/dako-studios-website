@@ -3,18 +3,16 @@ import { LandingNavbar } from '../landing/components/navbar'
 import { LandingFooter } from '../landing/components/footer'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DotPattern } from '@/components/dot-pattern'
 import { 
-  ArrowRight, 
-  Check, 
-  Building, 
-  Briefcase, 
-  HeartPulse, 
-  Utensils, 
-  Landmark, 
-  ArrowUpRight, 
-  Globe 
+  ArrowRight,
+  Check,
+  Building,
+  Briefcase,
+  HeartPulse,
+  Utensils,
+  Landmark,
 } from 'lucide-react'
 import Link from 'next/link'
 import { faqItems } from '@/data/faq'
@@ -26,6 +24,28 @@ import { PortfolioCardVisual } from '@/components/portfolio-card-visual'
 export const metadata: Metadata = {
   title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
   description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff. See real work and book a discovery call.',
+  openGraph: {
+    title: 'Dako Labs | Websites Built to Convert — 5–10 Day Delivery',
+    description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses. Built fast, fully yours at handoff.',
+    url: 'https://labs.dako.studio',
+    siteName: 'Dako Labs',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Dako Labs',
+      },
+    ],
+    locale: 'en_NG',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dako Labs | Websites Built to Convert',
+    description: 'UX-led websites for real estate, law, healthcare, hospitality, and diaspora businesses.',
+    images: ['/og-image.png'],
+  },
 }
 
 const labsCaseStudyCards: PortfolioItem[] = getCaseStudies()
@@ -125,29 +145,29 @@ export default function LabsPage() {
 
               <h1 className="mb-8 font-display text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl leading-none text-foreground">
                 <span
-                  className="block"
-                  style={{ animation: 'blurIn 0.65s ease-out 1.4s both' }}
+                  className="ldr block"
+                  style={{ animation: 'blurIn 0.65s ease-out 0.05s both' }}
                 >
                   Your website should
                 </span>
                 <span
-                  className="bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent block"
-                  style={{ animation: 'blurIn 0.65s ease-out 1.55s both' }}
+                  className="ldr bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent block"
+                  style={{ animation: 'blurIn 0.65s ease-out 0.2s both' }}
                 >
                   bring in business.
                 </span>
               </h1>
 
               <p
-                className="mx-auto mb-10 max-w-3xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance text-center"
-                style={{ animation: 'fadeUp 0.6s ease-out 1.7s both' }}
+                className="ldr mx-auto mb-10 max-w-3xl text-lg text-muted-foreground sm:text-xl font-light leading-relaxed text-balance text-center"
+                style={{ animation: 'fadeUp 0.6s ease-out 0.35s both' }}
               >
                 We build websites around how your customers actually think — then hand you full control at launch. No developer needed. No monthly retainer. No waiting on us to update a price.
               </p>
 
               <div
-                className="flex flex-col gap-4 sm:flex-row sm:justify-center mb-16"
-                style={{ animation: 'fadeUp 0.6s ease-out 1.85s both' }}
+                className="ldr flex flex-col gap-4 sm:flex-row sm:justify-center mb-16"
+                style={{ animation: 'fadeUp 0.6s ease-out 0.5s both' }}
               >
                 <a href="#pricing" className="inline-flex h-12 items-center justify-center rounded-[4px] bg-primary px-8 text-base font-semibold text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
                   View Packages
@@ -234,51 +254,36 @@ export default function LabsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {labsPortfolioItems.map((item) => (
-                <Card key={item.id} className="overflow-hidden border border-border/20 bg-card hover:border-border/60 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group rounded-[8px]">
-                  <CardContent className="p-0 flex-1 flex flex-col justify-between">
-                    <PortfolioCardVisual item={item} />
-
-                    {/* Details Content */}
-                    <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                      <div className="space-y-2">
-                        <span className="text-primary text-xs font-semibold tracking-wider uppercase block">
-                          {item.niche}
-                        </span>
-                        <h3 className="text-xl font-bold font-display text-foreground group-hover:text-primary transition-colors duration-300 tracking-tight">
-                          {item.title}
-                        </h3>
-                        <p className="text-muted-foreground text-sm font-light leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                      
-                      <div className="pt-4 border-t border-border/20 flex items-center justify-between">
-                        <Badge variant="outline" className="border-border/40 text-muted-foreground font-normal text-xs rounded-full">
-                          {item.category}
-                        </Badge>
-                        {item.href !== '#' ? (
-                          <a href={item.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
-                            <Globe className="h-4 w-4 mr-1.5" strokeWidth={1.5} />
-                            View live site
-                            <ArrowUpRight className="h-4 w-4 ml-1" />
-                          </a>
-                        ) : item.slug ? (
-                          <Link href={`/case-studies/${item.slug}`} className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
-                            Case study
-                            <ArrowUpRight className="h-4 w-4 ml-1" />
-                          </Link>
-                        ) : (
-                          <span className="inline-flex items-center text-muted-foreground text-sm font-medium">
-                            Case study
-                          </span>
-                        )}
-                      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12 sm:gap-y-16 max-w-6xl mx-auto">
+              {labsPortfolioItems.map((item) => {
+                const inner = (
+                  <article>
+                    <div className="overflow-hidden rounded-[8px] mb-5 border border-border/20">
+                      <PortfolioCardVisual item={item} />
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300 tracking-tight">
+                      {item.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30">
+                        {item.niche}
+                      </span>
+                      {item.category && item.category !== item.niche && (
+                        <span className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30">
+                          {item.category}
+                        </span>
+                      )}
+                    </div>
+                  </article>
+                )
+                if (item.slug) {
+                  return <Link key={item.id} href={`/case-studies/${item.slug}`} className="group block">{inner}</Link>
+                }
+                if (item.href && item.href !== '#') {
+                  return <a key={item.id} href={item.href} target="_blank" rel="noopener noreferrer" className="group block">{inner}</a>
+                }
+                return <div key={item.id} className="group">{inner}</div>
+              })}
             </div>
           </div>
         </section>
