@@ -17,9 +17,13 @@ export interface CaseStudy {
   tags: string[]
   heroImage: string
   video?: string
+  videos: string[]
   gallery: string[]
   results: CaseStudyResult[]
   content: string
+  heroIsPortrait?: boolean
+  externalUrl?: string
+  figmaEmbedUrl?: string
 }
 
 const caseStudiesDirectory = path.join(process.cwd(), 'content/case-studies')
@@ -35,9 +39,13 @@ function toCaseStudy(slug: string, data: Record<string, any>, content: string): 
     tags: Array.isArray(data.tags) ? data.tags : [],
     heroImage: data.heroImage || '',
     video: data.video || undefined,
+    videos: Array.isArray(data.videos) ? data.videos : [],
     gallery: Array.isArray(data.gallery) ? data.gallery : [],
     results: Array.isArray(data.results) ? data.results : [],
     content,
+    heroIsPortrait: data.heroIsPortrait ? true : undefined,
+    externalUrl: data.externalUrl || undefined,
+    figmaEmbedUrl: data.figmaEmbedUrl || undefined,
   }
 }
 

@@ -3,11 +3,15 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, ArrowRight, Building2 } from 'lucide-react'
+import { MarkdownRenderer } from '@/components/markdown-renderer'
+import { CaseStudyActions } from '@/components/case-study-actions'
 import { getCaseStudyBySlug, getCaseStudies } from '@/utils/case-studies'
 import { services } from '@/data/services'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { VideoHero } from '@/components/video-hero'
+import { CyclingVideoPlayer } from '@/components/cycling-video-player'
+import { PortraitVideoHero } from '@/components/portrait-video-hero'
 import { LandingNavbar } from '../../landing/components/navbar'
 import { LandingFooter } from '../../landing/components/footer'
 
@@ -52,8 +56,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
       <main className="flex-grow py-16 sm:py-24">
         <article className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          {/* Back link */}
-          <div className="mb-10">
+          {/* Back link + actions */}
+          <div className="flex items-center justify-between mb-10">
             <Link
               href="/case-studies"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer group"
@@ -61,6 +65,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
               <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
               Back to Case Studies
             </Link>
+            <CaseStudyActions title={caseStudy.title} externalUrl={caseStudy.externalUrl} />
           </div>
 
           {/* Header */}
@@ -99,44 +104,103 @@ export default async function CaseStudyPage({ params }: PageProps) {
             )}
           </header>
 
-          {/* Hero video or image */}
-          {(caseStudy.video || caseStudy.heroImage) && (
-            <div className="relative aspect-video w-full overflow-hidden rounded-[8px] border border-border/20 mb-12">
-              {caseStudy.video ? (
-                <VideoHero
-                  src={caseStudy.video}
-                  poster={caseStudy.heroImage || undefined}
-                />
-              ) : (
-                <Image
-                  src={caseStudy.heroImage}
-                  alt={caseStudy.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
+          {caseStudy.heroIsPortrait ? (
+            /* Portrait-first layout: cycling brand videos → portrait phone mockup → results */
+            <>
+              {caseStudy.videos.length > 0 && (
+                <div className="mb-8">
+                  <CyclingVideoPlayer
+                    videos={caseStudy.videos}
+                    poster={caseStudy.heroImage || undefined}
+                  />
+                </div>
               )}
+
+              {caseStudy.video && (
+                <div className="mb-12">
+                  <PortraitVideoHero
+                    src={caseStudy.video}
+                    poster={caseStudy.heroImage || undefined}
+                  />
+                </div>
+              )}
+
+              {caseStudy.results.length > 0 && (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+                  {caseStudy.results.map((result, index) => (
+                    <Card key={index} className="text-center bg-card border-border/40 py-0 rounded-[8px]">
+                      <CardContent className="p-5 sm:p-6">
+                        <p className="text-xl sm:text-2xl font-display font-bold text-primary mb-1">{result.value}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground leading-snug">{result.label}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            /* Standard layout: hero → results → cycling videos */
+            <>
+              {(caseStudy.video || caseStudy.heroImage) && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-[8px] border border-border/20 mb-12">
+                  {caseStudy.video ? (
+                    <VideoHero src={caseStudy.video} poster={caseStudy.heroImage || undefined} />
+                  ) : (
+                    <Image src={caseStudy.heroImage} alt={caseStudy.title} fill className="object-cover" priority />
+                  )}
+                </div>
+              )}
+
+              {caseStudy.results.length > 0 && (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+                  {caseStudy.results.map((result, index) => (
+                    <Card key={index} className="text-center bg-card border-border/40 py-0 rounded-[8px]">
+                      <CardContent className="p-5 sm:p-6">
+                        <p className="text-xl sm:text-2xl font-display font-bold text-primary mb-1">{result.value}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground leading-snug">{result.label}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+
+              {caseStudy.videos.length > 0 && (
+                <div className="mb-12">
+                  <CyclingVideoPlayer videos={caseStudy.videos} poster={caseStudy.heroImage || undefined} />
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Narrative content */}
+          {caseStudy.content && (
+            <div className="mb-12">
+              <MarkdownRenderer content={caseStudy.content} />
             </div>
           )}
 
-          {/* Results */}
-          {caseStudy.results.length > 0 && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
-              {caseStudy.results.map((result, index) => (
-                <Card
-                  key={index}
-                  className="text-center bg-card border-border/40 py-0 rounded-[8px]"
-                >
-                  <CardContent className="p-5 sm:p-6">
-                    <p className="text-xl sm:text-2xl font-display font-bold text-primary mb-1">
-                      {result.value}
-                    </p>
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-snug">
-                      {result.label}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
+          {/* Figma embed preview */}
+          {caseStudy.figmaEmbedUrl && (
+            <div className="mb-16">
+              <div className="rounded-[8px] border border-border/20 overflow-hidden">
+                <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b border-border/20">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-border/60" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-border/60" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-border/60" />
+                  </div>
+                  <span className="text-xs text-muted-foreground font-medium">
+                    Brand Guidelines — Interactive Preview
+                  </span>
+                </div>
+                <iframe
+                  src={caseStudy.figmaEmbedUrl}
+                  className="w-full block"
+                  height="500"
+                  allowFullScreen
+                  title="Brand Guidelines Preview"
+                />
+              </div>
             </div>
           )}
 
@@ -161,13 +225,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
                 </div>
               ))}
             </div>
-          )}
-
-          {/* Closing copy */}
-          {caseStudy.content && (
-            <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed max-w-2xl mb-16">
-              {caseStudy.content}
-            </p>
           )}
 
           {/* CTA */}

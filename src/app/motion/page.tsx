@@ -3,16 +3,13 @@ import { LandingNavbar } from '../landing/components/navbar'
 import { LandingFooter } from '../landing/components/footer'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DotPattern } from '@/components/dot-pattern'
 import {
-  ArrowUpRight,
   Check,
   Clapperboard,
   Shapes,
   Sparkles,
-  Globe,
 } from 'lucide-react'
 import Link from 'next/link'
 import { portfolioItems, PortfolioItem } from '@/data/portfolio'
@@ -257,50 +254,36 @@ export default function MotionPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {motionPortfolioItems.map((item) => (
-                <Card key={item.id} className="overflow-hidden border border-border/20 bg-card hover:border-border/60 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group rounded-[8px]">
-                  <CardContent className="p-0 flex-1 flex flex-col justify-between">
-                    <PortfolioCardVisual item={item} />
-
-                    <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                      <div className="space-y-2">
-                        <span className="text-primary text-xs font-semibold tracking-wider uppercase block">
-                          {item.niche}
-                        </span>
-                        <h3 className="text-xl font-bold font-display text-foreground group-hover:text-primary transition-colors duration-300 tracking-tight">
-                          {item.title}
-                        </h3>
-                        <p className="text-muted-foreground text-sm font-light leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-
-                      <div className="pt-4 border-t border-border/20 flex items-center justify-between">
-                        <Badge variant="outline" className="border-border/40 text-muted-foreground font-normal text-xs rounded-full">
-                          {item.category}
-                        </Badge>
-                        {item.slug ? (
-                          <Link href={`/case-studies/${item.slug}`} className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
-                            Case study
-                            <ArrowUpRight className="h-4 w-4 ml-1" />
-                          </Link>
-                        ) : item.href && item.href !== '#' ? (
-                          <a href={item.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-primary hover:text-primary/90 text-sm font-semibold group-hover:underline cursor-pointer">
-                            <Globe className="h-4 w-4 mr-1.5" strokeWidth={1.5} />
-                            View project
-                            <ArrowUpRight className="h-4 w-4 ml-1" />
-                          </a>
-                        ) : (
-                          <span className="inline-flex items-center text-muted-foreground text-sm font-medium">
-                            Case study
-                          </span>
-                        )}
-                      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12 sm:gap-y-16 max-w-6xl mx-auto">
+              {motionPortfolioItems.map((item) => {
+                const inner = (
+                  <article>
+                    <div className="overflow-hidden rounded-[8px] mb-5 border border-border/20">
+                      <PortfolioCardVisual item={item} />
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300 tracking-tight">
+                      {item.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30">
+                        {item.niche}
+                      </span>
+                      {item.category && item.category !== item.niche && (
+                        <span className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30">
+                          {item.category}
+                        </span>
+                      )}
+                    </div>
+                  </article>
+                )
+                if (item.slug) {
+                  return <Link key={item.id} href={`/case-studies/${item.slug}`} className="group block">{inner}</Link>
+                }
+                if (item.href && item.href !== '#') {
+                  return <a key={item.id} href={item.href} target="_blank" rel="noopener noreferrer" className="group block">{inner}</a>
+                }
+                return <div key={item.id} className="group">{inner}</div>
+              })}
             </div>
           </div>
         </section>

@@ -13,8 +13,8 @@ const testimonialAvatars = [
 const LINE_1 = 'One Creative Studio.'
 const LINE_2 = 'Every Edge.'
 
-// PageLoader fades at 1.4s — start hero animations in sync with that fade
-const LOADER_OFFSET = 1.4
+// Delays are relative to loader fade — body.loader-active pauses .ldr elements
+const LOADER_OFFSET = 0.05
 
 function WordReveal({
   text,
@@ -31,6 +31,7 @@ function WordReveal({
       {words.map((word, i) => (
         <span
           key={i}
+          className="ldr"
           style={{
             display: 'inline-block',
             opacity: 0,
@@ -88,22 +89,22 @@ export function HeroSection() {
 
           {/* Subtitle */}
           <p
+            className="ldr mx-auto mb-10 max-w-xl text-lg sm:text-xl text-muted-foreground font-light leading-relaxed text-balance"
             style={{
               opacity: 0,
               animation: `fadeUp 0.6s ease-out ${subtitleDelay.toFixed(2)}s both`,
             }}
-            className="mx-auto mb-10 max-w-xl text-lg sm:text-xl text-muted-foreground font-light leading-relaxed text-balance"
           >
             Built for the businesses building Africa&apos;s next chapter.
           </p>
 
           {/* CTA row */}
           <div
+            className="ldr flex flex-col sm:flex-row items-center justify-center gap-6"
             style={{
               opacity: 0,
               animation: `fadeUp 0.6s ease-out ${ctaDelay.toFixed(2)}s both`,
             }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             {/* Primary CTA — animated pill */}
             <Button

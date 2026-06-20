@@ -7,8 +7,9 @@ summary: "ACWELL needed product video that felt earned — not just polished. We
 tags: ["Product Motion Video", "Beauty & Skincare", "eCommerce", "Cinematic Direction"]
 heroImage: "/images/portfolio/faceserum-poster.jpg"
 video: "/videos/faceserum-motion.mp4"
-gallery: ["/images/case-studies/acwell-faceserum-product-motion/acwell-storyboard.png"]
+gallery: []
 results: [{"value": "8", "label": "Directed motion frames"}, {"value": "1 week", "label": "Concept to final delivery"}, {"value": "2", "label": "Platform cuts delivered"}]
+externalUrl: "https://skinpopessentiel.com/products/acwell-licorine-ph-balancing-cleansing-toner"
 ---
 
 From macro freeze-frame to logo lock — eight visual beats that carry the product from texture to trust. Whip-pan energy into botanical burst into radiance reveal. The kind of product video that earns the price tag before the buyer even reads it.

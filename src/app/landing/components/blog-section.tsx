@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight, Globe, Pause, Play, Volume2, VolumeX } from 'lucide-react'
 import { portfolioItems, PortfolioItem } from '@/data/portfolio'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
+import { useVideoInView, requestPlay, requestPause } from '@/hooks/use-video-in-view'
 
 interface BlogSectionProps {
   caseStudies: CaseStudy[]
@@ -25,18 +26,32 @@ function ArmBadge({ armId }: { armId: string }) {
 }
 
 function VideoCard({ item }: { item: PortfolioItem }) {
-  const [playing, setPlaying] = useState(true)
+  const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const videoRef = useVideoInView()
+
+  // Keep UI in sync with actual video state (including observer-driven changes)
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const onPlay = () => setPlaying(true)
+    const onPause = () => setPlaying(false)
+    video.addEventListener('play', onPlay)
+    video.addEventListener('pause', onPause)
+    return () => {
+      video.removeEventListener('play', onPlay)
+      video.removeEventListener('pause', onPause)
+    }
+  }, [videoRef])
 
   const togglePlay = () => {
-    if (!videoRef.current) return
+    const video = videoRef.current
+    if (!video) return
     if (playing) {
-      videoRef.current.pause()
+      requestPause(video)
     } else {
-      videoRef.current.play()
+      requestPlay(video)
     }
-    setPlaying(!playing)
   }
 
   const toggleMute = () => {
@@ -50,7 +65,6 @@ function VideoCard({ item }: { item: PortfolioItem }) {
       <video
         ref={videoRef}
         src={item.video}
-        autoPlay
         loop
         muted
         playsInline
@@ -60,12 +74,10 @@ function VideoCard({ item }: { item: PortfolioItem }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
-      {/* Arm badge — only text on card */}
       <div className="absolute top-4 left-4">
         <ArmBadge armId={item.arm || 'motion'} />
       </div>
 
-      {/* Controls — Humaan-style: mute then pause, bottom-right */}
       <div className="absolute bottom-4 right-4 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity duration-200">
         <button
           onClick={toggleMute}
@@ -83,6 +95,132 @@ function VideoCard({ item }: { item: PortfolioItem }) {
         </button>
       </div>
     </div>
+  )
+}
+
+function CyclingVideoCard({ item }: { item: PortfolioItem }) {
+  const videos = item.videos ?? []
+  const [current, setCurrent] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [muted, setMuted] = useState(true)
+  const [inView, setInView] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Observe the container (not the video — video remounts on key change)
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting)
+        if (!entry.isIntersecting) {
+          const video = videoRef.current
+          if (video) requestPause(video)
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  // Play on in-view, and re-play when video cycles (key remount)
+  useEffect(() => {
+    if (!inView) return
+    const timer = setTimeout(() => {
+      const video = videoRef.current
+      if (video) requestPlay(video)
+    }, 0)
+    return () => clearTimeout(timer)
+  }, [current, inView])
+
+  // Sync playing state with video events (re-attach on each cycle)
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const onPlay = () => setPlaying(true)
+    const onPause = () => setPlaying(false)
+    video.addEventListener('play', onPlay)
+    video.addEventListener('pause', onPause)
+    return () => {
+      video.removeEventListener('play', onPlay)
+      video.removeEventListener('pause', onPause)
+    }
+  }, [current])
+
+  function advance() {
+    setCurrent((i) => (i + 1) % videos.length)
+  }
+
+  function togglePlay() {
+    const video = videoRef.current
+    if (!video) return
+    if (playing) {
+      requestPause(video)
+    } else {
+      requestPlay(video)
+    }
+  }
+
+  function toggleMute() {
+    if (!videoRef.current) return
+    videoRef.current.muted = !muted
+    setMuted(!muted)
+  }
+
+  return (
+    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-black group">
+      <video
+        key={current}
+        ref={videoRef}
+        src={videos[current]}
+        muted
+        playsInline
+        preload="auto"
+        poster={current === 0 ? item.image : undefined}
+        onEnded={advance}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+      <div className="absolute top-4 left-4">
+        <ArmBadge armId={item.arm || 'motion'} />
+      </div>
+
+      <div className="absolute bottom-4 right-4 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity duration-200">
+        <button
+          onClick={toggleMute}
+          className="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white hover:bg-black/80 transition-colors cursor-pointer"
+          aria-label={muted ? 'Unmute' : 'Mute'}
+        >
+          {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+        </button>
+        <button
+          onClick={togglePlay}
+          className="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white hover:bg-black/80 transition-colors cursor-pointer"
+          aria-label={playing ? 'Pause' : 'Play'}
+        >
+          {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// The daanong browser mockup screen recording — plays only when scrolled into view
+function DaanongScreenRecording() {
+  const videoRef = useVideoInView()
+  return (
+    <video
+      ref={videoRef}
+      src="/videos/daanong-scroll.mp4"
+      loop
+      muted
+      playsInline
+      preload="auto"
+      className="w-full h-full object-cover object-top"
+    />
   )
 }
 
@@ -108,12 +246,10 @@ function ImageCard({
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-      {/* Arm badge only */}
       <div className="absolute top-4 left-4">
         <ArmBadge armId={armId} />
       </div>
 
-      {/* Arrow — click signal without text */}
       <div className="absolute bottom-4 right-4 w-9 h-9 rounded-full border border-white/20 flex items-center justify-center bg-white/10 backdrop-blur-sm group-hover:bg-primary group-hover:border-primary transition-all duration-300">
         <ArrowUpRight className="h-4 w-4 text-white" />
       </div>
@@ -137,6 +273,7 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
   const daanong = getPortfolio('daanong-gyang')
   const getly = getPortfolio('getly-motion')
   const serum = getPortfolio('faceserum-motion')
+  const syncmaster = getPortfolio('syncmaster-motion')
 
   return (
     <section id="portfolio" className="py-24 sm:py-32 bg-background border-y border-border/20">
@@ -194,7 +331,6 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
               rel="noopener noreferrer"
               className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 group block relative bg-[#1E1E21] flex items-center justify-center"
             >
-              {/* Blurred hero background */}
               {daanong.coverImage && (
                 <Image
                   src={daanong.coverImage}
@@ -206,39 +342,131 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-              {/* Browser window mockup */}
-              <div className="relative z-10 w-[74%] aspect-[16/10] rounded-[10px] border border-[#3A3A3D] bg-[#1C1C1E] shadow-[0_25px_60px_rgba(0,0,0,0.7)] overflow-hidden transition-transform duration-500 group-hover:scale-[1.03]">
-                {/* macOS browser chrome */}
-                <div className="h-7 bg-[#2C2C2E] border-b border-[#3A3A3D] flex items-center px-3 gap-2.5 shrink-0">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                    <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-                    <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+              {/* High-fidelity MacBook Pro mockup */}
+              <div
+                className="relative z-10 w-[52%] sm:w-[70%] lg:w-[75%] flex flex-col items-center transition-transform duration-500 group-hover:scale-[1.02]"
+                style={{ filter: 'drop-shadow(0 24px 48px rgba(0,0,0,0.95)) drop-shadow(0 6px 12px rgba(0,0,0,0.65))' }}
+              >
+                {/* === SCREEN LID — Space Gray aluminum casing === */}
+                <div
+                  className="w-full relative"
+                  style={{
+                    background: 'linear-gradient(172deg, #5c5c5e 0%, #4a4a4c 18%, #3c3c3e 48%, #2e2e30 100%)',
+                    borderRadius: '11px 11px 2px 2px',
+                    padding: '5px 5px 4px',
+                    boxShadow:
+                      'inset 0 1.5px 0 rgba(255,255,255,0.22),' +
+                      'inset 0 -1px 0 rgba(0,0,0,0.35),' +
+                      '0 0 0 0.5px rgba(0,0,0,0.75)',
+                  }}
+                >
+                  {/* Top-edge aluminum highlight */}
+                  <div
+                    className="absolute top-0 left-[5%] right-[5%]"
+                    style={{
+                      height: '1px',
+                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.62) 28%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.62) 72%, transparent)',
+                      borderRadius: '9999px',
+                    }}
+                  />
+
+                  {/* Inner screen panel — black bezel */}
+                  <div
+                    className="w-full relative overflow-hidden"
+                    style={{
+                      background: '#090909',
+                      borderRadius: '7px 7px 1px 1px',
+                      boxShadow: 'inset 0 0 0 0.5px rgba(255,255,255,0.07)',
+                    }}
+                  >
+                    {/* Top bezel + camera */}
+                    <div className="w-full flex items-center justify-center" style={{ height: '16px' }}>
+                      <div
+                        style={{
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          background: 'radial-gradient(circle at 38% 36%, #2c2c30, #0e0e10)',
+                          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.09), 0 0 0 2px rgba(0,0,0,0.45)',
+                        }}
+                      />
+                    </div>
+
+                    {/* Screen content */}
+                    <div className="w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
+                      <DaanongScreenRecording />
+                    </div>
+
+                    {/* Screen-edge vignette */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ boxShadow: 'inset 0 0 22px rgba(0,0,0,0.55)', borderRadius: 'inherit' }}
+                    />
                   </div>
-                  <div className="flex-1 h-4 rounded-full bg-[#3A3A3D] flex items-center px-3">
-                    <span className="text-[#8E8E92] text-[9px] font-mono truncate select-none">
-                      dwain-gyang-dp.netlify.app
-                    </span>
+
+                  {/* Hinge-side darkening */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0"
+                    style={{ height: '4px', background: 'linear-gradient(180deg, #1c1c1e, #101012)', borderRadius: '0 0 2px 2px' }}
+                  />
+                </div>
+
+                {/* === HINGE GROOVE === */}
+                <div
+                  className="w-[99%]"
+                  style={{ height: '2px', background: 'linear-gradient(90deg, #101012, #070709 50%, #101012)' }}
+                />
+
+                {/* === KEYBOARD BASE — slightly wider than lid === */}
+                <div className="relative" style={{ width: '110%' }}>
+                  <div
+                    className="w-full relative"
+                    style={{
+                      height: '22px',
+                      background: 'linear-gradient(180deg, #4c4c4e 0%, #3e3e40 40%, #303032 100%)',
+                      borderRadius: '0 0 7px 7px',
+                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.13), 0 4px 14px rgba(0,0,0,0.6)',
+                    }}
+                  >
+                    {/* Touch Bar */}
+                    <div
+                      className="absolute top-0 left-[17%] right-[17%]"
+                      style={{ height: '2px', background: 'linear-gradient(180deg, #141416, #1c1c1e)', borderRadius: '0 0 2px 2px' }}
+                    />
+                    {/* Speaker dots — left */}
+                    <div className="absolute flex gap-[2.5px]" style={{ top: '50%', transform: 'translateY(-50%)', left: '4%' }}>
+                      {[0, 1, 2, 3, 4].map((i) => (
+                        <div key={i} style={{ width: '2px', height: '2px', borderRadius: '50%', background: 'rgba(0,0,0,0.42)' }} />
+                      ))}
+                    </div>
+                    {/* Speaker dots — right */}
+                    <div className="absolute flex gap-[2.5px]" style={{ top: '50%', transform: 'translateY(-50%)', right: '4%' }}>
+                      {[0, 1, 2, 3, 4].map((i) => (
+                        <div key={i} style={{ width: '2px', height: '2px', borderRadius: '50%', background: 'rgba(0,0,0,0.42)' }} />
+                      ))}
+                    </div>
+                    {/* Bottom edge */}
+                    <div
+                      className="absolute bottom-0 left-0 right-0"
+                      style={{ height: '3px', background: 'rgba(0,0,0,0.28)', borderRadius: '0 0 7px 7px' }}
+                    />
                   </div>
                 </div>
-                {/* Screen recording */}
-                <video
-                  src="/videos/daanong-scroll.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="w-full h-full object-cover object-top"
+
+                {/* Floor shadow */}
+                <div
+                  style={{
+                    width: '84%',
+                    height: '10px',
+                    background: 'radial-gradient(ellipse 80% 100% at 50% 0%, rgba(0,0,0,0.5), transparent)',
+                  }}
                 />
               </div>
 
-              {/* Arm badge */}
-              <div className="absolute top-4 left-4">
+              <div className="absolute top-4 left-4 z-20">
                 <ArmBadge armId={daanong.arm || 'labs'} />
               </div>
 
-              {/* Live site link signal */}
               <div className="absolute bottom-5 right-5 flex items-center gap-1.5 text-white/50 text-xs font-semibold group-hover:text-white/80 transition-colors duration-300">
                 <Globe className="h-3.5 w-3.5" />
                 Live Site
@@ -254,7 +482,14 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
             </div>
           )}
 
-          {/* Row 5: First Features — full width */}
+          {/* Row 5: SyncMaster cycling video — full width */}
+          {syncmaster && syncmaster.videos && (
+            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+              <CyclingVideoCard item={syncmaster} />
+            </div>
+          )}
+
+          {/* Row 6: First Features — full width */}
           {firstFeatures && (
             <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <ImageCard

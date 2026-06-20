@@ -5,6 +5,24 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
+import { useVideoInView } from '@/hooks/use-video-in-view'
+
+function VideoThumbnail({ src, poster, alt }: { src: string; poster?: string; alt: string }) {
+  const videoRef = useVideoInView()
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      loop
+      muted
+      playsInline
+      preload="auto"
+      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+      aria-label={alt}
+    />
+  )
+}
 
 interface CaseStudiesListProps {
   initialCaseStudies: CaseStudy[]
@@ -71,14 +89,10 @@ export function CaseStudiesList({ initialCaseStudies }: CaseStudiesListProps) {
                   {/* Thumbnail — video if available, else image */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20 bg-black">
                     {cs.video ? (
-                      <video
+                      <VideoThumbnail
                         src={cs.video}
                         poster={cs.heroImage || undefined}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        alt={cs.client}
                       />
                     ) : cs.heroImage ? (
                       <Image
