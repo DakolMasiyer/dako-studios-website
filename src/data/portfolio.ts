@@ -17,6 +17,12 @@ export interface PortfolioItem {
   laptopVideo?: string // video shown inside a MacBook/laptop CSS frame
 }
 
+// Motion reels are served from Cloudinary (cloud: dako-studio) with auto
+// quality/codec, capped at 1280px wide — the cards render far smaller. This cut
+// the homepage video payload from ~29 MB of raw self-hosted .mp4 to ~5 MB.
+export const cldVideo = (name: string) =>
+  `https://res.cloudinary.com/dako-studio/video/upload/q_auto,vc_auto,w_1280,c_limit/portfolio/${name}.mp4`
+
 export const portfolioItems: PortfolioItem[] = [
   {
     id: 'daanong-gyang',
@@ -28,7 +34,8 @@ export const portfolioItems: PortfolioItem[] = [
     category: 'Film/Creative',
     arm: 'labs',
     featured: true,
-    laptopVideo: '/videos/daanong-scroll.mp4',
+    coverImage: '/images/portfolio/daanong-gyang-cover.jpg',
+    laptopVideo: cldVideo('daanong-scroll'),
   },
   {
     id: 'avm-paul-masiyer',
@@ -55,8 +62,8 @@ export const portfolioItems: PortfolioItem[] = [
     title: 'Getly',
     niche: 'Brand Motion Identity',
     description: 'Logo animation and brand video for Getly — a fintech super-app connecting travellers to eSIM, payments, and local discovery across 200+ countries.',
-    image: '/images/portfolio/getly-poster.jpg',
-    video: '/videos/getly-motion.mp4',
+    image: '/images/portfolio/getly-poster.webp',
+    video: cldVideo('getly-motion'),
     href: 'https://getly.app/',
     category: 'Motion Design',
     arm: 'motion',
@@ -67,8 +74,8 @@ export const portfolioItems: PortfolioItem[] = [
     title: 'Acwell Face Serum',
     niche: 'Product Motion Video',
     description: 'Cinematic product video for ACWELL Licorice pH Balancing Cleansing Toner — eight motion frames from macro freeze to logo lock.',
-    image: '/images/portfolio/faceserum-poster.jpg',
-    video: '/videos/faceserum-motion.mp4',
+    image: '/images/portfolio/faceserum-poster.webp',
+    video: cldVideo('faceserum-motion'),
     href: 'https://skinpopessentiel.com/products/acwell-licorine-ph-balancing-cleansing-toner',
     category: 'Motion Design',
     arm: 'motion',
@@ -79,8 +86,8 @@ export const portfolioItems: PortfolioItem[] = [
     title: 'SyncMaster',
     niche: 'Platform Brand Motion',
     description: 'Motion content suite for the sync marketplace connecting African composers to global film, TV, games, and ad briefs.',
-    image: '/images/portfolio/syncmaster-poster.png',
-    videos: ['/videos/syncmaster-cover-a.mp4', '/videos/syncmaster-cover-b.mp4'],
+    image: '/images/portfolio/syncmaster-poster.webp',
+    videos: [cldVideo('syncmaster-cover-a'), cldVideo('syncmaster-cover-b')],
     href: 'https://www.syncmaster.live/',
     category: 'Motion Design',
     arm: 'motion',

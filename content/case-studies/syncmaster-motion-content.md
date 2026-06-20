@@ -5,9 +5,9 @@ arm: "motion"
 date: "2026-06-20"
 summary: "Motion content suite for SyncMaster's early access campaign — a sync licensing marketplace placing African composers in film, TV, games, and ads worldwide."
 tags: ["Platform Motion", "Brand Content", "Social-First Video", "Music Industry"]
-heroImage: "/images/portfolio/syncmaster-poster.png"
-video: "/videos/syncmaster-portrait.mp4"
-videos: ["/videos/syncmaster-cover-a.mp4", "/videos/syncmaster-cover-b.mp4"]
+heroImage: "/images/portfolio/syncmaster-poster.webp"
+video: "https://res.cloudinary.com/dako-studio/video/upload/q_auto,vc_auto,w_1280,c_limit/portfolio/syncmaster-portrait.mp4"
+videos: ["https://res.cloudinary.com/dako-studio/video/upload/q_auto,vc_auto,w_1280,c_limit/portfolio/syncmaster-cover-a.mp4", "https://res.cloudinary.com/dako-studio/video/upload/q_auto,vc_auto,w_1280,c_limit/portfolio/syncmaster-cover-b.mp4"]
 heroIsPortrait: true
 gallery: []
 results: [{"value": "3", "label": "Platform concept videos"}, {"value": "4", "label": "Format cuts delivered"}, {"value": "7 days", "label": "Brief to final delivery"}]

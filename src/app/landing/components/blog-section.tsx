@@ -4,10 +4,10 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowUpRight, Globe, Pause, Play, Volume2, VolumeX } from 'lucide-react'
-import { portfolioItems, PortfolioItem } from '@/data/portfolio'
+import { portfolioItems, PortfolioItem, cldVideo } from '@/data/portfolio'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
-import { useVideoInView, requestPlay, requestPause } from '@/hooks/use-video-in-view'
+import { useVideoInView, requestPlay, requestPause, shouldAutoPlayVideo } from '@/hooks/use-video-in-view'
 
 interface BlogSectionProps {
   caseStudies: CaseStudy[]
@@ -68,7 +68,7 @@ function VideoCard({ item }: { item: PortfolioItem }) {
         loop
         muted
         playsInline
-        preload="auto"
+        preload="none"
         poster={item.image}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
       />
@@ -130,7 +130,9 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
     if (!inView) return
     const timer = setTimeout(() => {
       const video = videoRef.current
-      if (video) requestPlay(video)
+      if (video && shouldAutoPlayVideo()) {
+        requestPlay(video)
+      }
     }, 0)
     return () => clearTimeout(timer)
   }, [current, inView])
@@ -177,7 +179,7 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
         src={videos[current]}
         muted
         playsInline
-        preload="auto"
+        preload="none"
         poster={current === 0 ? item.image : undefined}
         onEnded={advance}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
@@ -214,11 +216,11 @@ function DaanongScreenRecording() {
   return (
     <video
       ref={videoRef}
-      src="/videos/daanong-scroll.mp4"
+      src={cldVideo('daanong-scroll')}
       loop
       muted
       playsInline
-      preload="auto"
+      preload="none"
       className="w-full h-full object-cover object-top"
     />
   )

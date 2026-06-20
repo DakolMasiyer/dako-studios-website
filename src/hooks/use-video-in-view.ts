@@ -2,6 +2,20 @@
 
 import { useEffect, useRef } from 'react'
 
+export function shouldAutoPlayVideo(): boolean {
+  if (typeof window === 'undefined') return true
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  // @ts-ignore - navigator.connection is not standard on all browsers yet
+  const conn = navigator.connection as
+    | { saveData?: boolean; effectiveType?: string }
+    | undefined
+  // Skip autoplay (and, since videos use preload="none", the download itself)
+  // when the user opted into data-saver OR is on a 2G-class connection.
+  const slowConnection =
+    !!conn && (conn.saveData === true || /(^|-)2g$/.test(conn.effectiveType ?? ''))
+  return !prefersReducedMotion && !slowConnection
+}
+
 // Each video plays/pauses independently based on viewport visibility.
 // "No two playing when not in view" is enforced by pausing on scroll-out,
 // not by a global singleton — videos that are simultaneously visible can all play.
@@ -16,7 +30,9 @@ export function useVideoInView(threshold = 0.3) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {})
+          if (shouldAutoPlayVideo()) {
+            video.play().catch(() => {})
+          }
         } else {
           video.pause()
         }

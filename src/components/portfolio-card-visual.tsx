@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Volume2, VolumeX, Pause, Play } from 'lucide-react'
 import { PortfolioItem } from '@/data/portfolio'
-import { useVideoInView, requestPlay, requestPause } from '@/hooks/use-video-in-view'
+import { useVideoInView, requestPlay, requestPause, shouldAutoPlayVideo } from '@/hooks/use-video-in-view'
 
 interface PortfolioCardVisualProps {
   item: PortfolioItem
@@ -24,7 +24,7 @@ export function PortfolioCardVisual({ item }: PortfolioCardVisualProps) {
   }
 
   if (item.laptopVideo) {
-    return <LaptopVideoCover src={item.laptopVideo} poster={item.image} />
+    return <LaptopVideoCover src={item.laptopVideo} poster={item.image} coverImage={item.coverImage} />
   }
 
   if (item.coverImage && item.coverImageMobile) {
@@ -55,6 +55,7 @@ export function PortfolioCardVisual({ item }: PortfolioCardVisualProps) {
           alt={item.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
     )
@@ -100,7 +101,7 @@ function SingleVideoCover({ src, poster }: { src: string; poster?: string }) {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
       />
     </div>
@@ -134,7 +135,9 @@ function CyclingCover({ videos, poster }: { videos: string[]; poster?: string })
     if (!inView) return
     const timer = setTimeout(() => {
       const video = videoRef.current
-      if (video) requestPlay(video)
+      if (video && shouldAutoPlayVideo()) {
+        requestPlay(video)
+      }
     }, 0)
     return () => clearTimeout(timer)
   }, [current, inView])
@@ -152,7 +155,7 @@ function CyclingCover({ videos, poster }: { videos: string[]; poster?: string })
         poster={current === 0 ? poster : undefined}
         muted
         playsInline
-        preload="auto"
+        preload="none"
         onEnded={advance}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
       />
@@ -160,11 +163,20 @@ function CyclingCover({ videos, poster }: { videos: string[]; poster?: string })
   )
 }
 
-function LaptopVideoCover({ src, poster }: { src: string; poster?: string }) {
+function LaptopVideoCover({ src, poster, coverImage }: { src: string; poster?: string; coverImage?: string }) {
   const videoRef = useVideoInView()
   return (
-    <div className="aspect-video relative flex items-end justify-center overflow-hidden bg-[#08080a] pb-[5%]">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#14141a] to-[#060608]" />
+    <div className="aspect-video relative flex items-end justify-center overflow-hidden bg-[#1E1E21] pb-[5%]">
+      {coverImage && (
+        <Image
+          src={coverImage}
+          alt=""
+          fill
+          className="object-cover scale-110 blur-[3px] brightness-[0.35] transition-transform duration-500 group-hover:scale-[1.15]"
+          sizes="(max-width: 768px) 100vw, 1152px"
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       <div
         className="relative z-10 w-[74%] flex flex-col items-center transition-transform duration-500 group-hover:scale-[1.03]"
         style={{ filter: 'drop-shadow(0 16px 36px rgba(0,0,0,0.95)) drop-shadow(0 4px 10px rgba(0,0,0,0.7))' }}
@@ -193,7 +205,7 @@ function LaptopVideoCover({ src, poster }: { src: string; poster?: string }) {
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="none"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
               <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 0 18px rgba(0,0,0,0.5)', pointerEvents: 'none' }} />
@@ -270,7 +282,7 @@ function PortraitPhoneCard({ src, poster }: { src: string; poster?: string }) {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="none"
             className="w-full h-full object-cover"
           />
         </div>
