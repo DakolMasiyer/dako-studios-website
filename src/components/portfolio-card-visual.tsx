@@ -97,11 +97,10 @@ function SingleVideoCover({ src, poster }: { src: string; poster?: string }) {
       <video
         ref={videoRef}
         src={src}
-        poster={poster}
         muted
         loop
         playsInline
-        preload="none"
+        preload="auto"
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
       />
     </div>
@@ -136,6 +135,8 @@ function CyclingCover({ videos, poster }: { videos: string[]; poster?: string })
     const timer = setTimeout(() => {
       const video = videoRef.current
       if (video && shouldAutoPlayVideo()) {
+        video.defaultMuted = true
+        video.muted = true
         requestPlay(video)
       }
     }, 0)
@@ -152,10 +153,9 @@ function CyclingCover({ videos, poster }: { videos: string[]; poster?: string })
         key={current}
         ref={videoRef}
         src={videos[current]}
-        poster={current === 0 ? poster : undefined}
         muted
         playsInline
-        preload="none"
+        preload="auto"
         onEnded={advance}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
       />
@@ -201,11 +201,10 @@ function LaptopVideoCover({ src, poster, coverImage }: { src: string; poster?: s
               <video
                 ref={videoRef}
                 src={src}
-                poster={poster}
                 muted
                 loop
                 playsInline
-                preload="none"
+                preload="auto"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
               <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 0 18px rgba(0,0,0,0.5)', pointerEvents: 'none' }} />
@@ -278,11 +277,10 @@ function PortraitPhoneCard({ src, poster }: { src: string; poster?: string }) {
           <video
             ref={videoRef}
             src={src}
-            poster={poster}
             muted
             loop
             playsInline
-            preload="none"
+            preload="auto"
             className="w-full h-full object-cover"
           />
         </div>

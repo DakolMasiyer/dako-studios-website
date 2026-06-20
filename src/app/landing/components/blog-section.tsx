@@ -133,6 +133,7 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
       if (video) {
         // React doesn't reliably set the muted *property* from the attribute;
         // without it the browser blocks muted autoplay.
+        video.defaultMuted = true
         video.muted = true
         if (shouldAutoPlayVideo()) requestPlay(video)
       }
