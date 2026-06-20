@@ -9,8 +9,7 @@ export function shouldAutoPlayVideo(): boolean {
   const conn = navigator.connection as
     | { saveData?: boolean; effectiveType?: string }
     | undefined
-  // Skip autoplay (and, since videos use preload="none", the download itself)
-  // when the user opted into data-saver OR is on a 2G-class connection.
+  // Skip autoplay when the user opted into data-saver OR is on a 2G-class connection.
   const slowConnection =
     !!conn && (conn.saveData === true || /(^|-)2g$/.test(conn.effectiveType ?? ''))
   return !prefersReducedMotion && !slowConnection

@@ -291,6 +291,13 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  /* Prevent horizontal scrollbar from 100vw full-bleed breakout elements
+   * (which are wider than the content area by the scrollbar width on desktop).
+   * clip does not create a new BFC so position:sticky/fixed still works. */
+  overflow-x: clip;
+}
+
 @keyframes logo-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-144rem); }

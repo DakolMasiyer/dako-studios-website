@@ -53,6 +53,8 @@ export function PageLoader() {
     } else {
       firstVideo.addEventListener('canplay', onVideoReady, { once: true })
       firstVideo.addEventListener('loadeddata', onVideoReady, { once: true })
+      // If the video errors (e.g. network failure), don't stall the reveal
+      firstVideo.addEventListener('error', onVideoReady, { once: true })
     }
 
     // Hard cap — force-reveal even if assets are still loading (slow networks)
@@ -69,6 +71,7 @@ export function PageLoader() {
       window.removeEventListener('load', onLoad)
       firstVideo?.removeEventListener('canplay', onVideoReady)
       firstVideo?.removeEventListener('loadeddata', onVideoReady)
+      firstVideo?.removeEventListener('error', onVideoReady)
       document.body.classList.remove('loader-active')
     }
   }, [])
