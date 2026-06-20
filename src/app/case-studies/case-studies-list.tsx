@@ -68,9 +68,19 @@ export function CaseStudiesList({ initialCaseStudies }: CaseStudiesListProps) {
                 className="group block"
               >
                 <article>
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20">
-                    {cs.heroImage ? (
+                  {/* Thumbnail — video if available, else image */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20 bg-black">
+                    {cs.video ? (
+                      <video
+                        src={cs.video}
+                        poster={cs.heroImage || undefined}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
+                    ) : cs.heroImage ? (
                       <Image
                         src={cs.heroImage}
                         alt={cs.client}
