@@ -7,13 +7,12 @@ import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
 import { useVideoInView } from '@/hooks/use-video-in-view'
 
-function VideoThumbnail({ src, poster, alt }: { src: string; poster?: string; alt: string }) {
+function VideoThumbnail({ src, alt }: { src: string; alt: string }) {
   const videoRef = useVideoInView()
   return (
     <video
       ref={videoRef}
       src={src}
-      poster={poster}
       loop
       muted
       playsInline
@@ -88,10 +87,9 @@ export function CaseStudiesList({ initialCaseStudies }: CaseStudiesListProps) {
                 <article>
                   {/* Thumbnail — video if available, else image */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20 bg-black">
-                    {cs.video ? (
+                    {(cs.videos[0] ?? cs.video) ? (
                       <VideoThumbnail
-                        src={cs.video}
-                        poster={cs.heroImage || undefined}
+                        src={(cs.videos[0] ?? cs.video)!}
                         alt={cs.client}
                       />
                     ) : cs.heroImage ? (
