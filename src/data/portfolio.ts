@@ -20,8 +20,10 @@ export interface PortfolioItem {
 // Motion reels are served from Cloudinary (cloud: dako-studio) with auto
 // quality/codec, capped at 1280px wide — the cards render far smaller. This cut
 // the homepage video payload from ~29 MB of raw self-hosted .mp4 to ~5 MB.
-export const cldVideo = (name: string) =>
-  `https://res.cloudinary.com/dako-studio/video/upload/q_auto,vc_auto,w_1280,c_limit/portfolio/${name}.mp4`
+// Pass a custom transform for heavier reels (e.g. eco quality + 960px).
+const CLD_DEFAULT = 'q_auto,vc_auto,w_1280,c_limit'
+export const cldVideo = (name: string, transform: string = CLD_DEFAULT) =>
+  `https://res.cloudinary.com/dako-studio/video/upload/${transform}/portfolio/${name}.mp4`
 
 export const portfolioItems: PortfolioItem[] = [
   {
@@ -75,7 +77,8 @@ export const portfolioItems: PortfolioItem[] = [
     niche: 'Product Motion Video',
     description: 'Cinematic product video for ACWELL Licorice pH Balancing Cleansing Toner — eight motion frames from macro freeze to logo lock.',
     image: '/images/portfolio/faceserum-poster.webp',
-    video: cldVideo('faceserum-motion'),
+    // Heaviest reel — eco quality + 960px brings it to ~1.5 MB (was 2.55 MB).
+    video: cldVideo('faceserum-motion', 'q_auto:eco,vc_auto,w_960,c_limit'),
     href: 'https://skinpopessentiel.com/products/acwell-licorine-ph-balancing-cleansing-toner',
     category: 'Motion Design',
     arm: 'motion',

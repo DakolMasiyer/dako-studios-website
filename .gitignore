@@ -14,5 +14,32 @@ Templates/
 property-template/
 recreation/
 
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Auto-generated (regenerated on build)
+*.tsbuildinfo
+next-env.d.ts
+
+# Local performance / SEO audit artifacts (not part of the app)
+perf_*.json
+perf_*.md
+lighthouse_*.report.*
+lh_*.log
+audit_*.json
+*_home.html
+*_robots.txt
+*_sitemap.xml
+stage1_*.md
+combined_stage1.md
+perf_crawler.py
+run_lighthouse.sh
+cloudinary_upload.py
+seo_crawler.py
+parse_html.py
+generate_reports.py
+
 # OS files
 .DS_Store
