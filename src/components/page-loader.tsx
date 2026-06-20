@@ -11,21 +11,22 @@ export function PageLoader() {
 
     let minDone = false
     let loadDone = false
+    let videoDone = false
 
     function tryFade() {
-      if (!minDone || !loadDone) return
+      if (!minDone || !loadDone || !videoDone) return
       document.body.classList.remove('loader-active')
       setFading(true)
       setTimeout(() => setGone(true), 550)
     }
 
-    // Minimum display time — gives assets time to buffer
+    // Minimum display time — avoids a jarring flash on fast loads
     const minTimer = setTimeout(() => {
       minDone = true
       tryFade()
-    }, 2500)
+    }, 1500)
 
-    // Wait for window.load (all resources including preload="auto" videos)
+    // Wait for window.load (scripts, styles, images)
     function onLoad() {
       loadDone = true
       tryFade()
@@ -37,17 +38,37 @@ export function PageLoader() {
       window.addEventListener('load', onLoad, { once: true })
     }
 
-    // Hard cap — don't hang forever if something refuses to load
+    // Wait for the first video to be playable, so the page reveals with the
+    // first reel already buffered instead of a static/loading flash.
+    // window.load does NOT wait for video media data, so gate on it explicitly.
+    const firstVideo = document.querySelector('video')
+    function onVideoReady() {
+      videoDone = true
+      tryFade()
+    }
+    if (!firstVideo) {
+      videoDone = true
+    } else if (firstVideo.readyState >= 3 /* HAVE_FUTURE_DATA */) {
+      videoDone = true
+    } else {
+      firstVideo.addEventListener('canplay', onVideoReady, { once: true })
+      firstVideo.addEventListener('loadeddata', onVideoReady, { once: true })
+    }
+
+    // Hard cap — force-reveal even if assets are still loading (slow networks)
     const failsafe = setTimeout(() => {
       minDone = true
       loadDone = true
+      videoDone = true
       tryFade()
-    }, 6000)
+    }, 8000)
 
     return () => {
       clearTimeout(minTimer)
       clearTimeout(failsafe)
       window.removeEventListener('load', onLoad)
+      firstVideo?.removeEventListener('canplay', onVideoReady)
+      firstVideo?.removeEventListener('loadeddata', onVideoReady)
       document.body.classList.remove('loader-active')
     }
   }, [])

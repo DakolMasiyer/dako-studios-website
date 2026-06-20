@@ -27,6 +27,11 @@ export function useVideoInView(threshold = 0.3) {
     const video = ref.current
     if (!video) return
 
+    // React doesn't reliably set the `muted` DOM *property* from the JSX
+    // attribute — without this the browser sees an unmuted video and blocks
+    // autoplay, forcing a manual Play press. Set it imperatively.
+    video.muted = true
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

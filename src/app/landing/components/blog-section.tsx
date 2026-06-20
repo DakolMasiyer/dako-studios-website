@@ -8,6 +8,7 @@ import { portfolioItems, PortfolioItem, cldVideo } from '@/data/portfolio'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
 import { useVideoInView, requestPlay, requestPause, shouldAutoPlayVideo } from '@/hooks/use-video-in-view'
+import { ScrollExpand } from '@/components/scroll-expand'
 
 interface BlogSectionProps {
   caseStudies: CaseStudy[]
@@ -68,8 +69,7 @@ function VideoCard({ item }: { item: PortfolioItem }) {
         loop
         muted
         playsInline
-        preload="none"
-        poster={item.image}
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
@@ -130,8 +130,11 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
     if (!inView) return
     const timer = setTimeout(() => {
       const video = videoRef.current
-      if (video && shouldAutoPlayVideo()) {
-        requestPlay(video)
+      if (video) {
+        // React doesn't reliably set the muted *property* from the attribute;
+        // without it the browser blocks muted autoplay.
+        video.muted = true
+        if (shouldAutoPlayVideo()) requestPlay(video)
       }
     }, 0)
     return () => clearTimeout(timer)
@@ -179,8 +182,7 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
         src={videos[current]}
         muted
         playsInline
-        preload="none"
-        poster={current === 0 ? item.image : undefined}
+        preload="auto"
         onEnded={advance}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
       />
@@ -220,7 +222,7 @@ function DaanongScreenRecording() {
       loop
       muted
       playsInline
-      preload="none"
+      preload="auto"
       className="w-full h-full object-cover object-top"
     />
   )
@@ -298,9 +300,9 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
 
           {/* Row 1: Getly video — full width */}
           {getly && (
-            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <VideoCard item={getly} />
-            </div>
+            </ScrollExpand>
           )}
 
           {/* Row 2: Sporton + Kiichen — portrait pair */}
@@ -327,11 +329,12 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
 
           {/* Row 3: Da'anong website — full width, browser mockup with screen recording */}
           {daanong && (
+            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
             <a
               href={daanong.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 group block relative bg-[#1E1E21] flex items-center justify-center"
+              className="group block relative w-full h-full bg-[#1E1E21] flex items-center justify-center"
             >
               {daanong.coverImage && (
                 <Image
@@ -475,20 +478,21 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </div>
             </a>
+            </ScrollExpand>
           )}
 
           {/* Row 4: Face Serum video — full width */}
           {serum && (
-            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <VideoCard item={serum} />
-            </div>
+            </ScrollExpand>
           )}
 
           {/* Row 5: SyncMaster cycling video — full width */}
           {syncmaster && syncmaster.videos && (
-            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <CyclingVideoCard item={syncmaster} />
-            </div>
+            </ScrollExpand>
           )}
 
           {/* Row 6: First Features — full width */}

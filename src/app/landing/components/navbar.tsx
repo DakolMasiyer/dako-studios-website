@@ -210,11 +210,9 @@ export function LandingNavbar() {
                         {item.name}
                       </NavigationMenuLink>
                     ) : item.href.startsWith('/') ? (
-                      <Link href={item.href} passHref legacyBehavior>
-                        <NavigationMenuLink className={navItemClass}>
-                          {item.name}
-                        </NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink asChild className={navItemClass}>
+                        <Link href={item.href}>{item.name}</Link>
+                      </NavigationMenuLink>
                     ) : (
                       <NavigationMenuLink
                         href={item.href}
@@ -237,9 +235,9 @@ export function LandingNavbar() {
                 {navigationItems.map((item) => (
                   <NavigationMenuItem key={item.name}>
                     {item.href.startsWith('/') ? (
-                      <Link href={item.href} passHref legacyBehavior>
-                        <NavigationMenuLink className={navItemClass}>{item.name}</NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink asChild className={navItemClass}>
+                        <Link href={item.href}>{item.name}</Link>
+                      </NavigationMenuLink>
                     ) : (
                       <NavigationMenuLink
                         href={item.href}
