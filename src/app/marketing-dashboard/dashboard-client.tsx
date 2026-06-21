@@ -82,7 +82,9 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
 
   // CRM State
   const [crmLeads, setCrmLeads] = useState<Lead[]>(leads)
-  const [crmFilter, setCrmFilter] = useState<'All' | 'Identified' | 'Contacted' | 'Proposal Sent' | 'Closed' | 'Lost'>('All')
+  const [crmFilter, setCrmFilter] = useState<string>('All')
+  const [crmKind, setCrmKind] = useState<'all' | 'outreach' | 'inbound'>('all')
+  const [savingLeadId, setSavingLeadId] = useState<string | null>(null)
 
   // Copy to clipboard helper
   const handleCopy = (text: string, id: string) => {
@@ -91,9 +93,24 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
     setTimeout(() => setCopiedId(null), 2000)
   }
 
-  // Update CRM mock status
-  const handleStatusChange = (leadId: string, newStatus: Lead['status']) => {
+  // Update lead pipeline status — optimistic UI + persist to the DB (single write path)
+  const handleStatusChange = async (leadId: string, newStatus: Lead['status']) => {
+    const prevLeads = crmLeads
     setCrmLeads(prev => prev.map(l => l.id === leadId ? { ...l, status: newStatus } : l))
+    setSavingLeadId(leadId)
+    try {
+      const res = await fetch('/api/marketing/leads', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: leadId, status: newStatus })
+      })
+      if (!res.ok) throw new Error('save failed')
+    } catch {
+      // revert on failure so the UI never lies about persisted state
+      setCrmLeads(prevLeads)
+    } finally {
+      setSavingLeadId(null)
+    }
   }
 
   const handleLogout = () => {
@@ -138,14 +155,26 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
 
   // Filtered CRM Leads
   const filteredLeads = useMemo(() => {
-    return crmLeads.filter(l => crmFilter === 'All' || l.status === crmFilter)
-  }, [crmLeads, crmFilter])
+    return crmLeads.filter(l => {
+      const matchKind = crmKind === 'all' || l.leadKind === crmKind
+      const matchStatus = crmFilter === 'All' || l.status === crmFilter
+      return matchKind && matchStatus
+    })
+  }, [crmLeads, crmFilter, crmKind])
+
+  // Status chips shown depend on which pipeline (kind) is active
+  const OUTREACH_STATUSES = ['Not sent', 'Sent', 'Bumped', 'Replied', 'Proposal Sent', 'Closed', 'Lost', 'Breakup sent']
+  const INBOUND_STATUSES = ['Identified', 'Contacted', 'Proposal Sent', 'Closed', 'Lost']
+  const crmFilterChips = ['All', ...(crmKind === 'inbound' ? INBOUND_STATUSES : OUTREACH_STATUSES)]
+
+  // Replies awaiting human review are the actionable signal for the badge
+  const repliesToReview = crmLeads.filter(l => l.status === 'Replied').length
 
   const tabs: { id: string, label: string, icon: any, badge?: number }[] = [
     { id: 'strategy', label: 'Strategy Board', icon: Briefcase },
     { id: 'calendar', label: 'Content Calendar', icon: CalendarIcon },
     { id: 'copybank', label: 'Copy Bank', icon: MessageSquare },
-    { id: 'crm', label: 'Lead CRM', icon: Users, badge: crmLeads.filter(l => l.status === 'Identified').length }
+    { id: 'crm', label: 'Lead CRM', icon: Users, badge: repliesToReview || undefined }
   ]
 
   return (
@@ -727,12 +756,38 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
         {activeTab === 'crm' && (
           <div className="grid gap-8">
             {/* Filter controls */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-card/60 backdrop-blur-md p-5 border border-border rounded-[8px]">
+            <div className="flex flex-col gap-4 bg-card/60 backdrop-blur-md p-5 border border-border rounded-[8px]">
+              <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+                {/* Pipeline (kind) toggle */}
+                <div className="flex gap-2">
+                  {(['all', 'outreach', 'inbound'] as const).map(kind => (
+                    <button
+                      key={kind}
+                      onClick={() => { setCrmKind(kind); setCrmFilter('All') }}
+                      className={`px-4 py-1.5 text-xs font-semibold rounded-full cursor-pointer transition-all duration-300 capitalize ${
+                        crmKind === kind
+                          ? 'bg-foreground text-background'
+                          : 'bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {kind === 'all' ? 'All leads' : kind}
+                    </button>
+                  ))}
+                </div>
+                <span className="text-xs font-light text-muted-foreground">
+                  Displaying {filteredLeads.length} of {crmLeads.length} leads
+                  {repliesToReview > 0 && (
+                    <span className="ml-2 text-primary font-semibold">· {repliesToReview} to review</span>
+                  )}
+                </span>
+              </div>
+
+              {/* Status chips */}
               <div className="flex flex-wrap gap-2">
-                {['All', 'Identified', 'Contacted', 'Proposal Sent', 'Closed', 'Lost'].map(filter => (
+                {crmFilterChips.map(filter => (
                   <button
                     key={filter}
-                    onClick={() => setCrmFilter(filter as any)}
+                    onClick={() => setCrmFilter(filter)}
                     className={`px-4 py-1.5 text-xs font-semibold rounded-full cursor-pointer transition-all duration-300 ${
                       crmFilter === filter
                         ? 'bg-primary text-primary-foreground'
@@ -743,10 +798,6 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                   </button>
                 ))}
               </div>
-
-              <span className="text-xs font-light text-muted-foreground">
-                Displaying {filteredLeads.length} of {crmLeads.length} lead submissions
-              </span>
             </div>
 
             {/* Leads Table */}
@@ -756,64 +807,85 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                   <table className="w-full text-sm text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground text-xs uppercase tracking-wider font-semibold bg-muted/40">
-                        <th className="py-4 px-5">Submit Date</th>
+                        <th className="py-4 px-5">Date</th>
                         <th className="py-4 px-5">Prospect</th>
-                        <th className="py-4 px-5">Service Area</th>
-                        <th className="py-4 px-5">Contact Details</th>
+                        <th className="py-4 px-5">Segment</th>
+                        <th className="py-4 px-5">Contact</th>
                         <th className="py-4 px-5">Pipeline Status</th>
                         <th className="py-4 px-5 text-right">Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/10 font-light text-muted-foreground">
-                      {filteredLeads.map((lead) => (
-                        <tr key={lead.id} className="hover:bg-muted/5 transition-colors align-top">
+                      {filteredLeads.map((lead) => {
+                        const isOutreach = lead.leadKind === 'outreach'
+                        const displayName = lead.company || lead.name || '—'
+                        const displaySub = isOutreach ? (lead.description || lead.industry || '') : (lead.message || '')
+                        const contact = lead.email || lead.contactInfo || ''
+                        const statusOptions = isOutreach ? OUTREACH_STATUSES : INBOUND_STATUSES
+                        const mailto = contact.includes('@')
+                          ? `mailto:${contact}?subject=${encodeURIComponent('A quick video idea for ' + (lead.company || 'your brand'))}`
+                          : `https://wa.me/${contact.replace(/[+\s]/g, '')}`
+                        return (
+                        <React.Fragment key={lead.id}>
+                        <tr className="hover:bg-muted/5 transition-colors align-top">
                           <td className="py-4 px-5 whitespace-nowrap text-xs text-foreground">
                             <span className="flex items-center gap-1.5">
                               <Clock className="h-3.5 w-3.5 text-muted-foreground/60" />
                               {new Date(lead.timestamp).toLocaleDateString('en-GB', {
                                 day: '2-digit',
-                                month: 'short',
-                                hour: '2-digit',
-                                minute: '2-digit'
+                                month: 'short'
                               })}
                             </span>
+                            {lead.sentAt && (
+                              <span className="block mt-1 text-[10px] text-muted-foreground/70">
+                                sent {new Date(lead.sentAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                              </span>
+                            )}
                           </td>
                           <td className="py-4 px-5">
-                            <p className="font-semibold text-foreground text-sm">{lead.name}</p>
-                            <p className="text-xs text-foreground mt-1 max-w-sm line-clamp-2 leading-relaxed" title={lead.message}>
-                              "{lead.message}"
-                            </p>
+                            <p className="font-semibold text-foreground text-sm">{displayName}</p>
+                            {displaySub && (
+                              <p className="text-xs text-muted-foreground mt-1 max-w-sm line-clamp-2 leading-relaxed" title={displaySub}>
+                                {isOutreach ? displaySub : `"${displaySub}"`}
+                              </p>
+                            )}
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap">
-                            <Badge variant="outline" className="text-[10px] font-bold border-primary/20 text-primary uppercase">
-                              {lead.service}
-                            </Badge>
+                            <div className="flex flex-col gap-1">
+                              <Badge variant="outline" className="text-[10px] font-bold border-primary/20 text-primary uppercase w-fit">
+                                {isOutreach ? (lead.industry || 'Outreach') : (lead.service || 'Inbound')}
+                              </Badge>
+                              {isOutreach && lead.template && (
+                                <span className="text-[10px] text-muted-foreground">Template {lead.template}</span>
+                              )}
+                            </div>
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap text-xs font-mono text-foreground">
-                            {lead.contactInfo}
+                            {contact}
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap">
                             {/* Pipeline status changer */}
                             <select
                               value={lead.status}
+                              disabled={savingLeadId === lead.id}
                               onChange={(e) => handleStatusChange(lead.id, e.target.value as any)}
-                              className={`text-xs font-semibold px-3 py-1.5 rounded-full border border-border bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer transition-colors ${
-                                lead.status === 'Closed' 
+                              className={`text-xs font-semibold px-3 py-1.5 rounded-full border border-border bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer transition-colors disabled:opacity-50 ${
+                                lead.status === 'Closed'
                                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                                  : lead.status === 'Lost'
+                                  : lead.status === 'Lost' || lead.status === 'Breakup sent'
                                   ? 'bg-destructive/10 text-destructive-foreground border-destructive/20'
                                   : lead.status === 'Proposal Sent'
                                   ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                                  : lead.status === 'Contacted'
+                                  : lead.status === 'Replied'
+                                  ? 'bg-primary/15 text-primary border-primary/30'
+                                  : lead.status === 'Contacted' || lead.status === 'Sent' || lead.status === 'Bumped'
                                   ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                                   : 'bg-muted/50 text-muted-foreground'
                               }`}
                             >
-                              <option value="Identified">Identified</option>
-                              <option value="Contacted">Contacted</option>
-                              <option value="Proposal Sent">Proposal Sent</option>
-                              <option value="Closed">Closed (Client)</option>
-                              <option value="Lost">Lost</option>
+                              {statusOptions.map(s => (
+                                <option key={s} value={s}>{s}</option>
+                              ))}
                             </select>
                           </td>
                           <td className="py-4 px-5 text-right whitespace-nowrap">
@@ -823,8 +895,8 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                                 size="sm"
                                 variant="ghost"
                                 className="h-8 w-8 p-0 border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
-                                onClick={() => handleCopy(lead.message, `msg_${lead.id}`)}
-                                title="Copy project brief"
+                                onClick={() => handleCopy(displaySub || displayName, `msg_${lead.id}`)}
+                                title="Copy details"
                               >
                                 {copiedId === `msg_${lead.id}` ? (
                                   <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -832,26 +904,51 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                                   <Copy className="h-3.5 w-3.5" />
                                 )}
                               </Button>
-                              
+
                               <Button
                                 size="sm"
                                 variant="ghost"
                                 className="h-8 w-8 p-0 border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
                                 asChild
-                                title="Reply via Email / Contact channel"
+                                title="Reply via Email / WhatsApp"
                               >
-                                <a
-                                  href={lead.contactInfo.includes('@') ? `mailto:${lead.contactInfo}?subject=Dako Studios Discovery Call` : `https://wa.me/${lead.contactInfo.replace(/[+\s]/g, '')}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
+                                <a href={mailto} target="_blank" rel="noopener noreferrer">
                                   <Send className="h-3.5 w-3.5" />
                                 </a>
                               </Button>
                             </div>
                           </td>
                         </tr>
-                      ))}
+                        {/* AI-suggested reply awaiting human review (never auto-sent) */}
+                        {lead.suggestedReply && (
+                          <tr className="bg-primary/5">
+                            <td colSpan={6} className="px-5 py-4">
+                              <div className="border border-primary/20 rounded-[6px] p-4 bg-background/60">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
+                                    Suggested reply — review before sending
+                                  </span>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
+                                    onClick={() => handleCopy(lead.suggestedReply || '', `reply_${lead.id}`)}
+                                  >
+                                    {copiedId === `reply_${lead.id}` ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                                    <span className="ml-1.5">Copy</span>
+                                  </Button>
+                                </div>
+                                <p className="text-xs text-foreground whitespace-pre-wrap leading-relaxed">{lead.suggestedReply}</p>
+                                {lead.suggestedReasoning && (
+                                  <p className="mt-2 text-[11px] text-muted-foreground italic">Why: {lead.suggestedReasoning}</p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                        </React.Fragment>
+                        )
+                      })}
                     </tbody>
                   </table>
                 ) : (
