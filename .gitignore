@@ -22,6 +22,10 @@ recreation/
 # Local content
 content/leads.json
 
+# Supabase CLI local artifacts
+supabase/.temp/
+supabase/.branches/
+
 # Auto-generated (regenerated on build)
 *.tsbuildinfo
 next-env.d.ts

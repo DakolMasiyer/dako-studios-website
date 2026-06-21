@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { isSupabaseConfigured, getSupabaseAdmin } from './supabase'
 
 export interface PersonaData {
   name: string
@@ -41,14 +42,106 @@ export interface CopyAsset {
   cta?: string
 }
 
+export type LeadStatus =
+  // Outreach (cold) pipeline
+  | 'Not sent'
+  | 'Sent'
+  | 'Bumped'
+  | 'Replied'
+  | 'Breakup sent'
+  // Shared / inbound pipeline
+  | 'Identified'
+  | 'Contacted'
+  | 'Proposal Sent'
+  | 'Closed'
+  | 'Lost'
+
+export type LeadKind = 'outreach' | 'inbound'
+
 export interface Lead {
   id: string
-  name: string
-  contactInfo: string
-  service: string
-  message: string
-  status: 'Identified' | 'Contacted' | 'Proposal Sent' | 'Closed' | 'Lost'
+  leadKind: LeadKind
+  status: LeadStatus
+  notes?: string
+  /** ISO timestamp; sourced from created_at (DB) or timestamp (legacy JSON). */
   timestamp: string
+
+  // Inbound (contact form) fields
+  name?: string
+  contactInfo?: string
+  service?: string
+  message?: string
+
+  // Outreach (cold prospect) fields
+  company?: string
+  industry?: string
+  description?: string
+  email?: string
+  source?: string
+  address?: string
+  template?: 'A' | 'B' | 'C'
+  emailType?: string
+  sentAt?: string
+  lastContactAt?: string
+  threadId?: string
+  messageId?: string
+  suggestedReply?: string
+  suggestedReasoning?: string
+}
+
+/** Raw row shape as stored in the Supabase `leads` table (snake_case). */
+export interface LeadRow {
+  id: string
+  lead_kind: LeadKind
+  status: LeadStatus
+  notes: string | null
+  created_at: string
+  name: string | null
+  contact_info: string | null
+  service: string | null
+  message: string | null
+  company: string | null
+  industry: string | null
+  description: string | null
+  email: string | null
+  source: string | null
+  address: string | null
+  template: 'A' | 'B' | 'C' | null
+  email_type: string | null
+  sent_at: string | null
+  last_contact_at: string | null
+  thread_id: string | null
+  message_id: string | null
+  suggested_reply: string | null
+  suggested_reasoning: string | null
+}
+
+function mapRowToLead(row: LeadRow): Lead {
+  return {
+    id: row.id,
+    leadKind: row.lead_kind,
+    status: row.status,
+    notes: row.notes ?? undefined,
+    timestamp: row.created_at,
+    name: row.name ?? undefined,
+    contactInfo: row.contact_info ?? undefined,
+    service: row.service ?? undefined,
+    message: row.message ?? undefined,
+    company: row.company ?? undefined,
+    industry: row.industry ?? undefined,
+    description: row.description ?? undefined,
+    email: row.email ?? undefined,
+    source: row.source ?? undefined,
+    address: row.address ?? undefined,
+    template: row.template ?? undefined,
+    emailType: row.email_type ?? undefined,
+    sentAt: row.sent_at ?? undefined,
+    lastContactAt: row.last_contact_at ?? undefined,
+    threadId: row.thread_id ?? undefined,
+    messageId: row.message_id ?? undefined,
+    suggestedReply: row.suggested_reply ?? undefined,
+    suggestedReasoning: row.suggested_reasoning ?? undefined,
+  }
 }
 
 
@@ -278,18 +371,41 @@ export function getCopyBankData(): CopyAsset[] {
   }
 }
 
+/** Legacy inbound-only record shape stored in content/leads.json. */
+interface LegacyLeadJson {
+  id: string
+  name: string
+  contactInfo: string
+  service: string
+  message: string
+  status: LeadStatus
+  timestamp: string
+  notes?: string
+}
+
 export function getLocalLeads(): Lead[] {
   try {
     const filePath = path.join(process.cwd(), 'content/leads.json')
     if (!fs.existsSync(filePath)) return []
     const content = fs.readFileSync(filePath, 'utf8')
-    return JSON.parse(content || '[]')
+    const raw: LegacyLeadJson[] = JSON.parse(content || '[]')
+    return raw.map((l) => ({
+      id: l.id,
+      leadKind: 'inbound' as const,
+      status: l.status,
+      notes: l.notes,
+      timestamp: l.timestamp,
+      name: l.name,
+      contactInfo: l.contactInfo,
+      service: l.service,
+      message: l.message,
+    }))
   } catch {
     return []
   }
 }
 
-export function saveLocalLeads(leads: Lead[]): boolean {
+function saveLocalLeads(leads: LegacyLeadJson[]): boolean {
   try {
     const filePath = path.join(process.cwd(), 'content/leads.json')
     const dirPath = path.dirname(filePath)
@@ -299,6 +415,116 @@ export function saveLocalLeads(leads: Lead[]): boolean {
     fs.writeFileSync(filePath, JSON.stringify(leads, null, 2), 'utf8')
     return true
   } catch {
+    return false
+  }
+}
+
+/**
+ * Primary read path for the CRM. Uses Supabase when configured, otherwise falls
+ * back to the legacy content/leads.json (inbound leads only) so the dashboard
+ * keeps working before a Supabase project is provisioned + seeded.
+ */
+export async function getLeads(): Promise<Lead[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = getSupabaseAdmin()
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return (data as LeadRow[]).map(mapRowToLead)
+    } catch (err) {
+      console.error('getLeads: Supabase read failed, falling back to JSON:', err)
+    }
+  }
+  return getLocalLeads()
+}
+
+/** A new cold prospect to insert (Loop A). */
+export interface NewOutreachLead {
+  company?: string
+  industry?: string
+  description?: string
+  email: string
+  source?: string
+  address?: string
+  template?: 'A' | 'B' | 'C'
+}
+
+/**
+ * Insert freshly-sourced prospects as 'Not sent'. Relies on the DB unique index on
+ * outreach email to skip duplicates. Returns the number of rows inserted, or 0 when
+ * Supabase isn't configured (Loop A requires the DB).
+ */
+export async function insertOutreachLeads(rows: NewOutreachLead[]): Promise<number> {
+  if (!rows.length) return 0
+  if (!isSupabaseConfigured()) return 0
+  const supabase = getSupabaseAdmin()
+  const records = rows.map((r) => ({
+    lead_kind: 'outreach' as const,
+    status: 'Not sent' as LeadStatus,
+    company: r.company ?? null,
+    industry: r.industry ?? null,
+    description: r.description ?? null,
+    email: r.email,
+    source: r.source ?? null,
+    address: r.address ?? null,
+    template: r.template ?? 'A',
+  }))
+  const { data, error } = await supabase
+    .from('leads')
+    .upsert(records, { onConflict: 'email', ignoreDuplicates: true })
+    .select('id')
+  if (error) {
+    console.error('insertOutreachLeads failed:', error)
+    return 0
+  }
+  return data ? data.length : 0
+}
+
+/** Columns the dashboard / automation are allowed to update on a lead. */
+export interface LeadUpdate {
+  status?: LeadStatus
+  notes?: string
+  suggested_reply?: string | null
+  suggested_reasoning?: string | null
+  sent_at?: string | null
+  last_contact_at?: string | null
+  thread_id?: string | null
+  message_id?: string | null
+}
+
+/**
+ * Single write path for lead mutations. Updates Supabase when configured; otherwise
+ * patches the legacy JSON (status/notes only — JSON inbound leads have no outreach
+ * columns). Returns true on success.
+ */
+export async function updateLead(id: string, patch: LeadUpdate): Promise<boolean> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = getSupabaseAdmin()
+      const { error } = await supabase.from('leads').update(patch).eq('id', id)
+      if (error) throw error
+      return true
+    } catch (err) {
+      console.error('updateLead: Supabase write failed:', err)
+      return false
+    }
+  }
+  // JSON fallback: only status/notes are meaningful for legacy inbound leads.
+  try {
+    const filePath = path.join(process.cwd(), 'content/leads.json')
+    if (!fs.existsSync(filePath)) return false
+    const raw: LegacyLeadJson[] = JSON.parse(fs.readFileSync(filePath, 'utf8') || '[]')
+    const next = raw.map((l) =>
+      l.id === id
+        ? { ...l, ...(patch.status ? { status: patch.status } : {}), ...(patch.notes !== undefined ? { notes: patch.notes } : {}) }
+        : l
+    )
+    return saveLocalLeads(next)
+  } catch (err) {
+    console.error('updateLead: JSON write failed:', err)
     return false
   }
 }

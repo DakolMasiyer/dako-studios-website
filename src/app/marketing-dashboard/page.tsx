@@ -2,7 +2,7 @@ import React from 'react'
 import { cookies } from 'next/headers'
 import { LoginScreen } from './login-screen'
 import { DashboardClient } from './dashboard-client'
-import { getStrategyData, getCalendarData, getCopyBankData, getLocalLeads } from '@/utils/marketing-data'
+import { getStrategyData, getCalendarData, getCopyBankData, getLeads } from '@/utils/marketing-data'
 import { verifyToken } from '@/lib/session'
 
 export const metadata = {
@@ -28,7 +28,7 @@ export default async function MarketingDashboardPage() {
   const strategy = getStrategyData()
   const calendar = getCalendarData()
   const copyBank = getCopyBankData()
-  const leads = getLocalLeads()
+  const leads = await getLeads()
 
   return (
     <DashboardClient
