@@ -19,6 +19,9 @@ recreation/
 .env.*
 !.env.example
 
+# Local content
+content/leads.json
+
 # Auto-generated (regenerated on build)
 *.tsbuildinfo
 next-env.d.ts

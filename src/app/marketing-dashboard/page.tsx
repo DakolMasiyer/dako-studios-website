@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { LoginScreen } from './login-screen'
 import { DashboardClient } from './dashboard-client'
 import { getStrategyData, getCalendarData, getCopyBankData, getLocalLeads } from '@/utils/marketing-data'
+import { verifyToken } from '@/lib/session'
 
 export const metadata = {
   title: 'Marketing Dashboard & CRM | Dako Studios',
@@ -13,7 +14,11 @@ export default async function MarketingDashboardPage() {
   const cookieStore = await cookies()
   const token = cookieStore.get('dako_marketing_token')
 
-  const isAuthenticated = token?.value === 'dako_authorized_session_2026'
+  let isAuthenticated = false
+  if (token?.value) {
+    const payload = await verifyToken(token.value)
+    isAuthenticated = !!payload?.admin
+  }
 
   if (!isAuthenticated) {
     return <LoginScreen />

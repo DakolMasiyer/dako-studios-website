@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import fs from 'fs'
-import path from 'path'
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -27,41 +25,8 @@ export async function POST(request: Request) {
     const timestamp = new Date().toISOString()
     const leadId = `lead_${Date.now()}`
 
-    // 1. Save locally to content/leads.json (Always run as a reliable local record)
-    try {
-      const leadsFile = path.join(process.cwd(), 'content/leads.json')
-      
-      // Ensure content directory exists
-      const contentDir = path.dirname(leadsFile)
-      if (!fs.existsSync(contentDir)) {
-        fs.mkdirSync(contentDir, { recursive: true })
-      }
-
-      let leads = []
-      if (fs.existsSync(leadsFile)) {
-        const fileContent = fs.readFileSync(leadsFile, 'utf8')
-        try {
-          leads = JSON.parse(fileContent || '[]')
-        } catch {
-          leads = []
-        }
-      }
-      
-      const newLead = {
-        id: leadId,
-        name,
-        contactInfo,
-        service,
-        message,
-        status: 'Identified',
-        timestamp
-      }
-      
-      leads.push(newLead)
-      fs.writeFileSync(leadsFile, JSON.stringify(leads, null, 2), 'utf8')
-    } catch (fsErr: any) {
-      console.error('Failed to save lead locally to leads.json:', fsErr.message)
-    }
+    // 1. Local file save removed for security/hygiene (M2)
+    // We now rely solely on Airtable and Resend for lead storage.
 
     // 2. Write to Airtable (if configured)
     const airtableToken = process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN
