@@ -88,7 +88,7 @@ export async function POST(request: Request) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: 'Dako Studios Intake <intake@dako.studio>',
+            from: process.env.INTAKE_FROM || 'Dako Studios Intake <intake@mail.dako.studio>',
             to: notificationEmail,
             subject: `New Lead: ${name} (${service.toUpperCase()})`,
             html: `
