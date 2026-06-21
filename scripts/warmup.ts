@@ -61,7 +61,6 @@ const RECIPIENTS = [
   'dakonconcepts@gmail.com',
   'dakol.masiyer@stu.cu.edu.ng',
   'firstfeatureswx@gmail.com',
-  'richmondeke@gmail.com',
 ]
 
 // Varied, ordinary, non-templatey subject/body pairs — mundane everyday phrasing,

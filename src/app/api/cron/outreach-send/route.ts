@@ -20,7 +20,9 @@ import { isAuthorizedCron } from '@/utils/cron-auth'
 
 export const dynamic = 'force-dynamic'
 
-const OPENER_BATCH = 15          // max new openers per run (deliverability)
+// Max new openers per run. Start LOW (5) while the domain is young, then ramp up over
+// ~a week by raising OUTREACH_OPENER_BATCH (e.g. 5 → 8 → 12 → 20) — no code change needed.
+const OPENER_BATCH = Number(process.env.OUTREACH_OPENER_BATCH) || 5
 const BUMP_AFTER_DAYS = 4
 const BREAKUP_AFTER_BUMP_DAYS = 5
 
