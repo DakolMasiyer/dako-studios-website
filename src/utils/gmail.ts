@@ -82,8 +82,10 @@ export async function findRepliesFrom(fromEmail: string, sinceIso?: string): Pro
 
   const accessToken = await getAccessToken()
   const q = `from:${fromEmail} newer_than:${daysSince(sinceIso)}d`
+  // includeSpamTrash=true is essential: Cloudflare-forwarded replies can land in Spam,
+  // and Gmail's from: search skips Spam/Trash by default — we'd miss real replies.
   const listRes = await fetch(
-    `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(q)}&maxResults=5`,
+    `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(q)}&maxResults=5&includeSpamTrash=true`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   )
   if (!listRes.ok) {

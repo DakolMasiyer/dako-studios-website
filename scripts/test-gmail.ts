@@ -89,8 +89,8 @@ async function main() {
   const fromArg = process.argv.find((a) => a.includes('@'))
   if (fromArg) {
     const q = encodeURIComponent(`from:${fromArg} newer_than:30d`)
-    console.log(`4) Running the poll-loop query: from:${fromArg} newer_than:30d`)
-    const res = await gget(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${q}&maxResults=5`, token)
+    console.log(`4) Running the poll-loop query: from:${fromArg} newer_than:30d (incl. spam)`)
+    const res = await gget(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${q}&maxResults=5&includeSpamTrash=true`, token)
     console.log(`   ✅ ${res.resultSizeEstimate ?? (res.messages?.length || 0)} match(es) — this is what outreach-poll would triage`)
   } else {
     console.log('4) (skipped) pass a prospect email to test the exact poll query, e.g.:')
