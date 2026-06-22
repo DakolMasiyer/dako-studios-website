@@ -112,9 +112,13 @@ export default function DakoBetaFeedbackPage() {
               <div className="flex flex-col gap-2.5">
                 {[
                   { id: 'real-estate', label: 'Real estate / property' },
+                  { id: 'ecommerce', label: 'E-commerce / Retail' },
+                  { id: 'tech', label: 'Technology / SaaS' },
+                  { id: 'creative', label: 'Creative / Agency / Media' },
                   { id: 'law', label: 'Law / professional services' },
                   { id: 'healthcare', label: 'Healthcare / dental' },
                   { id: 'hospitality', label: 'Hospitality / food' },
+                  { id: 'consulting', label: 'Consulting / Coaching' },
                   { id: 'diaspora', label: 'Diaspora business' },
                   { id: 'other', label: 'Other' },
                 ].map(opt => (
