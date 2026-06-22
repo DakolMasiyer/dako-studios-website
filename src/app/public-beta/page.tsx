@@ -83,7 +83,7 @@ export default function DakoBetaFeedbackPage() {
         {/* Header */}
         <div className="p-10 pb-7 border-b border-[#2C2C30] relative z-10">
           <div className="flex items-center justify-between mb-6">
-            <DakoLogo size={26} />
+            <DakoLogo size={26} className="dark" />
             <span className="bg-primary/10 text-primary font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-primary/30">
               beta feedback
             </span>
