@@ -35,10 +35,8 @@ export function useVideoInView(threshold = 0.3) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (shouldAutoPlayVideo()) {
-            video.play().catch(() => {})
-          }
-        } else {
+          video.play().catch(() => {})
+        } else if (!video.paused) {
           video.pause()
         }
       },

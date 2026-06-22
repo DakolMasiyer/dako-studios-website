@@ -3,12 +3,11 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowUpRight, Globe, Pause, Play, Volume2, VolumeX } from 'lucide-react'
+import { ArrowUpRight, Globe, Volume2, VolumeX } from 'lucide-react'
 import { portfolioItems, PortfolioItem, cldVideo } from '@/data/portfolio'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
-import { useVideoInView, requestPlay, requestPause, shouldAutoPlayVideo } from '@/hooks/use-video-in-view'
-import { ScrollExpand } from '@/components/scroll-expand'
+import { useVideoInView } from '@/hooks/use-video-in-view'
 
 interface BlogSectionProps {
   caseStudies: CaseStudy[]
@@ -27,33 +26,8 @@ function ArmBadge({ armId }: { armId: string }) {
 }
 
 function VideoCard({ item }: { item: PortfolioItem }) {
-  const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(true)
   const videoRef = useVideoInView()
-
-  // Keep UI in sync with actual video state (including observer-driven changes)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    const onPlay = () => setPlaying(true)
-    const onPause = () => setPlaying(false)
-    video.addEventListener('play', onPlay)
-    video.addEventListener('pause', onPause)
-    return () => {
-      video.removeEventListener('play', onPlay)
-      video.removeEventListener('pause', onPause)
-    }
-  }, [videoRef])
-
-  const togglePlay = () => {
-    const video = videoRef.current
-    if (!video) return
-    if (playing) {
-      requestPause(video)
-    } else {
-      requestPlay(video)
-    }
-  }
 
   const toggleMute = () => {
     if (!videoRef.current) return
@@ -86,13 +60,6 @@ function VideoCard({ item }: { item: PortfolioItem }) {
         >
           {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
         </button>
-        <button
-          onClick={togglePlay}
-          className="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white hover:bg-black/80 transition-colors cursor-pointer"
-          aria-label={playing ? 'Pause' : 'Play'}
-        >
-          {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-        </button>
       </div>
     </div>
   )
@@ -101,7 +68,6 @@ function VideoCard({ item }: { item: PortfolioItem }) {
 function CyclingVideoCard({ item }: { item: PortfolioItem }) {
   const videos = item.videos ?? []
   const [current, setCurrent] = useState(0)
-  const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(true)
   const [inView, setInView] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -116,7 +82,7 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
         setInView(entry.isIntersecting)
         if (!entry.isIntersecting) {
           const video = videoRef.current
-          if (video) requestPause(video)
+          if (video && !video.paused) video.pause()
         }
       },
       { threshold: 0.3 }
@@ -135,38 +101,14 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
         // without it the browser blocks muted autoplay.
         video.defaultMuted = true
         video.muted = true
-        if (shouldAutoPlayVideo()) requestPlay(video)
+        video.play().catch(() => {})
       }
     }, 0)
     return () => clearTimeout(timer)
   }, [current, inView])
 
-  // Sync playing state with video events (re-attach on each cycle)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    const onPlay = () => setPlaying(true)
-    const onPause = () => setPlaying(false)
-    video.addEventListener('play', onPlay)
-    video.addEventListener('pause', onPause)
-    return () => {
-      video.removeEventListener('play', onPlay)
-      video.removeEventListener('pause', onPause)
-    }
-  }, [current])
-
   function advance() {
     setCurrent((i) => (i + 1) % videos.length)
-  }
-
-  function togglePlay() {
-    const video = videoRef.current
-    if (!video) return
-    if (playing) {
-      requestPause(video)
-    } else {
-      requestPlay(video)
-    }
   }
 
   function toggleMute() {
@@ -200,13 +142,6 @@ function CyclingVideoCard({ item }: { item: PortfolioItem }) {
           aria-label={muted ? 'Unmute' : 'Mute'}
         >
           {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-        </button>
-        <button
-          onClick={togglePlay}
-          className="w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white hover:bg-black/80 transition-colors cursor-pointer"
-          aria-label={playing ? 'Pause' : 'Play'}
-        >
-          {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
         </button>
       </div>
     </div>
@@ -301,9 +236,9 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
 
           {/* Row 1: Getly video — full width */}
           {getly && (
-            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <VideoCard item={getly} />
-            </ScrollExpand>
+            </div>
           )}
 
           {/* Row 2: Sporton + Kiichen — portrait pair */}
@@ -330,7 +265,7 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
 
           {/* Row 3: Da'anong website — full width, browser mockup with screen recording */}
           {daanong && (
-            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
             <a
               href={daanong.href}
               target="_blank"
@@ -479,21 +414,21 @@ export function BlogSection({ caseStudies }: BlogSectionProps) {
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </div>
             </a>
-            </ScrollExpand>
+            </div>
           )}
 
           {/* Row 4: Face Serum video — full width */}
           {serum && (
-            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <VideoCard item={serum} />
-            </ScrollExpand>
+            </div>
           )}
 
           {/* Row 5: SyncMaster cycling video — full width */}
           {syncmaster && syncmaster.videos && (
-            <ScrollExpand className="sm:col-span-2 aspect-video overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="sm:col-span-2 aspect-video rounded-[8px] overflow-hidden border border-border/20 hover:border-border/50 transition-colors duration-300 hover:shadow-2xl hover:shadow-primary/5">
               <CyclingVideoCard item={syncmaster} />
-            </ScrollExpand>
+            </div>
           )}
 
           {/* Row 6: First Features — full width */}

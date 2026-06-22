@@ -3,23 +3,41 @@
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Volume2, VolumeX } from 'lucide-react'
 import { CaseStudy } from '@/utils/case-studies'
 import { services } from '@/data/services'
 import { useVideoInView } from '@/hooks/use-video-in-view'
 
 function VideoThumbnail({ src, alt }: { src: string; alt: string }) {
+  const [muted, setMuted] = useState(true)
   const videoRef = useVideoInView()
+
+  const toggleMute = () => {
+    if (!videoRef.current) return
+    videoRef.current.muted = !muted
+    setMuted(!muted)
+  }
+
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      loop
-      muted
-      playsInline
-      preload="auto"
-      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-      aria-label={alt}
-    />
+    <>
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+        aria-label={alt}
+      />
+      <button
+        onClick={toggleMute}
+        className="absolute bottom-3 right-3 z-10 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white hover:bg-black/80 transition-colors cursor-pointer opacity-70 hover:opacity-100"
+        aria-label={muted ? 'Unmute' : 'Mute'}
+      >
+        {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+      </button>
+    </>
   )
 }
 
@@ -79,52 +97,54 @@ export function CaseStudiesList({ initialCaseStudies }: CaseStudiesListProps) {
         {filteredCaseStudies.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12 sm:gap-y-16">
             {filteredCaseStudies.map((cs) => (
-              <Link
-                key={cs.slug}
-                href={`/case-studies/${cs.slug}`}
-                className="group block"
-              >
-                <article>
-                  {/* Thumbnail — video if available, else image */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20 bg-black">
-                    {(cs.videos[0] ?? cs.video) ? (
-                      <VideoThumbnail
-                        src={(cs.videos[0] ?? cs.video)!}
-                        alt={cs.client}
-                      />
-                    ) : cs.heroImage ? (
-                      <Image
-                        src={cs.heroImage}
-                        alt={cs.client}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                        sizes="(max-width: 640px) 100vw, 50vw"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-muted to-muted" />
-                    )}
-                  </div>
+              <article key={cs.slug} className="group">
+                {/* Thumbnail — video if available, else image */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] mb-5 border border-border/20 bg-black">
+                  {(cs.videos[0] ?? cs.video) ? (
+                    <VideoThumbnail
+                      src={(cs.videos[0] ?? cs.video)!}
+                      alt={cs.client}
+                    />
+                  ) : cs.heroImage ? (
+                    <Image
+                      src={cs.heroImage}
+                      alt={cs.client}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-muted to-muted" />
+                  )}
+                  {/* Click-to-navigate overlay — sits below the mute button (z-10) so the button stays clickable */}
+                  <Link
+                    href={`/case-studies/${cs.slug}`}
+                    className="absolute inset-0"
+                    aria-label={cs.client}
+                  />
+                </div>
 
-                  {/* Client name */}
+                {/* Client name */}
+                <Link href={`/case-studies/${cs.slug}`} className="block">
                   <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300 tracking-tight">
                     {cs.client}
                   </h2>
+                </Link>
 
-                  {/* Tags */}
-                  {cs.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {cs.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </article>
-              </Link>
+                {/* Tags */}
+                {cs.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {cs.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 text-xs bg-muted/60 text-muted-foreground rounded-full font-medium border border-border/30"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </article>
             ))}
           </div>
         ) : (
