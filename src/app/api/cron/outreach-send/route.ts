@@ -49,15 +49,24 @@ export async function POST(req: Request) {
   const planned: Action[] = []
   const errors: { leadId: string; error: string }[] = []
 
-  const openers = outreach.filter((l) => l.status === 'Not sent').slice(0, OPENER_BATCH)
+  const openers = outreach
+    .filter((l) => l.status === 'Not sent' && (!l.customizedEmailBody || l.emailApproved === true))
+    .slice(0, OPENER_BATCH)
   const bumps = outreach.filter((l) => l.status === 'Sent' && daysAgo(l.sentAt) >= BUMP_AFTER_DAYS)
   const breakups = outreach.filter(
     (l) => l.status === 'Bumped' && daysAgo(l.lastContactAt) >= BREAKUP_AFTER_BUMP_DAYS
   )
 
   async function run(lead: Lead, kind: Action['kind']) {
+    // Bump/breakup always use the live template — qualification only pre-generates openers for now.
     const email =
-      kind === 'opener' ? buildOpener(lead) : kind === 'bump' ? buildBump(lead) : buildBreakup(lead)
+      kind === 'opener'
+        ? lead.customizedEmailBody
+          ? { subject: lead.customizedEmailSubject || '(no subject)', body: lead.customizedEmailBody }
+          : buildOpener(lead)
+        : kind === 'bump'
+          ? buildBump(lead)
+          : buildBreakup(lead)
     planned.push({ leadId: lead.id, company: lead.company, kind, to: lead.email, subject: email.subject })
     if (dry) return // simulate only — no send, no DB write
 

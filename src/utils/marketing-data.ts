@@ -87,6 +87,20 @@ export interface Lead {
   messageId?: string
   suggestedReply?: string
   suggestedReasoning?: string
+
+  // Qualification engine fields
+  arm?: 'Motion' | 'Labs' | 'Brand' | 'Film' | 'Academy'
+  qualificationStatus?: 'Qualified' | 'Low priority' | 'Disqualified'
+  qualificationReason?: string
+  painPoint?: string
+  customizedEmailSubject?: string
+  customizedEmailBody?: string
+  emailApproved?: boolean
+  phone?: string
+  contactName?: string
+  priority?: 'HIGH' | 'MEDIUM' | 'LOW'
+  batchRun?: string
+  requalifiedAt?: string
 }
 
 /** Raw row shape as stored in the Supabase `leads` table (snake_case). */
@@ -114,6 +128,18 @@ export interface LeadRow {
   message_id: string | null
   suggested_reply: string | null
   suggested_reasoning: string | null
+  arm: 'Motion' | 'Labs' | 'Brand' | 'Film' | 'Academy' | null
+  qualification_status: 'Qualified' | 'Low priority' | 'Disqualified' | null
+  qualification_reason: string | null
+  pain_point: string | null
+  customized_email_subject: string | null
+  customized_email_body: string | null
+  email_approved: boolean
+  phone: string | null
+  contact_name: string | null
+  priority: 'HIGH' | 'MEDIUM' | 'LOW' | null
+  batch_run: string | null
+  requalified_at: string | null
 }
 
 function mapRowToLead(row: LeadRow): Lead {
@@ -141,6 +167,18 @@ function mapRowToLead(row: LeadRow): Lead {
     messageId: row.message_id ?? undefined,
     suggestedReply: row.suggested_reply ?? undefined,
     suggestedReasoning: row.suggested_reasoning ?? undefined,
+    arm: row.arm ?? undefined,
+    qualificationStatus: row.qualification_status ?? undefined,
+    qualificationReason: row.qualification_reason ?? undefined,
+    painPoint: row.pain_point ?? undefined,
+    customizedEmailSubject: row.customized_email_subject ?? undefined,
+    customizedEmailBody: row.customized_email_body ?? undefined,
+    emailApproved: row.email_approved,
+    phone: row.phone ?? undefined,
+    contactName: row.contact_name ?? undefined,
+    priority: row.priority ?? undefined,
+    batchRun: row.batch_run ?? undefined,
+    requalifiedAt: row.requalified_at ?? undefined,
   }
 }
 
@@ -450,6 +488,17 @@ export interface NewOutreachLead {
   source?: string
   address?: string
   template?: 'A' | 'B' | 'C'
+  arm?: 'Motion' | 'Labs' | 'Brand' | 'Film' | 'Academy'
+  qualificationStatus?: 'Qualified' | 'Low priority' | 'Disqualified'
+  qualificationReason?: string
+  painPoint?: string
+  customizedEmailSubject?: string
+  customizedEmailBody?: string
+  emailApproved?: boolean
+  phone?: string
+  contactName?: string
+  priority?: 'HIGH' | 'MEDIUM' | 'LOW'
+  batchRun?: string
 }
 
 /**
@@ -471,6 +520,17 @@ export async function insertOutreachLeads(rows: NewOutreachLead[]): Promise<numb
     source: r.source ?? null,
     address: r.address ?? null,
     template: r.template ?? 'A',
+    arm: r.arm ?? null,
+    qualification_status: r.qualificationStatus ?? null,
+    qualification_reason: r.qualificationReason ?? null,
+    pain_point: r.painPoint ?? null,
+    customized_email_subject: r.customizedEmailSubject ?? null,
+    customized_email_body: r.customizedEmailBody ?? null,
+    email_approved: r.emailApproved ?? false,
+    phone: r.phone ?? null,
+    contact_name: r.contactName ?? null,
+    priority: r.priority ?? null,
+    batch_run: r.batchRun ?? null,
   }))
   const { data, error } = await supabase
     .from('leads')
@@ -493,6 +553,13 @@ export interface LeadUpdate {
   last_contact_at?: string | null
   thread_id?: string | null
   message_id?: string | null
+  customized_email_subject?: string
+  customized_email_body?: string
+  email_approved?: boolean
+  qualification_status?: 'Qualified' | 'Low priority' | 'Disqualified'
+  qualification_reason?: string
+  pain_point?: string
+  requalified_at?: string
 }
 
 /**

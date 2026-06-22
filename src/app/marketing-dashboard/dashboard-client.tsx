@@ -3,28 +3,41 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { 
-  Briefcase, 
-  Calendar as CalendarIcon, 
-  Copy, 
-  Check, 
-  Users, 
-  ShieldCheck, 
-  Search, 
-  BookOpen, 
+import {
+  Briefcase,
+  Calendar as CalendarIcon,
+  Copy,
+  Check,
+  Users,
+  ShieldCheck,
+  Search,
+  BookOpen,
   MessageSquare,
   Clock,
   Send,
   AlertCircle,
   ArrowRight,
   LogOut,
-  TextAlignJustify
+  TextAlignJustify,
+  Plus,
+  Trash2,
+  FileText,
+  DollarSign
 } from 'lucide-react'
 import { StrategyData, CalendarPost, CopyAsset, Lead } from '@/utils/marketing-data'
+import { Invoice } from '@/utils/invoices'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
 import { DakoLogo } from '@/components/dako-logo'
 import { ModeToggle } from '@/components/mode-toggle'
 import {
@@ -85,6 +98,118 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
   const [crmFilter, setCrmFilter] = useState<string>('All')
   const [crmKind, setCrmKind] = useState<'all' | 'outreach' | 'inbound'>('all')
   const [savingLeadId, setSavingLeadId] = useState<string | null>(null)
+  // Local in-progress edits to a lead's drafted email, keyed by lead id, before Approve persists them
+  const [emailDrafts, setEmailDrafts] = useState<Record<string, { subject: string; body: string }>>({})
+
+  // Invoicing state — a lead being marked 'Closed' opens the Create Invoice modal
+  const [invoiceModalLead, setInvoiceModalLead] = useState<Lead | null>(null)
+  const [invoiceClientName, setInvoiceClientName] = useState('')
+  const [invoiceClientEmail, setInvoiceClientEmail] = useState('')
+  const [invoiceItems, setInvoiceItems] = useState<{ description: string; quantity: number; unitPrice: number }[]>([])
+  const [invoiceNotes, setInvoiceNotes] = useState('')
+  const [invoiceSaving, setInvoiceSaving] = useState(false)
+  const [invoices, setInvoices] = useState<Invoice[]>([])
+  const [invoicesLoaded, setInvoicesLoaded] = useState(false)
+  const [invoiceActionId, setInvoiceActionId] = useState<string | null>(null)
+
+  const loadInvoices = async () => {
+    try {
+      const res = await fetch('/api/marketing/invoices')
+      if (!res.ok) throw new Error('load failed')
+      const data = await res.json()
+      setInvoices(data.invoices ?? [])
+    } catch {
+      // leave existing invoices list untouched on failure
+    } finally {
+      setInvoicesLoaded(true)
+    }
+  }
+
+  useEffect(() => {
+    if (activeTab === 'crm' && !invoicesLoaded) {
+      loadInvoices()
+    }
+  }, [activeTab, invoicesLoaded])
+
+  const openInvoiceModal = (lead: Lead) => {
+    setInvoiceModalLead(lead)
+    setInvoiceClientName(lead.company || lead.name || '')
+    setInvoiceClientEmail(lead.email || lead.contactInfo || '')
+    setInvoiceItems([{ description: lead.service || 'Project work', quantity: 1, unitPrice: 0 }])
+    setInvoiceNotes('')
+  }
+
+  const updateInvoiceItem = (index: number, patch: Partial<{ description: string; quantity: number; unitPrice: number }>) => {
+    setInvoiceItems(prev => prev.map((item, i) => i === index ? { ...item, ...patch } : item))
+  }
+
+  const addInvoiceItem = () => {
+    setInvoiceItems(prev => [...prev, { description: '', quantity: 1, unitPrice: 0 }])
+  }
+
+  const removeInvoiceItem = (index: number) => {
+    setInvoiceItems(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const handleCreateInvoice = async () => {
+    if (!invoiceModalLead) return
+    setInvoiceSaving(true)
+    try {
+      const res = await fetch('/api/marketing/invoices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadId: invoiceModalLead.id,
+          clientName: invoiceClientName || undefined,
+          clientEmail: invoiceClientEmail || undefined,
+          items: invoiceItems.filter(i => i.description.trim()),
+          notes: invoiceNotes || undefined,
+        })
+      })
+      if (!res.ok) throw new Error('create failed')
+      const data = await res.json()
+      if (data.invoice) setInvoices(prev => [data.invoice, ...prev])
+      setInvoiceModalLead(null)
+    } catch {
+      // surface nothing destructive — the modal stays open so the user can retry
+    } finally {
+      setInvoiceSaving(false)
+    }
+  }
+
+  const handleSendInvoice = async (invoiceId: string) => {
+    setInvoiceActionId(invoiceId)
+    try {
+      const res = await fetch(`/api/marketing/invoices/${invoiceId}/send`, { method: 'POST' })
+      if (!res.ok) throw new Error('send failed')
+      const data = await res.json()
+      if (!data.dryRun) {
+        setInvoices(prev => prev.map(inv => inv.id === invoiceId ? { ...inv, status: 'Sent', sentAt: data.sentAt } : inv))
+      }
+    } catch {
+      // no optimistic state was set for send — nothing to revert
+    } finally {
+      setInvoiceActionId(null)
+    }
+  }
+
+  const handleMarkInvoicePaid = async (invoiceId: string) => {
+    const prevInvoices = invoices
+    setInvoices(prev => prev.map(inv => inv.id === invoiceId ? { ...inv, status: 'Paid' } : inv))
+    setInvoiceActionId(invoiceId)
+    try {
+      const res = await fetch(`/api/marketing/invoices/${invoiceId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'Paid' })
+      })
+      if (!res.ok) throw new Error('update failed')
+    } catch {
+      setInvoices(prevInvoices)
+    } finally {
+      setInvoiceActionId(null)
+    }
+  }
 
   // Copy to clipboard helper
   const handleCopy = (text: string, id: string) => {
@@ -103,6 +228,44 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: leadId, status: newStatus })
+      })
+      if (!res.ok) throw new Error('save failed')
+      // Closing a lead is the trigger for invoicing — open the Create Invoice panel
+      // for a human to fill in real line-item amounts (never auto-billed).
+      if (newStatus === 'Closed') {
+        const closedLead = crmLeads.find(l => l.id === leadId)
+        if (closedLead) openInvoiceModal({ ...closedLead, status: newStatus })
+      }
+    } catch {
+      // revert on failure so the UI never lies about persisted state
+      setCrmLeads(prevLeads)
+    } finally {
+      setSavingLeadId(null)
+    }
+  }
+
+  // Approve (and optionally persist edits to) a drafted outreach email — same optimistic pattern as handleStatusChange
+  const handleApproveEmail = async (leadId: string) => {
+    const prevLeads = crmLeads
+    const draft = emailDrafts[leadId]
+    const lead = crmLeads.find(l => l.id === leadId)
+    const edited = draft && lead && (draft.subject !== lead.customizedEmailSubject || draft.body !== lead.customizedEmailBody)
+    const patch = {
+      id: leadId,
+      email_approved: true,
+      ...(edited ? { customized_email_subject: draft.subject, customized_email_body: draft.body } : {})
+    }
+    setCrmLeads(prev => prev.map(l => l.id === leadId ? {
+      ...l,
+      emailApproved: true,
+      ...(edited ? { customizedEmailSubject: draft.subject, customizedEmailBody: draft.body } : {})
+    } : l))
+    setSavingLeadId(leadId)
+    try {
+      const res = await fetch('/api/marketing/leads', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patch)
       })
       if (!res.ok) throw new Error('save failed')
     } catch {
@@ -157,7 +320,8 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
   const filteredLeads = useMemo(() => {
     return crmLeads.filter(l => {
       const matchKind = crmKind === 'all' || l.leadKind === crmKind
-      const matchStatus = crmFilter === 'All' || l.status === crmFilter
+      const matchStatus = crmFilter === 'All'
+        || (crmFilter === 'Awaiting approval' ? Boolean(l.customizedEmailBody) && !l.emailApproved : l.status === crmFilter)
       return matchKind && matchStatus
     })
   }, [crmLeads, crmFilter, crmKind])
@@ -165,7 +329,10 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
   // Status chips shown depend on which pipeline (kind) is active
   const OUTREACH_STATUSES = ['Not sent', 'Sent', 'Bumped', 'Replied', 'Proposal Sent', 'Closed', 'Lost', 'Breakup sent']
   const INBOUND_STATUSES = ['Identified', 'Contacted', 'Proposal Sent', 'Closed', 'Lost']
-  const crmFilterChips = ['All', ...(crmKind === 'inbound' ? INBOUND_STATUSES : OUTREACH_STATUSES)]
+  const crmFilterChips = ['All', ...(crmKind === 'inbound' ? INBOUND_STATUSES : OUTREACH_STATUSES), 'Awaiting approval']
+
+  // Leads with a drafted email still pending human approval (qualification engine output)
+  const awaitingApprovalCount = crmLeads.filter(l => l.customizedEmailBody && !l.emailApproved).length
 
   // Replies awaiting human review are the actionable signal for the badge
   const repliesToReview = crmLeads.filter(l => l.status === 'Replied').length
@@ -852,9 +1019,29 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap">
                             <div className="flex flex-col gap-1">
-                              <Badge variant="outline" className="text-[10px] font-bold border-primary/20 text-primary uppercase w-fit">
-                                {isOutreach ? (lead.industry || 'Outreach') : (lead.service || 'Inbound')}
-                              </Badge>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <Badge variant="outline" className="text-[10px] font-bold border-primary/20 text-primary uppercase w-fit">
+                                  {isOutreach ? (lead.industry || 'Outreach') : (lead.service || 'Inbound')}
+                                </Badge>
+                                {isOutreach && lead.arm && (
+                                  <Badge variant="outline" className={`text-[9px] font-bold uppercase w-fit ${
+                                    lead.arm === 'Motion' ? 'border-violet-400/30 text-violet-400' : 'border-sky-400/30 text-sky-400'
+                                  }`}>
+                                    {lead.arm}
+                                  </Badge>
+                                )}
+                                {isOutreach && lead.qualificationStatus && (
+                                  <Badge variant="outline" className={`text-[9px] font-bold uppercase w-fit ${
+                                    lead.qualificationStatus === 'Qualified'
+                                      ? 'text-emerald-400 border-emerald-400/30'
+                                      : lead.qualificationStatus === 'Low priority'
+                                      ? 'text-amber-400 border-amber-400/30'
+                                      : 'text-destructive-foreground border-destructive/30'
+                                  }`}>
+                                    {lead.qualificationStatus}
+                                  </Badge>
+                                )}
+                              </div>
                               {isOutreach && lead.template && (
                                 <span className="text-[10px] text-muted-foreground">Template {lead.template}</span>
                               )}
@@ -862,6 +1049,11 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap text-xs font-mono text-foreground">
                             {contact}
+                            {!lead.email && (lead.phone || lead.contactName) && (
+                              <span className="block mt-1 text-[10px] font-sans font-semibold text-amber-400">
+                                no email — {lead.phone || lead.contactName}
+                              </span>
+                            )}
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap">
                             {/* Pipeline status changer */}
@@ -946,6 +1138,103 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                             </td>
                           </tr>
                         )}
+                        {/* Qualification-engine output — reason/pain-point always shown once qualified; the
+                            drafted email + Approve controls only apply when there's actually a draft to send. */}
+                        {(lead.customizedEmailBody || lead.qualificationReason) && (
+                          <tr className="bg-primary/5">
+                            <td colSpan={6} className="px-5 py-4">
+                              <div className="border border-primary/20 rounded-[6px] p-4 bg-background/60">
+                                <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
+                                      {lead.customizedEmailBody ? 'Drafted outreach email — review before sending' : 'Qualification notes'}
+                                    </span>
+                                    {lead.qualificationStatus && (
+                                      <Badge variant="outline" className={`text-[9px] uppercase font-bold ${
+                                        lead.qualificationStatus === 'Qualified'
+                                          ? 'text-emerald-400 border-emerald-400/30'
+                                          : lead.qualificationStatus === 'Low priority'
+                                          ? 'text-amber-400 border-amber-400/30'
+                                          : 'text-destructive-foreground border-destructive/30'
+                                      }`}>
+                                        {lead.qualificationStatus}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  {lead.customizedEmailBody && (
+                                    <div className="flex items-center gap-1.5">
+                                      <Button
+                                        size="sm"
+                                        variant="ghost"
+                                        className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
+                                        onClick={() => handleCopy(
+                                          `${emailDrafts[lead.id]?.subject ?? lead.customizedEmailSubject ?? ''}\n\n${emailDrafts[lead.id]?.body ?? lead.customizedEmailBody ?? ''}`,
+                                          `draft_${lead.id}`
+                                        )}
+                                      >
+                                        {copiedId === `draft_${lead.id}` ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                                        <span className="ml-1.5">Copy</span>
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        disabled={savingLeadId === lead.id}
+                                        className={`h-7 px-2 text-xs cursor-pointer rounded-[4px] disabled:opacity-50 ${
+                                          lead.emailApproved
+                                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20'
+                                            : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                        }`}
+                                        onClick={() => handleApproveEmail(lead.id)}
+                                      >
+                                        {lead.emailApproved ? <Check className="h-3.5 w-3.5 mr-1.5" /> : null}
+                                        {lead.emailApproved ? 'Approved' : 'Approve'}
+                                      </Button>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {lead.painPoint && (
+                                  <p className="text-[11px] text-muted-foreground mb-2">
+                                    <span className="font-semibold text-foreground">Pain point:</span> {lead.painPoint}
+                                  </p>
+                                )}
+
+                                {lead.customizedEmailBody && (
+                                  <>
+                                    <input
+                                      type="text"
+                                      value={emailDrafts[lead.id]?.subject ?? lead.customizedEmailSubject ?? ''}
+                                      onChange={(e) => setEmailDrafts(prev => ({
+                                        ...prev,
+                                        [lead.id]: {
+                                          subject: e.target.value,
+                                          body: prev[lead.id]?.body ?? lead.customizedEmailBody ?? ''
+                                        }
+                                      }))}
+                                      className="w-full mb-2 text-xs font-semibold text-foreground bg-muted/30 border border-border rounded-[4px] px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary"
+                                      placeholder="Email subject"
+                                    />
+                                    <textarea
+                                      value={emailDrafts[lead.id]?.body ?? lead.customizedEmailBody ?? ''}
+                                      onChange={(e) => setEmailDrafts(prev => ({
+                                        ...prev,
+                                        [lead.id]: {
+                                          subject: prev[lead.id]?.subject ?? lead.customizedEmailSubject ?? '',
+                                          body: e.target.value
+                                        }
+                                      }))}
+                                      rows={5}
+                                      className="w-full text-xs text-foreground whitespace-pre-wrap leading-relaxed bg-muted/30 border border-border rounded-[4px] px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary resize-y"
+                                    />
+                                  </>
+                                )}
+
+                                {lead.qualificationReason && (
+                                  <p className="mt-2 text-[11px] text-muted-foreground italic">Why: {lead.qualificationReason}</p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                         </React.Fragment>
                         )
                       })}
@@ -958,10 +1247,213 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                 )}
               </CardContent>
             </Card>
+
+            {/* Invoices — generated when a lead is marked Closed */}
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                  <FileText className="h-4 w-4" /> Invoices
+                </h3>
+                <span className="text-xs font-light text-muted-foreground">{invoices.length} total</span>
+              </div>
+              <Card className="border border-border bg-card/60 backdrop-blur-md rounded-[8px] overflow-hidden">
+                <CardContent className="p-0 overflow-x-auto">
+                  {invoices.length > 0 ? (
+                    <table className="w-full text-sm text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-border text-muted-foreground text-xs uppercase tracking-wider font-semibold bg-muted/40">
+                          <th className="py-4 px-5">Invoice</th>
+                          <th className="py-4 px-5">Client</th>
+                          <th className="py-4 px-5">Total</th>
+                          <th className="py-4 px-5">Status</th>
+                          <th className="py-4 px-5 text-right">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/10 font-light text-muted-foreground">
+                        {invoices.map((inv) => (
+                          <tr key={inv.id} className="hover:bg-muted/5 transition-colors">
+                            <td className="py-4 px-5 whitespace-nowrap text-xs font-mono text-foreground">
+                              {inv.invoiceNumber}
+                              {!inv.pdfPath && (
+                                <span className="block mt-1 text-[10px] font-sans text-amber-400">PDF not stored</span>
+                              )}
+                            </td>
+                            <td className="py-4 px-5">
+                              <p className="font-semibold text-foreground text-sm">{inv.clientName || '—'}</p>
+                              {inv.clientEmail && (
+                                <p className="text-xs text-muted-foreground mt-1">{inv.clientEmail}</p>
+                              )}
+                            </td>
+                            <td className="py-4 px-5 whitespace-nowrap text-xs font-mono text-foreground">
+                              ${inv.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </td>
+                            <td className="py-4 px-5 whitespace-nowrap">
+                              <Badge variant="outline" className={`text-[10px] font-bold uppercase ${
+                                inv.status === 'Paid'
+                                  ? 'border-emerald-500/20 text-emerald-400'
+                                  : inv.status === 'Sent'
+                                  ? 'border-blue-500/20 text-blue-400'
+                                  : inv.status === 'Void'
+                                  ? 'border-destructive/20 text-destructive-foreground'
+                                  : 'border-muted-foreground/20 text-muted-foreground'
+                              }`}>
+                                {inv.status}
+                              </Badge>
+                            </td>
+                            <td className="py-4 px-5 text-right whitespace-nowrap">
+                              <div className="flex justify-end gap-1.5">
+                                {inv.status === 'Draft' && (
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    disabled={invoiceActionId === inv.id}
+                                    className="h-8 px-3 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px] disabled:opacity-50"
+                                    onClick={() => handleSendInvoice(inv.id)}
+                                  >
+                                    <Send className="h-3.5 w-3.5 mr-1.5" /> Send
+                                  </Button>
+                                )}
+                                {inv.status === 'Sent' && (
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    disabled={invoiceActionId === inv.id}
+                                    className="h-8 px-3 text-xs border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 cursor-pointer rounded-[4px] disabled:opacity-50"
+                                    onClick={() => handleMarkInvoicePaid(inv.id)}
+                                  >
+                                    <DollarSign className="h-3.5 w-3.5 mr-1.5" /> Mark Paid
+                                  </Button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground font-light text-sm">
+                        No invoices yet — mark a lead Closed to create one.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )}
 
       </div>
+
+      {/* Create Invoice modal — opened when a lead is marked Closed */}
+      <Dialog open={Boolean(invoiceModalLead)} onOpenChange={(open) => { if (!open) setInvoiceModalLead(null) }}>
+        <DialogContent className="sm:max-w-xl rounded-[8px]">
+          <DialogHeader>
+            <DialogTitle>Create Invoice</DialogTitle>
+          </DialogHeader>
+
+          <div className="grid gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground mb-1.5 block">Client name</label>
+                <Input
+                  value={invoiceClientName}
+                  onChange={(e) => setInvoiceClientName(e.target.value)}
+                  placeholder="Client or company name"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground mb-1.5 block">Client email</label>
+                <Input
+                  value={invoiceClientEmail}
+                  onChange={(e) => setInvoiceClientEmail(e.target.value)}
+                  placeholder="client@example.com"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-muted-foreground">Line items</label>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
+                  onClick={addInvoiceItem}
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" /> Add item
+                </Button>
+              </div>
+              {invoiceItems.map((item, idx) => (
+                <div key={idx} className="flex gap-2 items-center">
+                  <Input
+                    value={item.description}
+                    onChange={(e) => updateInvoiceItem(idx, { description: e.target.value })}
+                    placeholder="Description"
+                    className="flex-1"
+                  />
+                  <Input
+                    type="number"
+                    min={0}
+                    value={item.quantity}
+                    onChange={(e) => updateInvoiceItem(idx, { quantity: Number(e.target.value) || 0 })}
+                    placeholder="Qty"
+                    className="w-16"
+                  />
+                  <Input
+                    type="number"
+                    min={0}
+                    value={item.unitPrice}
+                    onChange={(e) => updateInvoiceItem(idx, { unitPrice: Number(e.target.value) || 0 })}
+                    placeholder="Unit price"
+                    className="w-28"
+                  />
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive-foreground cursor-pointer rounded-[4px]"
+                    onClick={() => removeInvoiceItem(idx)}
+                    disabled={invoiceItems.length <= 1}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              ))}
+              <p className="text-xs text-muted-foreground text-right">
+                Subtotal: ${invoiceItems.reduce((sum, i) => sum + i.quantity * i.unitPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              </p>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-muted-foreground mb-1.5 block">Notes (optional)</label>
+              <Textarea
+                value={invoiceNotes}
+                onChange={(e) => setInvoiceNotes(e.target.value)}
+                rows={3}
+                placeholder="Payment terms, project reference, etc."
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              className="cursor-pointer"
+              onClick={() => setInvoiceModalLead(null)}
+              disabled={invoiceSaving}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="cursor-pointer"
+              onClick={handleCreateInvoice}
+              disabled={invoiceSaving || invoiceItems.every(i => !i.description.trim())}
+            >
+              {invoiceSaving ? 'Creating…' : 'Create Invoice'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

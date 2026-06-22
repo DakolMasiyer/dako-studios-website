@@ -26,6 +26,11 @@ export function isDryRun(): boolean {
   return process.env.OUTREACH_DRY_RUN !== 'false'
 }
 
+/** Same dry-run semantics as isDryRun(), gating invoice sends independently via INVOICE_DRY_RUN. */
+export function isInvoiceDryRun(): boolean {
+  return process.env.INVOICE_DRY_RUN !== 'false'
+}
+
 export function isSendConfigured(): boolean {
   return Boolean(RESEND_API_KEY)
 }

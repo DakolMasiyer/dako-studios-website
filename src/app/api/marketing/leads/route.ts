@@ -7,7 +7,9 @@ import { isAdminRequest } from '@/lib/marketing-auth'
  * Single write path for lead mutations from the dashboard CRM. Admin-gated via the
  * signed dako_marketing_token cookie (same gate as /api/marketing/status).
  * GET   -> list all leads (outreach + inbound)
- * PATCH -> update a lead's status / notes (and, for the reply flow, suggested_reply)
+ * PATCH -> update a lead's status / notes (and, for the reply flow, suggested_reply;
+ *          for the qualification-engine email-draft flow, customized_email_subject /
+ *          customized_email_body / email_approved)
  *
  * The cron send/poll routes update leads through the same utils layer (updateLead)
  * so the dashboard stays the single source of truth.
@@ -23,8 +25,17 @@ const patchSchema = z.object({
   status: z.enum(STATUSES as [LeadStatus, ...LeadStatus[]]).optional(),
   notes: z.string().optional(),
   suggested_reply: z.string().nullable().optional(),
+  customized_email_subject: z.string().optional(),
+  customized_email_body: z.string().optional(),
+  email_approved: z.boolean().optional(),
 }).refine(
-  (v) => v.status !== undefined || v.notes !== undefined || v.suggested_reply !== undefined,
+  (v) =>
+    v.status !== undefined ||
+    v.notes !== undefined ||
+    v.suggested_reply !== undefined ||
+    v.customized_email_subject !== undefined ||
+    v.customized_email_body !== undefined ||
+    v.email_approved !== undefined,
   { message: 'Provide at least one field to update.' }
 )
 
@@ -54,11 +65,14 @@ export async function PATCH(req: Request) {
         { status: 400 }
       )
     }
-    const { id, status, notes, suggested_reply } = parsed.data
+    const { id, status, notes, suggested_reply, customized_email_subject, customized_email_body, email_approved } = parsed.data
     const ok = await updateLead(id, {
       ...(status !== undefined ? { status } : {}),
       ...(notes !== undefined ? { notes } : {}),
       ...(suggested_reply !== undefined ? { suggested_reply } : {}),
+      ...(customized_email_subject !== undefined ? { customized_email_subject } : {}),
+      ...(customized_email_body !== undefined ? { customized_email_body } : {}),
+      ...(email_approved !== undefined ? { email_approved } : {}),
     })
     if (!ok) {
       return NextResponse.json({ error: 'Failed to update lead' }, { status: 500 })
