@@ -52,7 +52,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://ui.shadcn.com https://images.unsplash.com https://res.cloudinary.com; font-src 'self' data:; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://api.airtable.com https://api.resend.com https://vitals.vercel-insights.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com https://ingest.dako.studio https://us.posthog.com https://us.i.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://ui.shadcn.com https://images.unsplash.com https://res.cloudinary.com; font-src 'self' data:; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://api.airtable.com https://api.resend.com https://vitals.vercel-insights.com https://ingest.dako.studio https://us.posthog.com https://us.i.posthog.com;",
           },
         ],
       },

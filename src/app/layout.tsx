@@ -5,6 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { PageLoader } from "@/components/page-loader";
 
 import { spaceGrotesk, syne, plusJakartaSans, jetbrainsMono, fraunces } from "@/lib/fonts";
+import { Suspense } from "react";
+import { PostHogProvider } from "@/contexts/PostHogProvider";
+import PostHogPageView from "@/components/PostHogPageView";
 
 export const metadata: Metadata = {
   title: "Dako Studios | One Creative Studio. Every Edge.",
@@ -75,10 +78,15 @@ export default function RootLayout({
         />
       </head>
       <body className={plusJakartaSans.className}>
-        <ThemeProvider defaultTheme="dark" storageKey="dako-ui-theme">
-          <PageLoader />
-          {children}
-        </ThemeProvider>
+        <Suspense fallback={null}>
+          <PostHogPageView />
+        </Suspense>
+        <PostHogProvider>
+          <ThemeProvider defaultTheme="dark" storageKey="dako-ui-theme">
+            <PageLoader />
+            {children}
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
