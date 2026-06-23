@@ -93,21 +93,21 @@ export default function DakoBetaFeedbackPage() {
           </h1>
           <p className="text-[#8E8E92] text-sm mb-6">Takes 2 minutes. No sign-up. Just your honest reaction.</p>
           
-          <div className="bg-[#1E1E21] border border-primary/40 rounded-xl p-5 relative overflow-hidden">
+          <div className="bg-[#1E1E21] border border-[#2C2C30] rounded-lg p-5 relative overflow-hidden mt-6">
             <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
-            <p className="text-[#FAF8F4] text-sm mb-3 font-medium">
-              Important: This survey is about your experience on our main website.
+            <p className="text-[#FAF8F4] text-[13px] mb-2 font-semibold">
+              Before you start:
             </p>
             <p className="text-[#8E8E92] text-[13px] mb-4">
-              Please open the site, take a look around, and then come back here to share your thoughts.
+              This survey is about your experience on our main website. Please open it, take a look around, and then come back here.
             </p>
             <a 
               href="/" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="inline-flex items-center justify-center bg-white text-background hover:bg-gray-200 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all active:scale-95"
+              className="inline-flex items-center justify-center bg-transparent border border-[#2C2C30] hover:border-white/20 text-[#8E8E92] hover:text-[#FAF8F4] px-5 py-2.5 rounded-md text-[13px] font-semibold transition-colors"
             >
-              Open Main Website <span className="ml-2">↗</span>
+              Open Main Website ↗
             </a>
           </div>
         </div>
