@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0d0d0e; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+</helmet>
+<button onClick="{{ downloadPng }}" data-export-exclude="true" style="position:fixed; top:20px; right:20px; z-index:9999; display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border:none; border-radius:9999px; background:#C1272D; color:#FAF8F4; font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:600; font-size:14px; letter-spacing:0.01em; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+  Download PNG
+</button>
+<div data-export-root="true" style="position:relative; width:1080px; height:1350px; background:#161618; overflow:hidden; font-family:'Plus Jakarta Sans', system-ui, sans-serif;">
+
+  <!-- crimson radial glow -->
+  <div style="position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(193,39,45,0.10) 0%, transparent 70%); pointer-events:none;"></div>
+
+  <!-- dot-grid texture, radially masked -->
+  <div style="position:absolute; inset:0; opacity:0.5; background-image:radial-gradient(rgba(255,255,255,0.16) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 42%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 70% 60% at 50% 42%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+  <!-- content -->
+  <div style="position:relative; height:100%; box-sizing:border-box; padding:84px 88px; display:flex; flex-direction:column;">
+
+    <!-- TOP ROW -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+
+      <!-- logo lockup -->
+      <div style="display:flex; align-items:center; gap:18px;">
+        <svg width="44" height="43" viewBox="0 0 205 200" fill="none" style="display:block;">
+          <path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="#C1272D"></path>
+        </svg>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <span style="font-family:'Syne', sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.5px; color:#FAF8F4; line-height:1;">DAKO</span>
+          <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:12px; letter-spacing:0.15em; color:#8E8E92; line-height:1;">STUDIOS</span>
+        </div>
+      </div>
+
+      <!-- pill badge -->
+      <div style="display:inline-flex; align-items:center; padding:11px 20px; border-radius:9999px; background:rgba(193,39,45,0.12);">
+        <span style="font-family:'JetBrains Mono', monospace; font-weight:600; font-size:12px; letter-spacing:0.15em; color:#C1272D; text-transform:uppercase;">building in public</span>
+      </div>
+
+    </div>
+
+    <!-- CENTER -->
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+      <h1 style="margin:0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:118px; line-height:0.96; letter-spacing:-0.03em; color:#FAF8F4;">One Creative Studio.</h1>
+      <h1 style="margin:0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:118px; line-height:0.96; letter-spacing:-0.03em; color:#C1272D;">Every Edge.</h1>
+      <p style="margin:38px 0 0 0; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:30px; line-height:1.4; color:#8E8E92; max-width:760px;">Built for the businesses building Africa's next chapter.</p>
+    </div>
+
+    <!-- BOTTOM -->
+    <div style="display:flex; flex-direction:column; gap:28px;">
+      <div style="height:1px; width:100%; background:#2C2C30;"></div>
+      <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:20px; letter-spacing:0.04em; color:#8E8E92;">labs · brand · motion · film · academy</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:1350}}">class Component extends DCLogic {
+  renderVals() {
+    return {
+      downloadPng: async () => {
+        const node = document.querySelector('[data-export-root="true"]');
+        if (!node || !window.htmlToImage) return;
+        try {
+          const dataUrl = await window.htmlToImage.toPng(node, {
+            width: 1080,
+            height: 1350,
+            pixelRatio: 4,
+            filter: (n) => !(n.dataset && n.dataset.exportExclude),
+          });
+          const a = document.createElement('a');
+          a.download = 'dako-feed-post.png';
+          a.href = dataUrl;
+          a.click();
+        } catch (e) {
+          console.error('Export failed', e);
+        }
+      },
+    };
+  }
+}</script>
+</body>
+</html>

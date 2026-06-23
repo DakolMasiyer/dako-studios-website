@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0d0d0e; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+</helmet>
+<button onClick="{{ downloadPng }}" data-export-exclude="true" style="position:fixed; top:20px; right:20px; z-index:9999; display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border:none; border-radius:9999px; background:#C1272D; color:#FAF8F4; font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:600; font-size:14px; letter-spacing:0.01em; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+  Download PNG
+</button>
+
+<div data-export-root="true" style="position:relative; width:1080px; height:1920px; background:#161618; overflow:hidden; font-family:'Plus Jakarta Sans', system-ui, sans-serif;">
+
+  <!-- steel blue radial glow, upper canvas -->
+  <div style="position:absolute; inset:0; background:radial-gradient(ellipse 78% 42% at 50% 32%, rgba(74,124,150,0.08) 0%, transparent 70%); pointer-events:none;"></div>
+
+  <!-- dot-grid texture, radially masked -->
+  <div style="position:absolute; inset:0; opacity:0.45; background-image:radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 64% 46% at 50% 34%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 64% 46% at 50% 34%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+  <!-- content within safe zones: 250 top, 300 bottom -->
+  <div style="position:relative; height:100%; box-sizing:border-box; padding:250px 80px 300px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+
+    <!-- OVERLINE -->
+    <span style="display:block; text-align:center; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:22px; letter-spacing:0.2em; color:#4A7C96; text-transform:uppercase;">labs · real estate</span>
+
+    <!-- HEADLINE -->
+    <div style="margin-top:40px; text-align:center;">
+      <h1 style="margin:0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:84px; line-height:1.02; letter-spacing:-0.035em; color:#FAF8F4;">Your listings deserve</h1>
+      <h1 style="margin:4px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:84px; line-height:1.02; letter-spacing:-0.035em; color:#FAF8F4;">a website that</h1>
+      <h1 style="margin:4px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:84px; line-height:1.02; letter-spacing:-0.035em; color:#4A7C96;">closes deals.</h1>
+    </div>
+
+    <!-- 32px spacer -->
+    <div style="height:32px;"></div>
+
+    <!-- FEATURE ROWS -->
+    <div style="width:100%; display:flex; flex-direction:column; gap:14px;">
+      <div style="background:#1E1E21; border-radius:8px; padding:14px 16px;">
+        <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:30px; color:#FAF8F4;">WhatsApp CTAs on every listing</span>
+      </div>
+      <div style="background:#1E1E21; border-radius:8px; padding:14px 16px;">
+        <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:30px; color:#FAF8F4;">C of O · Deed of Assignment badges</span>
+      </div>
+      <div style="background:#1E1E21; border-radius:8px; padding:14px 16px;">
+        <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:30px; color:#4A7C96;">Live in 5 days, from $1,500</span>
+      </div>
+    </div>
+
+    <!-- SOCIAL PROOF -->
+    <span style="margin-top:40px; display:block; text-align:center; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:26px; color:#8E8E92;">Trusted by property agents in Abuja and Lagos</span>
+
+    <!-- BOTTOM PILL CTA -->
+    <div style="margin-top:48px; display:inline-flex; align-items:center; padding:22px 44px; border-radius:9999px; background:#4A7C96;">
+      <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:32px; letter-spacing:0.01em; color:#FAF8F4;">dako.studio/labs →</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:1920}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      downloadPng: async () => {
+        const node = document.querySelector('[data-export-root="true"]');
+        if (!node || !window.htmlToImage) return;
+        try {
+          const dataUrl = await window.htmlToImage.toPng(node, {
+            width: 1080,
+            height: 1920,
+            pixelRatio: 4,
+            filter: (n) => !(n.dataset && n.dataset.exportExclude),
+          });
+          const a = document.createElement('a');
+          a.download = 'dako-labs-real-estate-story.png';
+          a.href = dataUrl;
+          a.click();
+        } catch (e) {
+          console.error('Export failed', e);
+        }
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

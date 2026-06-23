@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0d0d0e; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+</helmet>
+
+<div style="min-height:100vh; box-sizing:border-box; background:#0d0d0e; display:flex; flex-direction:column; align-items:center; padding:36px 20px 30px; font-family:'Plus Jakarta Sans', system-ui, sans-serif;">
+
+  <!-- STAGE -->
+  <div style="position:relative; width:1080px; max-width:100%; aspect-ratio:1080/1350; overflow:hidden; border-radius:4px; box-shadow:0 24px 80px rgba(0,0,0,0.55);">
+    <div style="display:flex; width:5400px; height:100%; transition:transform .5s cubic-bezier(0,0,0.2,1); transform:{{ trackTransform }};">
+
+      <!-- ============ SLIDE 1 · COVER ============ -->
+      <div data-export-root="true" data-index="0" data-screen-label="01 Cover" style="position:relative; flex:none; width:1080px; height:1350px; background:#161618; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:radial-gradient(ellipse 80% 50% at 50% 30%, rgba(74,124,150,0.09) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="position:absolute; inset:0; opacity:0.45; background-image:radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 32%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 66% 50% at 50% 32%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box; padding:80px 80px 0; display:flex; flex-direction:column;">
+          <!-- top row -->
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <svg width="38" height="37" viewBox="0 0 205 200" fill="none"><path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="#C1272D"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <span style="font-family:'Syne', sans-serif; font-weight:800; font-size:25px; letter-spacing:-0.5px; color:#FAF8F4; line-height:1;">DAKO</span>
+                <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:11px; letter-spacing:0.15em; color:#8E8E92; line-height:1;">LABS</span>
+              </div>
+            </div>
+            <div style="display:inline-flex; align-items:center; padding:10px 18px; border-radius:9999px; background:rgba(74,124,150,0.12);">
+              <span style="font-family:'JetBrains Mono', monospace; font-weight:600; font-size:12px; letter-spacing:0.15em; color:#4A7C96; text-transform:uppercase;">case study</span>
+            </div>
+          </div>
+
+          <!-- headline -->
+          <div style="margin-top:64px;">
+            <span style="display:block; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:17px; letter-spacing:0.22em; color:#4A7C96; text-transform:uppercase;">labs · real estate</span>
+            <h1 style="margin:26px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:74px; line-height:1.0; letter-spacing:-0.035em; color:#FAF8F4;">High-performance listings.</h1>
+            <h1 style="margin:6px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:74px; line-height:1.0; letter-spacing:-0.035em; color:#4A7C96;">Engineered to convert.</h1>
+            <p style="margin:28px 0 0 0; max-width:760px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:26px; line-height:1.5; color:#8E8E92;">How we built <span style="color:#FAF8F4; font-weight:600;">Tabsil Realty</span> — a fast, filterable property platform on the Labs stack.</p>
+          </div>
+
+          <!-- device composition -->
+          <div style="position:relative; flex:1; margin-top:18px;">
+            <!-- desktop browser -->
+            <div style="position:absolute; left:0; bottom:0; width:740px; background:#0A0908; border-radius:14px 14px 0 0; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.5); border:1px solid #2C2C30; border-bottom:none;">
+              <div style="height:42px; background:#1A1A1A; display:flex; align-items:center; gap:9px; padding:0 16px; border-bottom:1px solid #2C2C30;">
+                <span style="width:11px; height:11px; border-radius:9999px; background:#E84C00; display:block;"></span>
+                <span style="width:11px; height:11px; border-radius:9999px; background:#C9A227; display:block;"></span>
+                <span style="width:11px; height:11px; border-radius:9999px; background:#4A7C96; display:block;"></span>
+                <span style="margin-left:14px; font-family:'JetBrains Mono', monospace; font-size:13px; color:#8E8E92; letter-spacing:0.02em;">tabsilrealty.com</span>
+              </div>
+              <img src="assets/tabsil-desktop.png" alt="Tabsil Realty website" style="display:block; width:100%; height:auto;">
+            </div>
+            <!-- phone overlap -->
+            <div style="position:absolute; right:4px; bottom:0; width:236px; background:#0A0908; border-radius:34px 34px 0 0; padding:9px 9px 0; box-shadow:0 28px 50px rgba(0,0,0,0.55); border:1px solid #2C2C30; border-bottom:none;">
+              <div style="position:relative; border-radius:26px 26px 0 0; overflow:hidden; background:#1A1A1A; height:300px;">
+                <img src="assets/tabsil-phone.png" alt="Tabsil Realty mobile" style="width:100%; height:100%; object-fit:cover; object-position:top;">
+                <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:96px; height:22px; background:#0A0908; border-radius:0 0 14px 14px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SLIDE 2 · CHALLENGE ============ -->
+      <div data-export-root="true" data-index="1" data-screen-label="02 Challenge" style="position:relative; flex:none; width:1080px; height:1350px; background:#161618; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:radial-gradient(ellipse 80% 50% at 50% 28%, rgba(74,124,150,0.07) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="position:absolute; inset:0; opacity:0.4; background-image:radial-gradient(rgba(255,255,255,0.13) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 64% 48% at 50% 30%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 64% 48% at 50% 30%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box; padding:80px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <svg width="34" height="33" viewBox="0 0 205 200" fill="none"><path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="#C1272D"></path></svg>
+              <span style="font-family:'Syne', sans-serif; font-weight:800; font-size:22px; letter-spacing:-0.5px; color:#FAF8F4; line-height:1;">DAKO</span>
+            </div>
+            <span style="font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; letter-spacing:0.2em; color:#4A7C96; text-transform:uppercase;">01 — The Challenge</span>
+          </div>
+
+          <div style="margin-top:auto; margin-bottom:auto;">
+            <h2 style="margin:0; max-width:900px; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:62px; line-height:1.12; letter-spacing:-0.03em; color:#FAF8F4;">Tabsil needed a striking, fast listing site that could handle <span style="color:#4A7C96;">complex filtering</span> — without feeling clunky or dated.</h2>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1; background:#1E1E21; border-radius:8px; padding:18px 20px;">
+              <span style="display:block; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13px; letter-spacing:0.12em; color:#8E8E92; text-transform:uppercase;">Before</span>
+              <span style="display:block; margin-top:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:24px; color:#FAF8F4;">3.2s page load</span>
+            </div>
+            <div style="flex:1; background:#1E1E21; border-radius:8px; padding:18px 20px;">
+              <span style="display:block; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13px; letter-spacing:0.12em; color:#8E8E92; text-transform:uppercase;">Before</span>
+              <span style="display:block; margin-top:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:24px; color:#FAF8F4;">Clunky filtering</span>
+            </div>
+            <div style="flex:1; background:#1E1E21; border-radius:8px; padding:18px 20px;">
+              <span style="display:block; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13px; letter-spacing:0.12em; color:#8E8E92; text-transform:uppercase;">Before</span>
+              <span style="display:block; margin-top:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:24px; color:#FAF8F4;">Dated visuals</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SLIDE 3 · SOLUTION ============ -->
+      <div data-export-root="true" data-index="2" data-screen-label="03 Solution" style="position:relative; flex:none; width:1080px; height:1350px; background:#161618; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:radial-gradient(ellipse 80% 50% at 50% 30%, rgba(74,124,150,0.08) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="position:absolute; inset:0; opacity:0.42; background-image:radial-gradient(rgba(255,255,255,0.13) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 66% 50% at 50% 32%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 66% 50% at 50% 32%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box; padding:80px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <svg width="34" height="33" viewBox="0 0 205 200" fill="none"><path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="#C1272D"></path></svg>
+              <span style="font-family:'Syne', sans-serif; font-weight:800; font-size:22px; letter-spacing:-0.5px; color:#FAF8F4; line-height:1;">DAKO</span>
+            </div>
+            <span style="font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; letter-spacing:0.2em; color:#4A7C96; text-transform:uppercase;">02 — The Solution</span>
+          </div>
+
+          <div style="margin-top:48px;">
+            <h2 style="margin:0; max-width:920px; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:50px; line-height:1.14; letter-spacing:-0.03em; color:#FAF8F4;">A custom <span style="color:#4A7C96;">Next.js</span> template — minimal UI, maximum performance.</h2>
+            <p style="margin:22px 0 0 0; max-width:880px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:25px; line-height:1.5; color:#8E8E92;">Fully responsive, lightning-fast, and built strictly on the Labs design system.</p>
+          </div>
+
+          <!-- feature pills -->
+          <div style="margin-top:32px; display:flex; flex-wrap:wrap; gap:12px;">
+            <span style="display:inline-flex; align-items:center; padding:12px 20px; border-radius:9999px; background:rgba(74,124,150,0.12); font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:21px; color:#4A7C96;">WhatsApp CTAs</span>
+            <span style="display:inline-flex; align-items:center; padding:12px 20px; border-radius:9999px; background:rgba(74,124,150,0.12); font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:21px; color:#4A7C96;">C of O badges</span>
+            <span style="display:inline-flex; align-items:center; padding:12px 20px; border-radius:9999px; background:rgba(74,124,150,0.12); font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:21px; color:#4A7C96;">Dynamic filtering</span>
+            <span style="display:inline-flex; align-items:center; padding:12px 20px; border-radius:9999px; background:rgba(74,124,150,0.12); font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:21px; color:#4A7C96;">Sub-second loads</span>
+          </div>
+
+          <!-- desktop browser -->
+          <div style="margin-top:auto; align-self:center; width:820px; background:#0A0908; border-radius:14px 14px 0 0; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.5); border:1px solid #2C2C30; border-bottom:none;">
+            <div style="height:42px; background:#1A1A1A; display:flex; align-items:center; gap:9px; padding:0 16px; border-bottom:1px solid #2C2C30;">
+              <span style="width:11px; height:11px; border-radius:9999px; background:#E84C00; display:block;"></span>
+              <span style="width:11px; height:11px; border-radius:9999px; background:#C9A227; display:block;"></span>
+              <span style="width:11px; height:11px; border-radius:9999px; background:#4A7C96; display:block;"></span>
+              <span style="margin-left:14px; font-family:'JetBrains Mono', monospace; font-size:13px; color:#8E8E92; letter-spacing:0.02em;">tabsilrealty.com</span>
+            </div>
+            <img src="assets/tabsil-desktop.png" alt="Tabsil Realty website" style="display:block; width:100%; height:auto;">
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SLIDE 4 · RESULTS ============ -->
+      <div data-export-root="true" data-index="3" data-screen-label="04 Results" style="position:relative; flex:none; width:1080px; height:1350px; background:#161618; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:radial-gradient(ellipse 80% 52% at 50% 36%, rgba(74,124,150,0.10) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="position:absolute; inset:0; opacity:0.42; background-image:radial-gradient(rgba(255,255,255,0.13) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 66% 52% at 50% 38%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 66% 52% at 50% 38%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box; padding:80px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <svg width="34" height="33" viewBox="0 0 205 200" fill="none"><path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="#C1272D"></path></svg>
+              <span style="font-family:'Syne', sans-serif; font-weight:800; font-size:22px; letter-spacing:-0.5px; color:#FAF8F4; line-height:1;">DAKO</span>
+            </div>
+            <span style="font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; letter-spacing:0.2em; color:#4A7C96; text-transform:uppercase;">03 — The Results</span>
+          </div>
+
+          <h2 style="margin:44px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:52px; line-height:1.08; letter-spacing:-0.03em; color:#FAF8F4;">The numbers,<br>after launch.</h2>
+
+          <div style="margin-top:auto; display:flex; flex-direction:column; gap:14px;">
+            <div style="background:#1E1E21; border-radius:8px; padding:34px 36px; display:flex; align-items:baseline; justify-content:space-between; gap:24px;">
+              <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:96px; line-height:0.9; letter-spacing:-0.04em; color:#4A7C96;">+34%</span>
+              <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:27px; color:#FAF8F4; text-align:right; max-width:360px;">more viewing requests<br><span style="color:#8E8E92; font-weight:400; font-size:22px;">in the first month</span></span>
+            </div>
+            <div style="background:#1E1E21; border-radius:8px; padding:34px 36px; display:flex; align-items:baseline; justify-content:space-between; gap:24px;">
+              <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:96px; line-height:0.9; letter-spacing:-0.04em; color:#4A7C96;">0.8s</span>
+              <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:27px; color:#FAF8F4; text-align:right; max-width:360px;">page load time<br><span style="color:#8E8E92; font-weight:400; font-size:22px;">down from 3.2s</span></span>
+            </div>
+            <div style="background:#1E1E21; border-radius:8px; padding:34px 36px; display:flex; align-items:baseline; justify-content:space-between; gap:24px;">
+              <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:96px; line-height:0.9; letter-spacing:-0.04em; color:#4A7C96;">−20%</span>
+              <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:27px; color:#FAF8F4; text-align:right; max-width:360px;">bounce rate<br><span style="color:#8E8E92; font-weight:400; font-size:22px;">on property detail pages</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SLIDE 5 · CTA ============ -->
+      <div data-export-root="true" data-index="4" data-screen-label="05 CTA" style="position:relative; flex:none; width:1080px; height:1350px; background:#161618; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:radial-gradient(ellipse 78% 54% at 50% 44%, rgba(74,124,150,0.10) 0%, transparent 70%); pointer-events:none;"></div>
+        <div style="position:absolute; inset:0; opacity:0.45; background-image:radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px); background-size:16px 16px; -webkit-mask-image:radial-gradient(ellipse 62% 52% at 50% 46%, #000 0%, transparent 78%); mask-image:radial-gradient(ellipse 62% 52% at 50% 46%, #000 0%, transparent 78%); pointer-events:none;"></div>
+
+        <div style="position:relative; height:100%; box-sizing:border-box; padding:80px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <svg width="44" height="43" viewBox="0 0 205 200" fill="none"><path d="M 0 0 L 108 0 Q 205 0 205 100 Q 205 200 108 200 L 0 200 L 0 132 L 70 100 L 0 68 Z" fill="#C1272D"></path></svg>
+            <div style="display:flex; flex-direction:column; gap:5px; text-align:left;">
+              <span style="font-family:'Syne', sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.5px; color:#FAF8F4; line-height:1;">DAKO</span>
+              <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:12px; letter-spacing:0.15em; color:#8E8E92; line-height:1;">LABS</span>
+            </div>
+          </div>
+
+          <h2 style="margin:56px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:66px; line-height:1.06; letter-spacing:-0.035em; color:#FAF8F4;">Ready to elevate your<br>digital presence?</h2>
+          <p style="margin:24px 0 0 0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:46px; line-height:1.1; letter-spacing:-0.03em; color:#4A7C96;">Let's build something exceptional.</p>
+
+          <div style="margin-top:64px; display:inline-flex; align-items:center; gap:16px; padding:22px 40px; border-radius:9999px; background:#4A7C96;">
+            <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:32px; letter-spacing:0.01em; color:#FAF8F4;">dakostudios.com</span>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FAF8F4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+
+          <span style="margin-top:34px; font-family:'JetBrains Mono', monospace; font-weight:500; font-size:16px; letter-spacing:0.16em; color:#8E8E92; text-transform:uppercase;">Web &amp; UX · Built in 5 days · from $1,500</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ NAV CHROME (not exported) ============ -->
+  <div data-export-exclude="true" style="width:1080px; max-width:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:space-between; margin-top:24px;">
+    <button onClick="{{ prev }}" aria-label="Previous" style="display:inline-flex; align-items:center; justify-content:center; width:54px; height:54px; border:1px solid #2C2C30; border-radius:9999px; background:#1A1A1A; color:#FAF8F4; cursor:pointer;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </button>
+
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px;">
+      <div style="display:flex; align-items:center; gap:9px;">
+        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="5">
+          <span style="width:{{ d.w }}; height:8px; border-radius:9999px; background:{{ d.bg }}; transition:all .35s ease;"></span>
+        </sc-for>
+      </div>
+      <span style="font-family:'JetBrains Mono', monospace; font-weight:500; font-size:13px; letter-spacing:0.18em; color:#8E8E92;">{{ counter }}</span>
+    </div>
+
+    <button onClick="{{ next }}" aria-label="Next" style="display:inline-flex; align-items:center; justify-content:center; width:54px; height:54px; border:1px solid #2C2C30; border-radius:9999px; background:#1A1A1A; color:#FAF8F4; cursor:pointer;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+  </div>
+
+  <div data-export-exclude="true" style="display:flex; gap:12px; margin-top:22px;">
+    <button onClick="{{ downloadCurrent }}" style="display:inline-flex; align-items:center; gap:9px; padding:13px 22px; border:1px solid #2C2C30; border-radius:9999px; background:#1A1A1A; color:#FAF8F4; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:15px; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      This slide
+    </button>
+    <button onClick="{{ downloadAll }}" style="display:inline-flex; align-items:center; gap:9px; padding:13px 24px; border:none; border-radius:9999px; background:#C1272D; color:#FAF8F4; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:15px; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Download all 5
+    </button>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:1520}}">
+class Component extends DCLogic {
+  state = { index: 0 };
+
+  renderVals() {
+    const total = 5;
+    const i = this.state.index;
+    const dots = [];
+    for (let k = 0; k < total; k++) {
+      dots.push({ w: k === i ? '28px' : '8px', bg: k === i ? '#4A7C96' : '#3A3A3E' });
+    }
+    return {
+      trackTransform: 'translateX(-' + (i * 1080) + 'px)',
+      dots,
+      counter: String(i + 1).padStart(2, '0') + ' / 05',
+      prev: () => this.setState(s => ({ index: Math.max(0, s.index - 1) })),
+      next: () => this.setState(s => ({ index: Math.min(total - 1, s.index + 1) })),
+      downloadCurrent: () => this.exportIndex(this.state.index),
+      downloadAll: async () => {
+        for (let k = 0; k < total; k++) {
+          await this.exportIndex(k);
+          await new Promise(r => setTimeout(r, 250));
+        }
+      },
+    };
+  }
+
+  async exportIndex(idx) {
+    const node = document.querySelector('[data-index="' + idx + '"]');
+    if (!node || !window.htmlToImage) return;
+    try {
+      const dataUrl = await window.htmlToImage.toPng(node, {
+        width: 1080,
+        height: 1350,
+        pixelRatio: 4,
+        filter: (n) => !(n.dataset && n.dataset.exportExclude),
+      });
+      const a = document.createElement('a');
+      a.download = 'dako-labs-tabsil-' + String(idx + 1).padStart(2, '0') + '.png';
+      a.href = dataUrl;
+      a.click();
+    } catch (e) {
+      console.error('Export failed', e);
+    }
+  }
+}
+</script>
+</body>
+</html>

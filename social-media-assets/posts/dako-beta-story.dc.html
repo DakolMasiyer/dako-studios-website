@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Syne:wght@700;800&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0d0d0e; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+</helmet>
+<button onClick="{{ downloadPng }}" data-export-exclude="true" style="position:fixed; top:20px; right:20px; z-index:9999; display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border:none; border-radius:9999px; background:#C1272D; color:#FAF8F4; font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:600; font-size:14px; letter-spacing:0.01em; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+  Download PNG
+</button>
+
+<div data-export-root="true" style="position:relative; width:1080px; height:1920px; background:#161618; overflow:hidden; font-family:'Plus Jakarta Sans', system-ui, sans-serif;">
+
+  <!-- crimson radial glow, upper third -->
+  <div style="position:absolute; inset:0; background:radial-gradient(ellipse 75% 45% at 50% 28%, rgba(193,39,45,0.10) 0%, transparent 70%); pointer-events:none;"></div>
+
+  <!-- safe-zone content area: top 250px, bottom 300px reserved -->
+  <div style="position:absolute; top:250px; bottom:300px; left:0; right:0; box-sizing:border-box; padding:0 96px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; text-align:center;">
+
+    <!-- TOP CLUSTER: overline + headline + subline -->
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <span style="font-family:'JetBrains Mono', monospace; font-weight:600; font-size:22px; letter-spacing:0.18em; color:#8E8E92; text-transform:uppercase;">dako.studio — beta</span>
+      <div style="margin-top:40px; display:flex; flex-direction:column; align-items:center;">
+        <h1 style="margin:0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:82px; line-height:0.98; letter-spacing:-0.03em; color:#FAF8F4;">We're building</h1>
+        <h1 style="margin:0; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:82px; line-height:0.98; letter-spacing:-0.03em; color:#C1272D;">in public.</h1>
+        <p style="margin:18px 0 0 0; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:30px; line-height:1.4; color:#8E8E92;">It's not finished. That's the point.</p>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP: live landing page -->
+    <div style="position:relative; padding:14px; border-radius:54px; background:#0A0908; border:1px solid #2C2C30; box-shadow:0 40px 90px rgba(0,0,0,0.55), inset 0 0 0 1.5px rgba(250,248,244,0.04);">
+      <!-- crimson glow halo behind phone -->
+      <div style="position:absolute; inset:-40px; border-radius:90px; background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(193,39,45,0.16) 0%, transparent 72%); z-index:-1; pointer-events:none;"></div>
+      <div style="position:relative; width:280px; height:606px; border-radius:42px; overflow:hidden; background:#FAF8F4; display:flex; flex-direction:column;">
+
+        <!-- iPhone status bar -->
+        <div style="position:relative; flex:none; height:40px; display:flex; align-items:center; justify-content:space-between; padding:0 22px 0 26px; background:#FAF8F4; z-index:3;">
+          <span style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 11px; color: #161618; letter-spacing: 0.2px; width: 23px; height: 13px">9:41</span>
+          <div style="display: flex; align-items: center; gap: 6px; width: 62px; height: 11px">
+            <!-- cellular -->
+            <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#161618"></rect><rect x="5" y="6" width="3" height="6" rx="1" fill="#161618"></rect><rect x="10" y="3" width="3" height="9" rx="1" fill="#161618"></rect><rect x="15" y="0" width="3" height="12" rx="1" fill="#161618"></rect></svg>
+            <!-- wifi -->
+            <svg width="17" height="13" viewBox="0 0 24 24" fill="none" stroke="#161618" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a10 10 0 0 1 14 0"></path><path d="M8.5 16.5a5 5 0 0 1 7 0"></path><path d="M2 8.82a15 15 0 0 1 20 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+            <!-- battery -->
+            <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="#161618" stroke-opacity="0.35"></rect><rect x="2" y="2" width="18" height="9" rx="2" fill="#161618"></rect><rect x="24" y="4" width="2" height="5" rx="1" fill="#161618" fill-opacity="0.35"></rect></svg>
+          </div>
+          <!-- notch -->
+          <div style="position:absolute; top:7px; left:50%; transform:translateX(-50%); width:92px; height:25px; border-radius:9999px; background:#0A0908;"></div>
+        </div>
+
+        <!-- web page (scrolled to top, clipped) -->
+        <div style="position:relative; flex:1; overflow:hidden; background:#FAF8F4;">
+          <img src="./www-dako-studio_-iphone-12-pro-1--mqpoa4ps.png" alt="dako.studio landing page" style="display:block; width:280px; height:auto;">
+        </div>
+
+        <!-- Safari address bar -->
+        <div style="flex:none; padding:8px 12px 6px; background:rgba(247,247,250,0.92); border-top:1px solid rgba(0,0,0,0.06);">
+          <div style="display:flex; align-items:center; height:36px; padding:0 12px; border-radius:11px; background:#E4E4E9;">
+            <span style="font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:600; font-size:13px; color:#8A8A8E;">aA</span>
+            <div style="flex:1; display:flex; align-items:center; justify-content:center; gap:5px;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#161618" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+              <span style="font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:500; font-size:14px; color:#161618;">dako.studio</span>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 4v5h-5"></path></svg>
+          </div>
+        </div>
+
+        <!-- Safari bottom toolbar -->
+        <div style="flex:none; height:48px; display:flex; align-items:center; justify-content:space-around; padding:0 14px 4px; background:rgba(247,247,250,0.92);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1272D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BFBFC4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C1272D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"></path><polyline points="8 7 12 3 16 7"></polyline><path d="M6 12H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-1"></path></svg>
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C1272D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2z"></path><path d="M22 4h-6a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z"></path></svg>
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C1272D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="13" rx="2.5"></rect><rect x="8" y="8" width="13" height="13" rx="2.5"></rect></svg>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM CLUSTER: microcopy + button + hint -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:40px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+        <p style="margin:0; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:30px; line-height:1.4; color:#8E8E92;">2 minutes. No sign-up.</p>
+        <p style="margin:0; font-family:'Plus Jakarta Sans', sans-serif; font-weight:400; font-size:30px; line-height:1.4; color:#8E8E92;">Just your honest reaction.</p>
+      </div>
+      <div style="display:inline-flex; align-items:center; justify-content:center; gap:10px; height:92px; width:400px; border-radius:9999px; background:#C1272D;">
+        <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:32px; color:#FAF8F4;">Give feedback →</span>
+      </div>
+      <span style="font-family:'JetBrains Mono', monospace; font-weight:500; font-size:22px; letter-spacing:0.12em; color:#8E8E92; text-transform:uppercase;">↑ tap the link above</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:1920}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      downloadPng: async () => {
+        const node = document.querySelector('[data-export-root="true"]');
+        if (!node || !window.htmlToImage) return;
+        try {
+          const dataUrl = await window.htmlToImage.toPng(node, {
+            width: 1080,
+            height: 1920,
+            pixelRatio: 4,
+            filter: (n) => !(n.dataset && n.dataset.exportExclude),
+          });
+          const a = document.createElement('a');
+          a.download = 'dako-beta-story.png';
+          a.href = dataUrl;
+          a.click();
+        } catch (e) {
+          console.error('Export failed', e);
+        }
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
