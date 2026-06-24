@@ -19,11 +19,12 @@ Why this audience: these businesses sell an experience or a look that a static p
 Disqualifiers (do not pursue or downgrade priority):
 - Large, well-known brands that already run with an agency or in-house production team.
 - Businesses that already have current, professionally produced film content — match on actual gap, not just "could post more".
+- Restaurants/hospitality businesses whose actual gap is product/menu-item video rather than venue atmosphere — that's a Motion fit, not Film. Fashion brands whose gap is individual product shots rather than a campaign/lookbook film — also a Motion fit.
 - Dead-end inboxes (legal@, careers@, hr@, pr@, press@) — prefer hello@/info@ on the same domain instead.
 
 ## Value
 
-One sentence: A short cinematic film that shows the atmosphere of a space or a collection the way a static photo can't, delivered as a free first concept with no obligation.
+One sentence: A short cinematic film that sells the feeling of a space or a collection as a whole — not a single product — the way a static photo can't, delivered as a free first concept with no obligation.
 
 ## Voice
 

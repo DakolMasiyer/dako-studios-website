@@ -30,12 +30,14 @@ Every piece of content this month gets made from these raw inputs — no excuses
 
 | Content type | How to create it from scratch |
 |---|---|
-| IG Carousel | Canva — use brand colours, clean typography, no stock photos |
+| IG Carousel | Generate in-app — Content Calendar tab → select the post → Visual Preview → pick format/arm → Preview & Export → Download PNG |
 | TikTok | Phone camera, talking head or screen record — Figma/Framer open on screen |
 | Twitter/X | Text only — no asset needed |
 | Blog | Written directly in dako.studio CMS or Notion → publish |
-| Quote card | Canva single graphic — 1080×1080 |
+| Quote card | Generate in-app — same Visual Preview flow, "Testimonial" format |
 | Before/After | Da'anong site screenshot (after) + placeholder "before" frame |
+
+Graphics no longer go through Canva — the dashboard's Content Calendar and Copy Bank tabs render the actual Dako template system (see `social-media-assets/DESIGN.md` §11–12) directly against each post's copy, with format/arm overrides and PNG export at 4x resolution built in.
 
 **Week 1 priority asset to create before Friday:**
 Da'anong site screenshot (desktop + mobile) — this is your first proof visual and unlocks 3 posts.

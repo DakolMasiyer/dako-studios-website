@@ -12,9 +12,9 @@ Service: polished, versatile visual identity systems — logo, colour, type, and
 
 ## Audience
 
-Target: small to mid-size businesses based in Lagos or Abuja that have outgrown a default-font logo or an inconsistent visual identity.
-Verticals currently in scope: any SMB with a public-facing brand — retail, hospitality, professional services, product brands — where the inconsistency is visibly checkable on the site/socials.
-Why this audience: a business that's growing fast often outpaces its original logo/colours, and an inconsistent identity quietly undercuts the credibility everything else (site, ads, packaging) is trying to build.
+Target: small to mid-size businesses based in Lagos or Abuja that have outgrown a default-font logo or an inconsistent visual identity. Scoped to the same verticals Motion and Labs already prospect, not a separate audience — this is a cross-sell angle into an already-validated lead universe.
+Verticals currently in scope: skincare, cosmetics, beverage, perfume/fragrance, fashion/apparel, restaurants (Motion's verticals) plus real estate & property, law & professional services, healthcare & clinics, hospitality & restaurants, diaspora & international services (Labs' verticals) — where the inconsistency is visibly checkable on the site/socials.
+Why this audience: a business that's growing fast often outpaces its original logo/colours, and an inconsistent identity quietly undercuts the credibility everything else (site, ads, packaging) is trying to build. Reusing Motion/Labs' verticals means Brand pitches can follow up into leads already qualified for another arm, rather than requiring a new prospecting pass into an unvalidated audience.
 
 Disqualifiers (do not pursue or downgrade priority):
 - Large, well-known brands that already run with an agency or in-house design team.
@@ -67,3 +67,4 @@ Phrases that should never appear in outreach copy:
 - "Game-changer" / "Revolutionary" / "Disrupt"
 - "Guaranteed results" or any sales-outcome promise
 - Any claimed client name, testimonial, or number not actually verified
+- Fake brand-perception claims ("customers don't trust you", "your brand looks unprofessional") — the inconsistency cited must be the named, visible defect itself, not an invented claim about how customers perceive it

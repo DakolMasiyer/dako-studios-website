@@ -103,6 +103,24 @@ export async function sourceProspects(niche: string, source: string, limit = 15)
   return extracted.map((c, i) => ({ ...c, source, url: c.url || urls[i] }))
 }
 
+/**
+ * Plain HTTP reachability check — no Firecrawl credits spent. Used to skip the costly
+ * AI-extraction scrape (extractPresence) on domains that are simply down, so Loop C
+ * doesn't pay for a scrape whose only possible finding is "couldn't reach it".
+ */
+export async function isUrlReachable(url: string, timeoutMs = 5000): Promise<boolean> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    await fetch(url, { method: 'HEAD', redirect: 'follow', signal: controller.signal })
+    return true
+  } catch {
+    return false
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 export interface PresenceSignal {
   hasVideo: boolean | null
   hasContactForm: boolean | null

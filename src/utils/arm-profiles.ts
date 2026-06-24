@@ -44,8 +44,8 @@ export const ARM_PROFILES: Record<Arm, ArmProfile> = {
     gaps: [
       'logo is a default font/template wordmark with no real mark',
       'inconsistent colours/fonts across site and social profiles',
-      'no cohesive visual identity across packaging, signage, and socials',
-      'business has rebranded products/services but kept the original dated logo',
+      'visibly different logo crops/versions used across site header, favicon, and social profile photo',
+      'logo shows visible artefacts of a quick DIY edit (stretched, pixelated, mismatched font pairing)',
       'social profile and website use visibly different logos or colour palettes',
     ],
     voiceSpecPath: 'content/outreach/brand-cold.md',
@@ -57,9 +57,9 @@ export const ARM_PROFILES: Record<Arm, ArmProfile> = {
     serviceOneLiner: 'Moody, atmospheric cinematic films for events, hospitality, and fashion brands that static photography can\'t capture.',
     gaps: [
       'no event/brand film anywhere on site or socials',
-      'only phone-shot or low-production-value video of events/venues',
-      'venue or event business with photo-only marketing despite a visually rich space',
-      'fashion/hospitality brand with no campaign or lookbook film',
+      'venue, event space, or hospitality brand with multiple professional photos but zero video content',
+      'fashion label with a lookbook or seasonal campaign in photos only, no film version',
+      'event venue or hotel with an Instagram/website gallery of the physical space but no walkthrough or atmosphere video',
     ],
     voiceSpecPath: 'content/outreach/film-cold.md',
   },

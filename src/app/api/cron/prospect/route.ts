@@ -39,14 +39,11 @@ const LABS_COMBOS: Combo[] = [
   { niche: 'diaspora and international services businesses', source: 'Lagos', industry: 'Diaspora & International Services' },
 ]
 
-// DRAFT — first-pass niches, unreviewed (see arm-profiles.ts). Brand arm: SMBs with a
-// visibly inconsistent or default-template identity, Lagos/Abuja.
-const BRAND_COMBOS: Combo[] = [
-  { niche: 'retail boutiques', source: 'Lagos', industry: 'Retail' },
-  { niche: 'restaurants and cafes', source: 'Abuja', industry: 'Hospitality & Restaurants' },
-  { niche: 'professional services firms', source: 'Lagos', industry: 'Professional Services' },
-  { niche: 'product brands', source: 'Abuja', industry: 'Consumer Products' },
-]
+// DRAFT — first-pass niches, unreviewed (see arm-profiles.ts). Brand arm is scoped to the
+// same verticals as Motion + Labs (cross-sell into an already-validated audience, not a
+// separate prospecting universe — see content/outreach/brand-cold.md), so this combo list
+// mirrors MOTION_COMBOS + LABS_COMBOS rather than defining its own niches.
+const BRAND_COMBOS: Combo[] = [...MOTION_COMBOS, ...LABS_COMBOS]
 
 // DRAFT — first-pass niches, unreviewed (see arm-profiles.ts). Film arm: events/
 // hospitality/fashion brands with a visually rich space or product but no film, Lagos/Abuja.

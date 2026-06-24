@@ -1,4 +1,4 @@
-import { inspectPresence } from './firecrawl'
+import { inspectPresence, isUrlReachable } from './firecrawl'
 import { qualifyLead } from './qualify'
 import { updateLead } from './marketing-data'
 import { Arm } from './arm-profiles'
@@ -62,17 +62,30 @@ export async function requalifyLead(lead: RequalifyLeadInput): Promise<Requalify
   const igResults = await searchFor(`site:instagram.com ${company}`, 5)
   const socialUrl = igResults.find((r) => r.url && isProfileUrl(r.url))?.url
 
-  const signal = await inspectPresence(websiteUrl, socialUrl)
+  // Cheap reachability check before spending a Firecrawl scrape — a dead/unreachable
+  // domain has only one possible finding ("couldn't reach it"), so skip the paid
+  // AI-extraction call for it and fold that finding into the evidence directly.
+  const websiteReachable = websiteUrl ? await isUrlReachable(websiteUrl) : false
+  const socialReachable = socialUrl ? await isUrlReachable(socialUrl) : false
+
+  const signal = await inspectPresence(
+    websiteReachable ? websiteUrl : undefined,
+    socialReachable ? socialUrl : undefined
+  )
 
   const evidence = [
     `Industry: ${lead.industry || 'unknown'}.`,
     `Location: ${lead.address || 'unknown'}.`,
-    websiteUrl
-      ? `Website inspected (${websiteUrl}): hasVideo=${signal.hasVideo}, hasContactForm=${signal.hasContactForm}, lastUpdatedHint=${signal.lastUpdatedHint || 'none'}.`
-      : 'No website could be found.',
-    socialUrl
-      ? `Instagram inspected (${socialUrl}): socialIsActive=${signal.socialIsActive}, hasReels=${signal.hasReels}.`
-      : 'No Instagram profile could be found.',
+    !websiteUrl
+      ? 'No website could be found.'
+      : !websiteReachable
+      ? `Website found at ${websiteUrl} but unreachable on a quick HTTP check (likely down) — treated as a strong staleness signal.`
+      : `Website inspected (${websiteUrl}): hasVideo=${signal.hasVideo}, hasContactForm=${signal.hasContactForm}, lastUpdatedHint=${signal.lastUpdatedHint || 'none'}.`,
+    !socialUrl
+      ? 'No Instagram profile could be found.'
+      : !socialReachable
+      ? `Instagram profile found at ${socialUrl} but unreachable on a quick check.`
+      : `Instagram inspected (${socialUrl}): socialIsActive=${signal.socialIsActive}, hasReels=${signal.hasReels}.`,
     signal.sourcesAvailable.length
       ? `Sources successfully checked: ${signal.sourcesAvailable.join(', ')}.`
       : 'No sources could be successfully inspected.',
