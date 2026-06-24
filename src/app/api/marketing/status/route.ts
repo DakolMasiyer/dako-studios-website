@@ -18,9 +18,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { id, type, status, publishedUrl } = body
+    const { id, type, status, publishedUrl, template, arm } = body
 
-    if (!id || !type || !status) {
+    if (!id || !type || (!status && !template && !arm)) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
@@ -28,8 +28,10 @@ export async function POST(req: Request) {
     const key = type === 'post' ? `post_${id}` : `copy_${id}`
 
     state[key] = {
-      status,
-      publishedUrl: publishedUrl || state[key]?.publishedUrl || ''
+      status: status || state[key]?.status || 'todo',
+      publishedUrl: publishedUrl || state[key]?.publishedUrl || '',
+      template: template || state[key]?.template,
+      arm: arm || state[key]?.arm,
     }
 
     if (saveContentState(state)) {

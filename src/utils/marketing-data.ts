@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { isSupabaseConfigured, getSupabaseAdmin } from './supabase'
+import { inferTemplateFormat, inferArm, type TemplateFormat, type Arm } from './social-templates'
 
 export interface PersonaData {
   name: string
@@ -30,6 +31,8 @@ export interface CalendarPost {
   topic?: string
   visual?: string
   copy?: string
+  template?: TemplateFormat
+  arm?: Arm
 }
 
 export interface CopyAsset {
@@ -40,6 +43,8 @@ export interface CopyAsset {
   topic: string
   content: string
   cta?: string
+  template?: TemplateFormat
+  arm?: Arm
 }
 
 export type LeadStatus =
@@ -184,7 +189,7 @@ function mapRowToLead(row: LeadRow): Lead {
 
 
 export interface ContentState {
-  [id: string]: { status: PostStatus; publishedUrl: string };
+  [id: string]: { status: PostStatus; publishedUrl: string; template?: TemplateFormat; arm?: Arm };
 }
 
 export function getContentState(): ContentState {
@@ -317,13 +322,11 @@ export function getCalendarData(): CalendarPost[] {
 
     const state = getContentState();
     posts.forEach(p => {
-      if (state['post_' + p.id]) {
-        p.status = state['post_' + p.id].status;
-        p.publishedUrl = state['post_' + p.id].publishedUrl;
-      } else {
-        p.status = 'todo';
-        p.publishedUrl = '';
-      }
+      const saved = state['post_' + p.id];
+      p.status = saved?.status ?? 'todo';
+      p.publishedUrl = saved?.publishedUrl ?? '';
+      p.template = saved?.template ?? inferTemplateFormat(p);
+      p.arm = saved?.arm ?? inferArm(p);
     });
     if (posts.length > 0) return posts
     return FALLBACK_CALENDAR
@@ -394,13 +397,11 @@ export function getCopyBankData(): CopyAsset[] {
 
     const state = getContentState();
     assets.forEach(a => {
-      if (state['copy_' + a.id]) {
-        a.status = state['copy_' + a.id].status;
-        a.publishedUrl = state['copy_' + a.id].publishedUrl;
-      } else {
-        a.status = 'todo';
-        a.publishedUrl = '';
-      }
+      const saved = state['copy_' + a.id];
+      a.status = saved?.status ?? 'todo';
+      a.publishedUrl = saved?.publishedUrl ?? '';
+      a.template = saved?.template ?? inferTemplateFormat({ format: a.category });
+      a.arm = saved?.arm ?? inferArm({ category: a.category, topic: a.topic });
     });
     if (assets.length > 0) return assets
     return FALLBACK_COPY_BANK

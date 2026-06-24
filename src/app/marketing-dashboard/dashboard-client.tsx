@@ -22,15 +22,24 @@ import {
   Plus,
   Trash2,
   FileText,
-  DollarSign
+  DollarSign,
+  Eye,
+  Download,
+  Wallet,
+  TrendingUp,
+  Sparkles,
+  Maximize2
 } from 'lucide-react'
 import { StrategyData, CalendarPost, CopyAsset, Lead } from '@/utils/marketing-data'
 import { Invoice } from '@/utils/invoices'
+import { TemplateRenderer } from '@/components/social-templates/TemplateRenderer'
+import { TEMPLATE_FORMATS, ARMS, type TemplateFormat, type Arm } from '@/utils/social-templates'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   Dialog,
   DialogContent,
@@ -38,6 +47,13 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet'
 import { DakoLogo } from '@/components/dako-logo'
 import { ModeToggle } from '@/components/mode-toggle'
 import {
@@ -88,7 +104,27 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
       body: JSON.stringify({ id, type: 'copy', status })
     })
   }
-  
+
+  // Visual template preview/export — shared by Content Calendar + Copy Bank
+  const [previewItem, setPreviewItem] = useState<{ type: 'post' | 'copy'; id: string; template: TemplateFormat; arm: Arm } | null>(null)
+
+  const updatePostTemplate = async (id: string, template: TemplateFormat, arm: Arm) => {
+    setLivePosts(prev => prev.map(p => p.id === id ? { ...p, template, arm } : p))
+    if (selectedPost?.id === id) setSelectedPost({ ...selectedPost, template, arm })
+    await fetch('/api/marketing/status', {
+      method: 'POST',
+      body: JSON.stringify({ id, type: 'post', template, arm })
+    })
+  }
+
+  const updateCopyTemplate = async (id: string, template: TemplateFormat, arm: Arm) => {
+    setLiveCopy(prev => prev.map(c => c.id === id ? { ...c, template, arm } : c))
+    await fetch('/api/marketing/status', {
+      method: 'POST',
+      body: JSON.stringify({ id, type: 'copy', template, arm })
+    })
+  }
+
   // Copy Bank State
   const [copySearch, setCopySearch] = useState('')
   const [selectedCopyCategory, setSelectedCopyCategory] = useState('All')
@@ -111,6 +147,11 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [invoicesLoaded, setInvoicesLoaded] = useState(false)
   const [invoiceActionId, setInvoiceActionId] = useState<string | null>(null)
+  const [pdfLoadingId, setPdfLoadingId] = useState<string | null>(null)
+
+  // Detail panels — clicking a lead or invoice opens its full-detail Sheet
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null)
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null)
 
   const loadInvoices = async () => {
     try {
@@ -208,6 +249,33 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
       setInvoices(prevInvoices)
     } finally {
       setInvoiceActionId(null)
+    }
+  }
+
+  // pdf_path is a private Storage path — fetch a short-lived signed URL to view/download it
+  const handleViewPdf = async (invoiceId: string) => {
+    setPdfLoadingId(invoiceId)
+    try {
+      const res = await fetch(`/api/marketing/invoices/${invoiceId}/pdf`)
+      if (!res.ok) throw new Error('pdf fetch failed')
+      const data = await res.json()
+      if (data.url) window.open(data.url, '_blank', 'noopener,noreferrer')
+    } catch {
+      // no PDF stored yet — the button is disabled in that case, this only covers transient failures
+    } finally {
+      setPdfLoadingId(null)
+    }
+  }
+
+  // Avatar background per service arm, per DESIGN.md's arm accent table
+  const armAvatarColor = (arm?: Lead['arm']) => {
+    switch (arm) {
+      case 'Motion': return '#E84C00'
+      case 'Labs': return '#4A7C96'
+      case 'Brand': return '#C9A227'
+      case 'Film': return '#3D5470'
+      case 'Academy': return '#C1272D'
+      default: return undefined
     }
   }
 
@@ -336,6 +404,21 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
 
   // Replies awaiting human review are the actionable signal for the badge
   const repliesToReview = crmLeads.filter(l => l.status === 'Replied').length
+
+  // CRM KPI row — computed from already-loaded leads/invoices state, no extra fetch
+  const crmKpis = useMemo(() => {
+    const closedDeals = crmLeads.filter(l => l.status === 'Closed').length
+    const revenueCollected = invoices.filter(i => i.status === 'Paid').reduce((sum, i) => sum + i.total, 0)
+    const revenueOutstanding = invoices.filter(i => i.status === 'Sent').reduce((sum, i) => sum + i.total, 0)
+    return { totalLeads: crmLeads.length, awaitingApproval: awaitingApprovalCount, closedDeals, revenueCollected, revenueOutstanding }
+  }, [crmLeads, invoices, awaitingApprovalCount])
+
+  const selectedLead = useMemo(() => crmLeads.find(l => l.id === selectedLeadId) ?? null, [crmLeads, selectedLeadId])
+  const selectedInvoice = useMemo(() => invoices.find(i => i.id === selectedInvoiceId) ?? null, [invoices, selectedInvoiceId])
+  const selectedLeadInvoices = useMemo(
+    () => (selectedLeadId ? invoices.filter(i => i.leadId === selectedLeadId) : []),
+    [invoices, selectedLeadId]
+  )
 
   const tabs: { id: string, label: string, icon: any, badge?: number }[] = [
     { id: 'strategy', label: 'Strategy Board', icon: Briefcase },
@@ -777,6 +860,56 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                         <p className="text-sm font-semibold text-foreground leading-snug">{selectedPost.format}</p>
                       </div>
 
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground uppercase tracking-wider text-[9px]">Visual Preview</span>
+                          <button
+                            onClick={() => setPreviewItem({ type: 'post', id: selectedPost.id, template: selectedPost.template || 'feed-post', arm: selectedPost.arm || 'studio' })}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-[4px] cursor-pointer transition-colors text-[10px] font-semibold uppercase tracking-wider"
+                          >
+                            <Maximize2 className="h-3 w-3" /> Preview &amp; Export
+                          </button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <select
+                            value={selectedPost.template || 'feed-post'}
+                            onChange={(e) => updatePostTemplate(selectedPost.id, e.target.value as TemplateFormat, selectedPost.arm || 'studio')}
+                            className="text-xs px-2 py-1.5 rounded-[4px] border border-border bg-muted/30 text-foreground cursor-pointer focus:outline-none"
+                          >
+                            {TEMPLATE_FORMATS.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+                          </select>
+                          <select
+                            value={selectedPost.arm || 'studio'}
+                            onChange={(e) => updatePostTemplate(selectedPost.id, selectedPost.template || 'feed-post', e.target.value as Arm)}
+                            className="text-xs px-2 py-1.5 rounded-[4px] border border-border bg-muted/30 text-foreground cursor-pointer focus:outline-none"
+                          >
+                            {ARMS.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
+                          </select>
+                        </div>
+                        {(() => {
+                          const PREVIEW_WIDTH = 320
+                          const SCALE = PREVIEW_WIDTH / 1080
+                          const canvasHeight = selectedPost.template === 'story' ? 1920 : 1350
+                          return (
+                            <div
+                              className="relative overflow-hidden rounded-[4px] border border-border cursor-pointer"
+                              style={{ width: PREVIEW_WIDTH, height: canvasHeight * SCALE }}
+                              onClick={() => setPreviewItem({ type: 'post', id: selectedPost.id, template: selectedPost.template || 'feed-post', arm: selectedPost.arm || 'studio' })}
+                            >
+                              <div style={{ width: 1080, height: canvasHeight, transform: `scale(${SCALE})`, transformOrigin: 'top left' }}>
+                                <TemplateRenderer
+                                  format={selectedPost.template || 'feed-post'}
+                                  arm={selectedPost.arm || 'studio'}
+                                  source={selectedPost}
+                                  fileName={`dako-${selectedPost.id}`}
+                                  showDownloadButton={false}
+                                />
+                              </div>
+                            </div>
+                          )
+                        })()}
+                      </div>
+
                       {selectedPost.visual && (
                         <div className="bg-muted/40 p-3.5 rounded-[4px] border border-border">
                           <span className="text-muted-foreground uppercase tracking-wider text-[9px] block mb-1">Visual Asset Blueprint</span>
@@ -908,10 +1041,16 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                       {asset.content}
                     </p>
                     {asset.cta && (
-                      <div className="mt-auto border-t border-border pt-3 flex items-center justify-between text-[11px] font-medium text-primary bg-primary/5 px-2.5 py-1.5 rounded-[4px]">
+                      <div className="border-t border-border pt-3 flex items-center justify-between text-[11px] font-medium text-primary bg-primary/5 px-2.5 py-1.5 rounded-[4px]">
                         <span>CTA: {asset.cta}</span>
                       </div>
                     )}
+                    <button
+                      onClick={() => setPreviewItem({ type: 'copy', id: asset.id, template: asset.template || 'feed-post', arm: asset.arm || 'studio' })}
+                      className="mt-auto inline-flex items-center justify-center gap-1.5 w-full px-2.5 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary rounded-[4px] cursor-pointer transition-colors text-[10px] font-semibold uppercase tracking-wider"
+                    >
+                      <Sparkles className="h-3 w-3" /> Preview Visual
+                    </button>
                   </CardContent>
                 </Card>
               ))}
@@ -922,6 +1061,24 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
         {/* Tab content 4: CRM Lead Tracker */}
         {activeTab === 'crm' && (
           <div className="grid gap-8">
+            {/* KPI row */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              {[
+                { label: 'Total Leads', value: crmKpis.totalLeads.toLocaleString('en-US'), icon: Users },
+                { label: 'Awaiting Approval', value: crmKpis.awaitingApproval.toLocaleString('en-US'), icon: Clock },
+                { label: 'Closed Deals', value: crmKpis.closedDeals.toLocaleString('en-US'), icon: TrendingUp },
+                { label: 'Revenue Collected', value: `$${crmKpis.revenueCollected.toLocaleString('en-US', { minimumFractionDigits: 0 })}`, icon: Wallet, accent: true },
+                { label: 'Revenue Outstanding', value: `$${crmKpis.revenueOutstanding.toLocaleString('en-US', { minimumFractionDigits: 0 })}`, icon: DollarSign },
+              ].map(({ label, value, icon: Icon, accent }) => (
+                <div key={label} className="flex flex-col gap-2 bg-card/60 backdrop-blur-md p-4 border border-border rounded-[8px]">
+                  <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <Icon className="h-3.5 w-3.5" /> {label}
+                  </span>
+                  <span className={`text-xl font-bold ${accent ? 'text-primary' : 'text-foreground'}`}>{value}</span>
+                </div>
+              ))}
+            </div>
+
             {/* Filter controls */}
             <div className="flex flex-col gap-4 bg-card/60 backdrop-blur-md p-5 border border-border rounded-[8px]">
               <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
@@ -1010,12 +1167,27 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                             )}
                           </td>
                           <td className="py-4 px-5">
-                            <p className="font-semibold text-foreground text-sm">{displayName}</p>
-                            {displaySub && (
-                              <p className="text-xs text-muted-foreground mt-1 max-w-sm line-clamp-2 leading-relaxed" title={displaySub}>
-                                {isOutreach ? displaySub : `"${displaySub}"`}
-                              </p>
-                            )}
+                            <button
+                              onClick={() => setSelectedLeadId(lead.id)}
+                              className="flex items-center gap-2.5 text-left cursor-pointer group"
+                            >
+                              <Avatar className="h-7 w-7 shrink-0">
+                                <AvatarFallback
+                                  className="text-[10px] font-bold text-white"
+                                  style={{ backgroundColor: armAvatarColor(lead.arm) }}
+                                >
+                                  {displayName.slice(0, 2).toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span>
+                                <p className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">{displayName}</p>
+                                {displaySub && (
+                                  <p className="text-xs text-muted-foreground mt-1 max-w-sm line-clamp-2 leading-relaxed" title={displaySub}>
+                                    {isOutreach ? displaySub : `"${displaySub}"`}
+                                  </p>
+                                )}
+                              </span>
+                            </button>
                           </td>
                           <td className="py-4 px-5 whitespace-nowrap">
                             <div className="flex flex-col gap-1">
@@ -1083,6 +1255,17 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                           <td className="py-4 px-5 text-right whitespace-nowrap">
                             {/* Direct channel triggers */}
                             <div className="flex justify-end gap-1.5">
+                              {(lead.customizedEmailBody || lead.qualificationReason || lead.suggestedReply) && (
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-8 w-8 p-0 border border-primary/30 text-primary hover:bg-primary/10 cursor-pointer rounded-[4px]"
+                                  onClick={() => setSelectedLeadId(lead.id)}
+                                  title="View details"
+                                >
+                                  <Eye className="h-3.5 w-3.5" />
+                                </Button>
+                              )}
                               <Button
                                 size="sm"
                                 variant="ghost"
@@ -1111,130 +1294,6 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                             </div>
                           </td>
                         </tr>
-                        {/* AI-suggested reply awaiting human review (never auto-sent) */}
-                        {lead.suggestedReply && (
-                          <tr className="bg-primary/5">
-                            <td colSpan={6} className="px-5 py-4">
-                              <div className="border border-primary/20 rounded-[6px] p-4 bg-background/60">
-                                <div className="flex items-center justify-between mb-2">
-                                  <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
-                                    Suggested reply — review before sending
-                                  </span>
-                                  <Button
-                                    size="sm"
-                                    variant="ghost"
-                                    className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
-                                    onClick={() => handleCopy(lead.suggestedReply || '', `reply_${lead.id}`)}
-                                  >
-                                    {copiedId === `reply_${lead.id}` ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-                                    <span className="ml-1.5">Copy</span>
-                                  </Button>
-                                </div>
-                                <p className="text-xs text-foreground whitespace-pre-wrap leading-relaxed">{lead.suggestedReply}</p>
-                                {lead.suggestedReasoning && (
-                                  <p className="mt-2 text-[11px] text-muted-foreground italic">Why: {lead.suggestedReasoning}</p>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                        {/* Qualification-engine output — reason/pain-point always shown once qualified; the
-                            drafted email + Approve controls only apply when there's actually a draft to send. */}
-                        {(lead.customizedEmailBody || lead.qualificationReason) && (
-                          <tr className="bg-primary/5">
-                            <td colSpan={6} className="px-5 py-4">
-                              <div className="border border-primary/20 rounded-[6px] p-4 bg-background/60">
-                                <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
-                                      {lead.customizedEmailBody ? 'Drafted outreach email — review before sending' : 'Qualification notes'}
-                                    </span>
-                                    {lead.qualificationStatus && (
-                                      <Badge variant="outline" className={`text-[9px] uppercase font-bold ${
-                                        lead.qualificationStatus === 'Qualified'
-                                          ? 'text-emerald-400 border-emerald-400/30'
-                                          : lead.qualificationStatus === 'Low priority'
-                                          ? 'text-amber-400 border-amber-400/30'
-                                          : 'text-destructive-foreground border-destructive/30'
-                                      }`}>
-                                        {lead.qualificationStatus}
-                                      </Badge>
-                                    )}
-                                  </div>
-                                  {lead.customizedEmailBody && (
-                                    <div className="flex items-center gap-1.5">
-                                      <Button
-                                        size="sm"
-                                        variant="ghost"
-                                        className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
-                                        onClick={() => handleCopy(
-                                          `${emailDrafts[lead.id]?.subject ?? lead.customizedEmailSubject ?? ''}\n\n${emailDrafts[lead.id]?.body ?? lead.customizedEmailBody ?? ''}`,
-                                          `draft_${lead.id}`
-                                        )}
-                                      >
-                                        {copiedId === `draft_${lead.id}` ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-                                        <span className="ml-1.5">Copy</span>
-                                      </Button>
-                                      <Button
-                                        size="sm"
-                                        disabled={savingLeadId === lead.id}
-                                        className={`h-7 px-2 text-xs cursor-pointer rounded-[4px] disabled:opacity-50 ${
-                                          lead.emailApproved
-                                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20'
-                                            : 'bg-primary text-primary-foreground hover:bg-primary/90'
-                                        }`}
-                                        onClick={() => handleApproveEmail(lead.id)}
-                                      >
-                                        {lead.emailApproved ? <Check className="h-3.5 w-3.5 mr-1.5" /> : null}
-                                        {lead.emailApproved ? 'Approved' : 'Approve'}
-                                      </Button>
-                                    </div>
-                                  )}
-                                </div>
-
-                                {lead.painPoint && (
-                                  <p className="text-[11px] text-muted-foreground mb-2">
-                                    <span className="font-semibold text-foreground">Pain point:</span> {lead.painPoint}
-                                  </p>
-                                )}
-
-                                {lead.customizedEmailBody && (
-                                  <>
-                                    <input
-                                      type="text"
-                                      value={emailDrafts[lead.id]?.subject ?? lead.customizedEmailSubject ?? ''}
-                                      onChange={(e) => setEmailDrafts(prev => ({
-                                        ...prev,
-                                        [lead.id]: {
-                                          subject: e.target.value,
-                                          body: prev[lead.id]?.body ?? lead.customizedEmailBody ?? ''
-                                        }
-                                      }))}
-                                      className="w-full mb-2 text-xs font-semibold text-foreground bg-muted/30 border border-border rounded-[4px] px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary"
-                                      placeholder="Email subject"
-                                    />
-                                    <textarea
-                                      value={emailDrafts[lead.id]?.body ?? lead.customizedEmailBody ?? ''}
-                                      onChange={(e) => setEmailDrafts(prev => ({
-                                        ...prev,
-                                        [lead.id]: {
-                                          subject: prev[lead.id]?.subject ?? lead.customizedEmailSubject ?? '',
-                                          body: e.target.value
-                                        }
-                                      }))}
-                                      rows={5}
-                                      className="w-full text-xs text-foreground whitespace-pre-wrap leading-relaxed bg-muted/30 border border-border rounded-[4px] px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary resize-y"
-                                    />
-                                  </>
-                                )}
-
-                                {lead.qualificationReason && (
-                                  <p className="mt-2 text-[11px] text-muted-foreground italic">Why: {lead.qualificationReason}</p>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        )}
                         </React.Fragment>
                         )
                       })}
@@ -1273,16 +1332,23 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
                         {invoices.map((inv) => (
                           <tr key={inv.id} className="hover:bg-muted/5 transition-colors">
                             <td className="py-4 px-5 whitespace-nowrap text-xs font-mono text-foreground">
-                              {inv.invoiceNumber}
+                              <button
+                                onClick={() => setSelectedInvoiceId(inv.id)}
+                                className="cursor-pointer hover:text-primary transition-colors text-left"
+                              >
+                                {inv.invoiceNumber}
+                              </button>
                               {!inv.pdfPath && (
                                 <span className="block mt-1 text-[10px] font-sans text-amber-400">PDF not stored</span>
                               )}
                             </td>
                             <td className="py-4 px-5">
-                              <p className="font-semibold text-foreground text-sm">{inv.clientName || '—'}</p>
-                              {inv.clientEmail && (
-                                <p className="text-xs text-muted-foreground mt-1">{inv.clientEmail}</p>
-                              )}
+                              <button onClick={() => setSelectedInvoiceId(inv.id)} className="cursor-pointer text-left">
+                                <p className="font-semibold text-foreground text-sm hover:text-primary transition-colors">{inv.clientName || '—'}</p>
+                                {inv.clientEmail && (
+                                  <p className="text-xs text-muted-foreground mt-1">{inv.clientEmail}</p>
+                                )}
+                              </button>
                             </td>
                             <td className="py-4 px-5 whitespace-nowrap text-xs font-mono text-foreground">
                               ${inv.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -1454,6 +1520,350 @@ export function DashboardClient({ strategy, calendar, copyBank, leads }: Dashboa
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Visual Preview & Export — shared by Content Calendar + Copy Bank, renders the matching social template at full export resolution */}
+      <Dialog open={Boolean(previewItem)} onOpenChange={(open) => { if (!open) setPreviewItem(null) }}>
+        <DialogContent className="sm:max-w-2xl rounded-[8px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> Preview &amp; Export</DialogTitle>
+          </DialogHeader>
+          {previewItem && (() => {
+            const source = previewItem.type === 'post'
+              ? livePosts.find(p => p.id === previewItem.id)
+              : liveCopy.find(c => c.id === previewItem.id)
+            if (!source) return null
+            const PREVIEW_WIDTH = 360
+            const SCALE = PREVIEW_WIDTH / 1080
+            const canvasHeight = previewItem.template === 'story' ? 1920 : 1350
+            return (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-2">
+                  <select
+                    value={previewItem.template}
+                    onChange={(e) => {
+                      const template = e.target.value as TemplateFormat
+                      setPreviewItem({ ...previewItem, template })
+                      previewItem.type === 'post' ? updatePostTemplate(previewItem.id, template, previewItem.arm) : updateCopyTemplate(previewItem.id, template, previewItem.arm)
+                    }}
+                    className="text-xs px-2 py-1.5 rounded-[4px] border border-border bg-muted/30 text-foreground cursor-pointer focus:outline-none"
+                  >
+                    {TEMPLATE_FORMATS.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+                  </select>
+                  <select
+                    value={previewItem.arm}
+                    onChange={(e) => {
+                      const arm = e.target.value as Arm
+                      setPreviewItem({ ...previewItem, arm })
+                      previewItem.type === 'post' ? updatePostTemplate(previewItem.id, previewItem.template, arm) : updateCopyTemplate(previewItem.id, previewItem.template, arm)
+                    }}
+                    className="text-xs px-2 py-1.5 rounded-[4px] border border-border bg-muted/30 text-foreground cursor-pointer focus:outline-none"
+                  >
+                    {ARMS.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
+                  </select>
+                </div>
+                <div className="flex justify-center">
+                  <div style={{ width: PREVIEW_WIDTH, height: canvasHeight * SCALE }} className="overflow-hidden rounded-[4px] border border-border">
+                    <div style={{ width: 1080, height: canvasHeight, transform: `scale(${SCALE})`, transformOrigin: 'top left' }}>
+                      <TemplateRenderer
+                        format={previewItem.template}
+                        arm={previewItem.arm}
+                        source={source}
+                        fileName={`dako-${previewItem.type}-${previewItem.id}`}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-center text-muted-foreground font-light">Use the Download PNG button on the artwork above to export at full resolution (4x pixel density).</p>
+              </div>
+            )
+          })()}
+        </DialogContent>
+      </Dialog>
+
+      {/* Lead Detail panel — qualification, suggested reply, drafted-email review/approve, per-lead invoices */}
+      <Sheet open={Boolean(selectedLead)} onOpenChange={(open) => { if (!open) setSelectedLeadId(null) }}>
+        <SheetContent className="sm:max-w-lg w-full overflow-y-auto">
+          {selectedLead && (() => {
+            const lead = selectedLead
+            const isOutreach = lead.leadKind === 'outreach'
+            const displayName = lead.company || lead.name || '—'
+            return (
+              <>
+                <SheetHeader>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10 shrink-0">
+                      <AvatarFallback className="text-sm font-bold text-white" style={{ backgroundColor: armAvatarColor(lead.arm) }}>
+                        {displayName.slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <SheetTitle>{displayName}</SheetTitle>
+                      <SheetDescription>{lead.email || lead.contactInfo || 'No contact on file'}</SheetDescription>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                    <Badge variant="outline" className="text-[10px] font-bold border-primary/20 text-primary uppercase w-fit">
+                      {isOutreach ? (lead.industry || 'Outreach') : (lead.service || 'Inbound')}
+                    </Badge>
+                    {lead.arm && (
+                      <Badge variant="outline" className="text-[9px] font-bold uppercase w-fit" style={{ borderColor: `${armAvatarColor(lead.arm)}4D`, color: armAvatarColor(lead.arm) }}>
+                        {lead.arm}
+                      </Badge>
+                    )}
+                    {lead.qualificationStatus && (
+                      <Badge variant="outline" className={`text-[9px] uppercase font-bold ${
+                        lead.qualificationStatus === 'Qualified'
+                          ? 'text-emerald-400 border-emerald-400/30'
+                          : lead.qualificationStatus === 'Low priority'
+                          ? 'text-amber-400 border-amber-400/30'
+                          : 'text-destructive-foreground border-destructive/30'
+                      }`}>
+                        {lead.qualificationStatus}
+                      </Badge>
+                    )}
+                  </div>
+                </SheetHeader>
+
+                <div className="flex flex-col gap-4 px-4 pb-4">
+                  {lead.painPoint && (
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-semibold text-foreground">Pain point:</span> {lead.painPoint}
+                    </p>
+                  )}
+
+                  {lead.suggestedReply && (
+                    <div className="border border-primary/20 rounded-[6px] p-4 bg-background/60">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-primary">Suggested reply — review before sending</span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
+                          onClick={() => handleCopy(lead.suggestedReply || '', `reply_${lead.id}`)}
+                        >
+                          {copiedId === `reply_${lead.id}` ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                          <span className="ml-1.5">Copy</span>
+                        </Button>
+                      </div>
+                      <p className="text-xs text-foreground whitespace-pre-wrap leading-relaxed">{lead.suggestedReply}</p>
+                      {lead.suggestedReasoning && (
+                        <p className="mt-2 text-[11px] text-muted-foreground italic">Why: {lead.suggestedReasoning}</p>
+                      )}
+                    </div>
+                  )}
+
+                  {(lead.customizedEmailBody || lead.qualificationReason) && (
+                    <div className="border border-primary/20 rounded-[6px] p-4 bg-background/60">
+                      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
+                          {lead.customizedEmailBody ? 'Drafted outreach email — review before sending' : 'Qualification notes'}
+                        </span>
+                        {lead.customizedEmailBody && (
+                          <div className="flex items-center gap-1.5">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 px-2 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px]"
+                              onClick={() => handleCopy(
+                                `${emailDrafts[lead.id]?.subject ?? lead.customizedEmailSubject ?? ''}\n\n${emailDrafts[lead.id]?.body ?? lead.customizedEmailBody ?? ''}`,
+                                `draft_${lead.id}`
+                              )}
+                            >
+                              {copiedId === `draft_${lead.id}` ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                              <span className="ml-1.5">Copy</span>
+                            </Button>
+                            <Button
+                              size="sm"
+                              disabled={savingLeadId === lead.id}
+                              className={`h-7 px-2 text-xs cursor-pointer rounded-[4px] disabled:opacity-50 ${
+                                lead.emailApproved
+                                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20'
+                                  : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                              }`}
+                              onClick={() => handleApproveEmail(lead.id)}
+                            >
+                              {lead.emailApproved ? <Check className="h-3.5 w-3.5 mr-1.5" /> : null}
+                              {lead.emailApproved ? 'Approved' : 'Approve'}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+
+                      {lead.customizedEmailBody && (
+                        <>
+                          <input
+                            type="text"
+                            value={emailDrafts[lead.id]?.subject ?? lead.customizedEmailSubject ?? ''}
+                            onChange={(e) => setEmailDrafts(prev => ({
+                              ...prev,
+                              [lead.id]: { subject: e.target.value, body: prev[lead.id]?.body ?? lead.customizedEmailBody ?? '' }
+                            }))}
+                            className="w-full mb-2 text-xs font-semibold text-foreground bg-muted/30 border border-border rounded-[4px] px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary"
+                            placeholder="Email subject"
+                          />
+                          <textarea
+                            value={emailDrafts[lead.id]?.body ?? lead.customizedEmailBody ?? ''}
+                            onChange={(e) => setEmailDrafts(prev => ({
+                              ...prev,
+                              [lead.id]: { subject: prev[lead.id]?.subject ?? lead.customizedEmailSubject ?? '', body: e.target.value }
+                            }))}
+                            rows={6}
+                            className="w-full text-xs text-foreground whitespace-pre-wrap leading-relaxed bg-muted/30 border border-border rounded-[4px] px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary resize-y"
+                          />
+                        </>
+                      )}
+
+                      {lead.qualificationReason && (
+                        <p className="mt-2 text-[11px] text-muted-foreground italic">Why: {lead.qualificationReason}</p>
+                      )}
+                    </div>
+                  )}
+
+                  {lead.notes && (
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Notes</span>
+                      <p className="text-xs text-foreground mt-1 whitespace-pre-wrap leading-relaxed">{lead.notes}</p>
+                    </div>
+                  )}
+
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Invoices</span>
+                    {selectedLeadInvoices.length > 0 ? (
+                      <div className="flex flex-col gap-2 mt-2">
+                        {selectedLeadInvoices.map(inv => (
+                          <button
+                            key={inv.id}
+                            onClick={() => { setSelectedInvoiceId(inv.id); setSelectedLeadId(null) }}
+                            className="flex items-center justify-between border border-border rounded-[6px] px-3 py-2 hover:bg-muted/30 transition-colors cursor-pointer text-left"
+                          >
+                            <span className="text-xs font-mono text-foreground">{inv.invoiceNumber}</span>
+                            <span className="text-xs text-muted-foreground">${inv.total.toLocaleString('en-US', { minimumFractionDigits: 2 })} · {inv.status}</span>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1">No invoices for this lead yet.</p>
+                    )}
+                  </div>
+                </div>
+              </>
+            )
+          })()}
+        </SheetContent>
+      </Sheet>
+
+      {/* Invoice Detail panel — line items, notes, timeline, PDF preview */}
+      <Sheet open={Boolean(selectedInvoice)} onOpenChange={(open) => { if (!open) setSelectedInvoiceId(null) }}>
+        <SheetContent className="sm:max-w-lg w-full overflow-y-auto">
+          {selectedInvoice && (
+            <>
+              <SheetHeader>
+                <div className="flex items-center justify-between gap-2">
+                  <SheetTitle className="font-mono">{selectedInvoice.invoiceNumber}</SheetTitle>
+                  <Badge variant="outline" className={`text-[10px] font-bold uppercase ${
+                    selectedInvoice.status === 'Paid'
+                      ? 'border-emerald-500/20 text-emerald-400'
+                      : selectedInvoice.status === 'Sent'
+                      ? 'border-blue-500/20 text-blue-400'
+                      : selectedInvoice.status === 'Void'
+                      ? 'border-destructive/20 text-destructive-foreground'
+                      : 'border-muted-foreground/20 text-muted-foreground'
+                  }`}>
+                    {selectedInvoice.status}
+                  </Badge>
+                </div>
+                <SheetDescription>
+                  {selectedInvoice.clientName || '—'}{selectedInvoice.clientEmail ? ` · ${selectedInvoice.clientEmail}` : ''}
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="flex flex-col gap-4 px-4 pb-4">
+                <div className="border border-border rounded-[6px] overflow-hidden">
+                  <table className="w-full text-xs text-left">
+                    <thead>
+                      <tr className="border-b border-border text-muted-foreground uppercase tracking-wider font-semibold bg-muted/40">
+                        <th className="py-2 px-3">Description</th>
+                        <th className="py-2 px-3 text-right">Qty</th>
+                        <th className="py-2 px-3 text-right">Unit</th>
+                        <th className="py-2 px-3 text-right">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border/10">
+                      {selectedInvoice.items.map(item => (
+                        <tr key={item.id}>
+                          <td className="py-2 px-3 text-foreground">{item.description}</td>
+                          <td className="py-2 px-3 text-right text-muted-foreground">{item.quantity}</td>
+                          <td className="py-2 px-3 text-right text-muted-foreground">${item.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                          <td className="py-2 px-3 text-right text-foreground font-mono">${item.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className="border-t border-border p-3 flex flex-col gap-1 items-end bg-muted/20">
+                    <span className="text-xs text-muted-foreground">Subtotal: ${selectedInvoice.subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    {selectedInvoice.tax > 0 && (
+                      <span className="text-xs text-muted-foreground">Tax: ${selectedInvoice.tax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    )}
+                    <span className="text-sm font-bold text-foreground">Total: ${selectedInvoice.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                </div>
+
+                {selectedInvoice.notes && (
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Notes</span>
+                    <p className="text-xs text-foreground mt-1 whitespace-pre-wrap leading-relaxed">{selectedInvoice.notes}</p>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-1 text-xs text-muted-foreground">
+                  <span>Created {new Date(selectedInvoice.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                  {selectedInvoice.sentAt && (
+                    <span>Sent {new Date(selectedInvoice.sentAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                  )}
+                  {selectedInvoice.paidAt && (
+                    <span>Paid {new Date(selectedInvoice.paidAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                  )}
+                </div>
+
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-8 px-3 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px] disabled:opacity-50"
+                    disabled={!selectedInvoice.pdfPath || pdfLoadingId === selectedInvoice.id}
+                    onClick={() => handleViewPdf(selectedInvoice.id)}
+                    title={selectedInvoice.pdfPath ? 'Open PDF' : 'PDF not stored — see CRM_LAUNCH_CHECKLIST.md'}
+                  >
+                    <Download className="h-3.5 w-3.5 mr-1.5" /> {pdfLoadingId === selectedInvoice.id ? 'Loading…' : 'View PDF'}
+                  </Button>
+                  {selectedInvoice.status === 'Draft' && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      disabled={invoiceActionId === selectedInvoice.id}
+                      className="h-8 px-3 text-xs border border-border hover:bg-primary/10 hover:text-primary cursor-pointer rounded-[4px] disabled:opacity-50"
+                      onClick={() => handleSendInvoice(selectedInvoice.id)}
+                    >
+                      <Send className="h-3.5 w-3.5 mr-1.5" /> Send
+                    </Button>
+                  )}
+                  {selectedInvoice.status === 'Sent' && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      disabled={invoiceActionId === selectedInvoice.id}
+                      className="h-8 px-3 text-xs border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 cursor-pointer rounded-[4px] disabled:opacity-50"
+                      onClick={() => handleMarkInvoicePaid(selectedInvoice.id)}
+                    >
+                      <DollarSign className="h-3.5 w-3.5 mr-1.5" /> Mark Paid
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
