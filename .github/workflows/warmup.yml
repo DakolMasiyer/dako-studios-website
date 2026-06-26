@@ -1,0 +1,38 @@
+name: Domain Warmup
+
+on:
+  schedule:
+    # Runs 4 times a day:
+    # 08:00 UTC (09:00 local UTC+1)
+    # 13:00 UTC (14:00 local UTC+1)
+    # 17:00 UTC (18:00 local UTC+1)
+    # 21:00 UTC (22:00 local UTC+1)
+    - cron: '0 8,13,17,21 * * *'
+  workflow_dispatch: # Allows running manually from GitHub UI
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run Warmup Script
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          OUTREACH_FROM: 'Dakol <outreach@mail.dako.studio>'
+        run: npx tsx scripts/warmup.ts
