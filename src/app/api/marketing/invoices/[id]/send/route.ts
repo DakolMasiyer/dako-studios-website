@@ -27,11 +27,106 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: 'Invoice has no client email to send to' }, { status: 400 })
   }
 
+  const dateFormatted = new Date(invoice.createdAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+
   const html = `
-    <p>Hi ${invoice.clientName || 'there'},</p>
-    <p>Please find your invoice <strong>${invoice.invoiceNumber}</strong> from Dako Studios attached${invoice.pdfPath ? '' : ' (PDF not attached — see total below)'}.</p>
-    <p><strong>Total due: $${invoice.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></p>
-    <p>Thanks for working with us.<br/>Dako Studios</p>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Invoice from Dako Studios</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #F4F2EE; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F4F2EE; padding: 40px 20px;">
+        <tr>
+          <td align="center">
+            <!-- Main Email Container -->
+            <table border="0" cellpadding="0" cellspacing="0" width="560" style="background-color: #FAF8F4; border: 1px solid #E4E2DE; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(22, 22, 24, 0.02);">
+              
+              <!-- Top Accent Line -->
+              <tr>
+                <td height="4" style="background-color: #C1272D; line-height: 4px; font-size: 4px;">&nbsp;</td>
+              </tr>
+
+              <!-- Header with Logo -->
+              <tr>
+                <td style="padding: 36px 36px 20px 36px; text-align: left;">
+                  <img src="https://www.dako.studio/assets/logo-light.svg" alt="Dako Studios Logo" width="180" style="display: block; border: 0; outline: none;" />
+                </td>
+              </tr>
+
+              <!-- Divider -->
+              <tr>
+                <td style="padding: 0 36px;">
+                  <hr style="border: 0; border-top: 1px solid #E4E2DE; margin: 0;" />
+                </td>
+              </tr>
+
+              <!-- Email Content Body -->
+              <tr>
+                <td style="padding: 28px 36px 36px 36px; color: #161618; font-size: 14px; line-height: 1.6;">
+                  <h1 style="font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 800; color: #161618; margin-top: 0; margin-bottom: 20px; letter-spacing: -0.02em;">
+                    Invoice ${invoice.invoiceNumber}
+                  </h1>
+
+                  <p style="margin: 0 0 16px 0; font-weight: 500;">Hi ${invoice.clientName || 'there'},</p>
+                  
+                  <p style="margin: 0 0 24px 0; color: #3a3a3c;">Please find attached your invoice <strong>${invoice.invoiceNumber}</strong> from Dako Studios${invoice.pdfPath ? '.' : ' (summary details below).'}</p>
+
+                  <!-- Invoice Summary Box -->
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F4F2EE; border: 1px solid #E4E2DE; border-radius: 6px; margin-bottom: 28px;">
+                    <tr>
+                      <td style="padding: 18px; font-size: 13px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                          <tr>
+                            <td style="color: #636367; padding-bottom: 8px;">Invoice Number:</td>
+                            <td align="right" style="font-weight: 600; color: #161618; padding-bottom: 8px;">${invoice.invoiceNumber}</td>
+                          </tr>
+                          <tr>
+                            <td style="color: #636367; padding-bottom: 8px;">Date Issued:</td>
+                            <td align="right" style="color: #161618; padding-bottom: 8px;">${dateFormatted}</td>
+                          </tr>
+                          <tr style="font-size: 15px;">
+                            <td style="color: #161618; font-weight: 700; padding-top: 12px; border-top: 1px solid #E4E2DE;">Amount Due:</td>
+                            <td align="right" style="color: #C1272D; font-weight: 700; padding-top: 12px; border-top: 1px solid #E4E2DE;">$${invoice.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <p style="margin: 0 0 24px 0; color: #3a3a3c;">If you have any questions or need anything else, feel free to reply directly to this email.</p>
+                  
+                  <p style="margin: 0; color: #636367;">
+                    Best regards,<br />
+                    <strong style="color: #161618;">Dako Studios</strong>
+                  </p>
+                </td>
+              </tr>
+
+              <!-- Footer -->
+              <tr>
+                <td style="background-color: #F4F2EE; padding: 20px 36px; text-align: center; color: #8E8E92; font-size: 10px; border-top: 1px solid #E4E2DE;">
+                  <p style="margin: 0 0 4px 0; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; color: #636367;">
+                    Dako Studios
+                  </p>
+                  <p style="margin: 0;">
+                    One Creative Studio. Every Edge.
+                  </p>
+                </td>
+              </tr>
+
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
   `
 
   const dry = isInvoiceDryRun()
